@@ -190,7 +190,7 @@ namespace geEngineSDK {
       memory = rttiWriteElement(isEmpty, memory);
 
       if (!isEmpty) {
-        uint32 length = static_cast<uint32>(strlen(data.c_str()));
+        auto length = static_cast<uint32>(strlen(data.c_str()));
         memcpy(memory, data.c_str(), static_cast<SIZE_T>(length) * sizeof(ANSICHAR));
       }
     }
@@ -207,8 +207,8 @@ namespace geEngineSDK {
       if (!empty) {
         uint32 length = (size - sizeof(uint32) - sizeof(bool)) / sizeof(ANSICHAR);
 
-        ANSICHAR* name = reinterpret_cast<ANSICHAR*>
-                         (ge_alloc(static_cast<SIZE_T>(length) + 1));
+        auto name = reinterpret_cast<ANSICHAR*>
+                      (ge_alloc(static_cast<SIZE_T>(length) + 1));
         memcpy(name, memory, static_cast<SIZE_T>(length));
         name[length] = '\0';
 
@@ -241,8 +241,9 @@ namespace std {
   template<>
   struct hash<geEngineSDK::StringID>
   {
-    size_t operator()(const geEngineSDK::StringID& value) const {
-      return (size_t)value.id();
+    size_t
+    operator()(const geEngineSDK::StringID& value) const {
+      return static_cast<size_t>(value.id());
     }
   };
 }

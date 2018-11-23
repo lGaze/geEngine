@@ -30,13 +30,13 @@ struct DebugOctreeOptions
 
   static simd::AABox
   getBounds(uint32 elem, void* context) {
-    DebugOctreeData* octreeData = reinterpret_cast<DebugOctreeData*>(context);
+    auto octreeData = reinterpret_cast<DebugOctreeData*>(context);
     return simd::AABox(octreeData->elements[elem].box);
   }
 
   static void
   setElementId(uint32 elem, const OctreeElementId& id, void* context) {
-    DebugOctreeData* octreeData = reinterpret_cast<DebugOctreeData*>(context);
+    auto octreeData = reinterpret_cast<DebugOctreeData*>(context);
     octreeData->elements[elem].octreeId = id;
   }
 };
@@ -78,7 +78,7 @@ TEST(geOctree, Construct_Octree) {
       DebugOctreeElem elem;
       elem.box = AABox(position - extents, position + extents);
 
-      uint32 elemIdx = static_cast<uint32>(octreeData.elements.size());
+      auto elemIdx = static_cast<uint32>(octreeData.elements.size());
       octreeData.elements.push_back(elem);
       octree.addElement(elemIdx);
     }
@@ -114,7 +114,8 @@ TEST(geOctree, Construct_Octree) {
       auto iterFind = std::find(overlapElements.begin(), overlapElements.end(), elemIdx);
       EXPECT_TRUE(iterFind != overlapElements.end());
     }
-    elemIdx++;
+
+    ++elemIdx;
   }
 
   //Ensure nothing goes wrong during element removal

@@ -996,7 +996,7 @@ namespace geEngineSDK {
      *        Returns number of roots found and the roots themselves will be
      *        output in the @p roots array.
      * @param[out] roots Must be at least size of 1.
-     * @note		Only returns real roots.
+     * @note  Only returns real roots.
      */
     template<typename T>
     static uint32
@@ -1116,7 +1116,7 @@ namespace geEngineSDK {
     }
 
     /**
-     * @brief	Solves the quartic equation with the parameters A, B, C, D, E. 
+     * @brief Solves the quartic equation with the parameters A, B, C, D, E. 
      *        Returns number of roots found and the roots themselves will be
      *        output in the @p roots array.
      * @param[out] roots	Must be at least size of 4.
@@ -1182,8 +1182,7 @@ namespace geEngineSDK {
 
         numRoots += solveQuadratic(quadraticA, quadraticB, quadraticC, roots + numRoots);
       }
-      else
-      {
+      else {
         numRoots = solveCubic(q, p, (T)0, (T)1, roots);
         roots[numRoots++] = 0;
       }

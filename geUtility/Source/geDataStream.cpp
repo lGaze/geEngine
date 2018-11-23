@@ -168,8 +168,7 @@ namespace geEngineSDK {
     
     //TODO: Change this to use the stack allocator, however right now we
     //haven't initialized the stack yet on the engine
-    stringstream::char_type* tempBuffer =
-      static_cast<stringstream::char_type*>(ge_alloc(bufSize));
+    auto* tempBuffer = static_cast<stringstream::char_type*>(ge_alloc(bufSize));
 
     stringstream result;
     while (!isEOF()) {

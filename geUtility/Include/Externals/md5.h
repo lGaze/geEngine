@@ -53,7 +53,7 @@ documentation and/or software.
 class MD5
 {
 public:
-  typedef unsigned int size_type; // must be 32bit
+  using size_type = unsigned int; // must be 32bit
 
   MD5();
   explicit MD5(const std::string& text);
@@ -65,8 +65,8 @@ public:
 
 private:
   void init();
-  typedef unsigned char uint1; //  8bit
-  typedef unsigned int uint4;  // 32bit
+  using uint1 = unsigned char; //  8bit
+  using uint4 = unsigned int;  // 32bit
   enum { blocksize = 64 }; // VC6 won't eat a const static int here
 
   void transform(const uint1 block[blocksize]);

@@ -21,6 +21,14 @@
 #include "geBitwise.h"
 
 namespace geEngineSDK {
+  ColorGradient::ColorGradient(const LinearColor& color) {
+    setConstant(color);
+  }
+
+  ColorGradient::ColorGradient(const Vector<ColorGradientKey>& keys) {
+    setKeys(keys);
+  }
+
   LinearColor
   ColorGradient::evaluate(float t) const {
     if (0 == m_numKeys) {
@@ -54,12 +62,24 @@ namespace geEngineSDK {
   void
   ColorGradient::setKeys(const Vector<ColorGradientKey>& keys,
                          float duration) {
+#if GE_DEBUG_MODE
+    //Ensure keys are sorted
+    if (!keys.empty()) {
+      float time = keys[0].time;
+      for (uint32 i = 1; i < static_cast<uint32>(keys.size()); ++i) {
+        GE_ASSERT(keys[i].time >= time);
+        time = keys[i].time;
+      }
+    }
+#endif
     if (keys.size() > MAX_KEYS) {
       LOGWRN("Number of keys in ColorGradient exceeds the supported number (" +
              toString(MAX_KEYS) + "). Keys will be ignored.");
     }
 
+    m_duration = duration;
     m_numKeys = 0;
+
     for (auto& key : keys) {
       if (MAX_KEYS <= m_numKeys) {
         break;
@@ -69,8 +89,17 @@ namespace geEngineSDK {
       m_times[m_numKeys] = key.time / duration;
       ++m_numKeys;
     }
+  }
 
-    m_duration = duration;
+  Vector<ColorGradientKey>
+  ColorGradient::getKeys() const {
+    Vector<ColorGradientKey> output(m_numKeys);
+    for (uint32 i = 0; i < m_numKeys; ++i) {
+      output[i].color = m_colors[i];
+      output[i].time = m_times[i];
+    }
+
+    return output;
   }
 
   void
@@ -79,5 +108,19 @@ namespace geEngineSDK {
     m_times[0] = 0;
     m_numKeys = 1;
     m_duration = 0.0f;
+  }
+
+  std::pair<float, float>
+  ColorGradient::getTimeRange() const {
+    if (0 == m_numKeys) {
+      return std::make_pair(0.0f, 0.0f);
+    }
+
+    if (1 == m_numKeys) {
+      float time = m_times[0];
+      return std::make_pair(time, time);
+    }
+
+    return std::make_pair(m_times[0], m_times[m_numKeys - 1]);
   }
 }

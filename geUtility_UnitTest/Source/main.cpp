@@ -29,12 +29,12 @@
 using namespace geEngineSDK;
 
 TEST(geUtility, Basic_Type_Size) {
-  EXPECT_EQ(sizeof(unsigned char), 1);
-  EXPECT_EQ(sizeof(uint8  ), 1);
-  EXPECT_EQ(sizeof(uint16 ), 2);
-  EXPECT_EQ(sizeof(uint32 ), 4);
-  EXPECT_EQ(sizeof(uint64 ), 8);
-  EXPECT_EQ(sizeof(uint128), 16);
+  EXPECT_EQ(sizeof(unsigned char), 1U);
+  EXPECT_EQ(sizeof(uint8  ), 1U);
+  EXPECT_EQ(sizeof(uint16 ), 2U);
+  EXPECT_EQ(sizeof(uint32 ), 4U);
+  EXPECT_EQ(sizeof(uint64 ), 8U);
+  EXPECT_EQ(sizeof(uint128), 16U);
   
   EXPECT_EQ(sizeof(char  ), 1);
   EXPECT_EQ(sizeof(int8  ), 1);
@@ -89,8 +89,22 @@ TEST(geUtility, String_Path) {
 }
 
 TEST(geUtility, String_Parser) {
-  DataStreamPtr fileData = FileSystem::openFile("Test/test.txt");
-  EXPECT_TRUE(fileData);
+  Path workingDirPath = FileSystem::getWorkingDirectoryPath();
+  Path fromBinRoot = "Test/test.txt";
+  Path fromBinConfig = "../Test/test.txt";
+  DataStreamPtr fileData;
+
+  if (FileSystem::exists(workingDirPath + fromBinRoot)) {
+    fileData = FileSystem::openFile(fromBinRoot);
+  }
+  else if (FileSystem::exists(workingDirPath + fromBinConfig)) {
+    fileData = FileSystem::openFile(fromBinConfig);
+  }
+
+  EXPECT_TRUE(fileData)
+    << "Attempting to open a file that doesn't exist: Test/test.txt. "
+    << workingDirPath.toString();
+
   if (fileData) {
     String strParse = fileData->getAsString();
     Vector<String> lineList = StringUtil::split(strParse, "\n");
@@ -104,8 +118,21 @@ TEST(geUtility, String_Parser) {
 }
 
 TEST(geUtility, Compression) {
-  DataStreamPtr fileData = FileSystem::openFile("Test/test.txt");
-  EXPECT_TRUE(fileData);
+  Path workingDirPath = FileSystem::getWorkingDirectoryPath();
+  Path fromBinRoot = "Test/test.txt";
+  Path fromBinConfig = "../Test/test.txt";
+  DataStreamPtr fileData;
+
+  if (FileSystem::exists(workingDirPath + fromBinRoot)) {
+    fileData = FileSystem::openFile(fromBinRoot);
+  }
+  else if (FileSystem::exists(workingDirPath + fromBinConfig)) {
+    fileData = FileSystem::openFile(fromBinConfig);
+  }
+
+  EXPECT_TRUE(fileData)
+    << "Attempting to open a file that doesn't exist: Test/test.txt. "
+    << workingDirPath.toString();
   
   if (fileData) {
     //Compress file data

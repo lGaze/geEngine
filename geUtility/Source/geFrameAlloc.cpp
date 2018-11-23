@@ -39,8 +39,8 @@ namespace geEngineSDK {
     : m_blockSize(blockSize),
       m_freeBlock(nullptr),
       m_nextBlockIdx(0),
-     m_totalAllocBytes(0),
-     m_lastFrame(nullptr)
+      m_totalAllocBytes(0),
+      m_lastFrame(nullptr)
   {}
 #else
   FrameAlloc::FrameAlloc(SIZE_T blockSize)
@@ -297,7 +297,7 @@ namespace geEngineSDK {
 
   GE_THREADLOCAL FrameAlloc* _globalFrameAlloc = nullptr;
 
-  GE_UTILITY_EXPORT FrameAlloc&
+  FrameAlloc&
   g_frameAlloc() {
     if (nullptr == _globalFrameAlloc) {
       //Note: This will leak memory but since it should exist throughout the
@@ -309,32 +309,32 @@ namespace geEngineSDK {
     return *_globalFrameAlloc;
   }
 
-  GE_UTILITY_EXPORT uint8*
+  uint8*
   ge_frame_alloc(SIZE_T numBytes) {
     return g_frameAlloc().alloc(numBytes);
   }
 
-  GE_UTILITY_EXPORT uint8*
+  uint8*
   ge_frame_alloc_aligned(SIZE_T count, SIZE_T align) {
     return g_frameAlloc().allocAligned(count, align);
   }
 
-  GE_UTILITY_EXPORT void
+  void
   ge_frame_free(void* data) {
     g_frameAlloc().free(reinterpret_cast<uint8*>(data));
   }
 
-  GE_UTILITY_EXPORT void
+  void
   ge_frame_free_aligned(void* data) {
     g_frameAlloc().free(reinterpret_cast<uint8*>(data));
   }
 
-  GE_UTILITY_EXPORT void
+  void
   ge_frame_mark() {
     g_frameAlloc().markFrame();
   }
 
-  GE_UTILITY_EXPORT void
+  void
   ge_frame_clear() {
     g_frameAlloc().clear();
   }

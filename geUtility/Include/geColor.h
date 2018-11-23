@@ -478,12 +478,12 @@ namespace geEngineSDK {
   
    public:
     uint32&
-    dwColor(void) {
+    dwColor() {
       return *(reinterpret_cast<uint32*>(this));
     }
 
     const uint32&
-    dwColor(void) const {
+    dwColor() const {
       return *(reinterpret_cast<uint32*>(const_cast<Color*>(this)));
     }
 
@@ -550,7 +550,8 @@ namespace geEngineSDK {
     /**
      * @brief Gets the color in a packed uint32 format packed in the order ABGR.
      */
-    FORCEINLINE ABGR toPackedABGR() const {
+    FORCEINLINE ABGR
+    toPackedABGR() const {
       return (a << 24) | (b << 16) | (g << 8) | (r << 0);
     }
 

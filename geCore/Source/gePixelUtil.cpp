@@ -2343,7 +2343,7 @@ namespace geEngineSDK {
 
     if (mode.isSet(MIRROR_MODE_BITS::kZ)) {
       uint32 sliceSize = width * height * elemSize;
-      uint8* sliceTemp = ge_stack_alloc<uint8>(sliceSize);
+      auto sliceTemp = ge_stack_alloc<uint8>(sliceSize);
 
       uint8* dataPtr = pixelData.getData();
       uint32 halfDepth = depth / 2;
@@ -2363,7 +2363,7 @@ namespace geEngineSDK {
 
     if (mode.isSet(MIRROR_MODE_BITS::kY)) {
       uint32 rowSize = width * elemSize;
-      uint8* rowTemp = ge_stack_alloc<uint8>(rowSize);
+      auto rowTemp = ge_stack_alloc<uint8>(rowSize);
 
       uint8* slicePtr = pixelData.getData();
       for (uint32 z = 0; z < depth; ++z) {
@@ -2386,7 +2386,7 @@ namespace geEngineSDK {
     }
 
     if (mode.isSet(MIRROR_MODE_BITS::kX)) {
-      uint8* elemTemp = ge_stack_alloc<uint8>(elemSize);
+      auto elemTemp = ge_stack_alloc<uint8>(elemSize);
 
       uint8* slicePtr = pixelData.getData();
       for (uint32 z = 0; z < depth; ++z) {
@@ -2417,10 +2417,12 @@ namespace geEngineSDK {
 
     uint32 stride = bpp >> 3;
 
+    float r, g, b;
+
     for (SIZE_T i = 0, j = size / stride; i < j; ++i, buffer += stride) {
-      float r = static_cast<float>(buffer[0]);
-      float g = static_cast<float>(buffer[1]);
-      float b = static_cast<float>(buffer[2]);
+      r = static_cast<float>(buffer[0]);
+      g = static_cast<float>(buffer[1]);
+      b = static_cast<float>(buffer[2]);
 
       r *= gamma;
       g *= gamma;

@@ -37,7 +37,7 @@ namespace geEngineSDK {
 
     OctreeElementId(void* node, uint32 elementIdx)
       : m_node(node),
-      m_elementIdx(elementIdx)
+        m_elementIdx(elementIdx)
     {}
 
    private:

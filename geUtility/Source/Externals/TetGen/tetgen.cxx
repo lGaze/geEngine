@@ -271,7 +271,7 @@ bool tetgenio::load_edge(char* filebasename)
   char inedgefilename[FILENAMESIZE];
   char inputline[INPUTLINESIZE];
   char *stringptr;
-  int markers, corner;
+  int markers=0, corner;
   int index;
   int i, j;
 
@@ -291,7 +291,7 @@ bool tetgenio::load_edge(char* filebasename)
   numberofedges = (int) strtol (stringptr, &stringptr, 0);
   if (numberofedges > 0) {
     edgelist = new int[numberofedges * 2];
-    if (edgelist == (int *) NULL) {
+    if (edgelist == (int *) nullptr) {
       terminatetetgen(NULL, 1);
     }
     stringptr = findnextnumber(stringptr);

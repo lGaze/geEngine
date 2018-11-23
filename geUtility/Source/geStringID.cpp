@@ -122,7 +122,7 @@ namespace geEngineSDK {
   template<>
   class StringID::StringIDUtil<const ANSICHAR*>
   {
-  public:
+   public:
     static uint32
     size(const ANSICHAR* const& input) {
       return (uint32)strlen(input);
@@ -143,7 +143,7 @@ namespace geEngineSDK {
   template<>
   class StringID::StringIDUtil<String>
   {
-  public:
+   public:
     static uint32
     size(String const& input) {
         return(uint32)input.length();
@@ -151,7 +151,7 @@ namespace geEngineSDK {
 
     static void
     copy(String const& input, ANSICHAR* dest) {
-      uint32 len = (uint32)input.length();
+      auto len = static_cast<uint32>(input.length());
       input.copy(dest, len);
       dest[len] = '\0';
     }

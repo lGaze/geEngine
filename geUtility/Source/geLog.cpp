@@ -92,7 +92,7 @@ namespace geEngineSDK {
 
   bool
   Log::getLastEntry(LogEntry& entry) {
-    if (0 == m_entries.size()) {
+    if (m_entries.empty()) {
       return false;
     }
 

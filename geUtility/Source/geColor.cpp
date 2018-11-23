@@ -187,7 +187,7 @@ namespace geEngineSDK {
 
   LinearColor
   LinearColor::makeRandomColor() {
-    const uint8 Hue = static_cast<uint8>((static_cast<float>(rand()) / 
+    const auto Hue = static_cast<uint8>((static_cast<float>(rand()) / 
                                          static_cast<float>(RAND_MAX)) * 255.f);
     return LinearColor::getHSV(Hue, 0, 255);
   }
@@ -325,7 +325,9 @@ namespace geEngineSDK {
   }
 
   LinearColor
-  LinearColor::lerpUsingHSV(const LinearColor& From, const LinearColor& To, const float Progress) {
+  LinearColor::lerpUsingHSV(const LinearColor& From,
+                            const LinearColor& To,
+                            const float Progress) {
     const LinearColor FromHSV = From.linearRGBToHSV();
     const LinearColor ToHSV = To.linearRGBToHSV();
 
@@ -379,8 +381,8 @@ namespace geEngineSDK {
 
   Color
   Color::makeRedToGreenColorFromScalar(float Scalar) {
-    float RedSclr = Math::clamp<float>((1.0f - Scalar) / 0.5f, 0.f, 1.f);
-    float GreenSclr = Math::clamp<float>((Scalar / 0.5f), 0.f, 1.f);
+    auto RedSclr = Math::clamp<float>((1.0f - Scalar) / 0.5f, 0.f, 1.f);
+    auto GreenSclr = Math::clamp<float>((Scalar / 0.5f), 0.f, 1.f);
     int32 R = Math::trunc(255 * RedSclr);
     int32 G = Math::trunc(255 * GreenSclr);
     int32 B = 0;

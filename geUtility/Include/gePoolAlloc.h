@@ -304,7 +304,7 @@ namespace geEngineSDK {
    */
 #define IMPLEMENT_GLOBAL_POOL(Type, ElemsPerBlock)                            \
 	template<>                                                                  \
-  class GlobalPoolAlloc<Type> : public StaticPoolAlloc<Type>                  \
+  class GlobalPoolAlloc<Type> : public StaticPoolAlloc<Type, ElemsPerBlock>   \
   {};
 
   /**
