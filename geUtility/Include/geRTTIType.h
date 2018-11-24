@@ -568,6 +568,10 @@ namespace geEngineSDK {
   };                                                                          \
                                                                               \
   META_InitAllMembers m_initMembers{this};
+
+  //RTTI-Internal
+  struct SerializationContext;
+  
   /***************************************************************************/
 
   /**
@@ -639,7 +643,7 @@ namespace geEngineSDK {
      */
     virtual void
     onSerializationStarted(IReflectable* /*obj*/,
-                           const UnorderedMap<String, uint64>& /*params*/)
+                           SerializationContext* /*context*/)
     {}
 
     /**
@@ -650,7 +654,7 @@ namespace geEngineSDK {
      */
     virtual void
     onSerializationEnded(IReflectable* /*obj*/,
-                         const UnorderedMap<String, uint64>& /*params*/)
+                         SerializationContext* /*context*/)
     {}
 
     /**
@@ -660,7 +664,7 @@ namespace geEngineSDK {
      */
     virtual void
     onDeserializationStarted(IReflectable* /*obj*/,
-                             const UnorderedMap<String, uint64>& /*params*/)
+                             SerializationContext* /*context*/)
     {}
 
     /**
@@ -673,7 +677,7 @@ namespace geEngineSDK {
      */
     virtual void
     onDeserializationEnded(IReflectable* /*obj*/,
-                           const UnorderedMap<String, uint64>& /*params*/)
+                           SerializationContext* /*context*/)
     {}
 
     /**
@@ -689,352 +693,6 @@ namespace geEngineSDK {
     }
 
     /**
-     * @brief Allows you to assign a value to a plain field with the specified
-     *        name on the provided instance.
-     * @note  Caller must ensure instance and value types are valid for this
-              field.
-     */
-    template<class ObjectType, class DataType>
-    void
-    setPlainValue(ObjectType* object, const String& name, DataType& value) {
-      RTTIField* genericField = findField(name);
-      genericField->checkIsPlain(false);
-
-      RTTIPlainFieldBase* field = static_cast<RTTIPlainFieldBase*>(genericField);
-
-      uint32 typeSize = 0;
-      if (RTTIPlainType<DataType>::kHasDynamicSize) {
-        typeSize = RTTIPlainType<DataType>::getDynamicSize(value);
-      }
-      else {
-        typeSize = static_cast<uint32>(sizeof(DataType));
-      }
-
-      uint8* tempBuffer = reinterpret_cast<uint8*>
-                          (ge_stack_alloc(static_cast<SIZE_T>(typeSize)));
-      RTTIPlainType<DataType>::toMemory(value, reinterpret_cast<char*>(tempBuffer));
-      field->fromBuffer(object, tempBuffer);
-
-      ge_stack_free(tempBuffer);
-    }
-
-    /**
-     * @brief Allows you to assign a value to a plain field array element with
-     *        the specified name and index on the provided instance.
-     * @note  Caller must ensure instance and value types are valid for this
-     *        field.
-     */
-    template<class ObjectType, class DataType>
-    void
-    setPlainArrayValue(ObjectType* object,
-                       const String& name,
-                       uint32 index,
-                       DataType& value) {
-      RTTIField* genericField = findField(name);
-      genericField->checkIsPlain(true);
-
-      RTTIPlainFieldBase* field = static_cast<RTTIPlainFieldBase*>(genericField);
-
-      uint32 typeSize = 0;
-      if (RTTIPlainType<DataType>::kHasDynamicSize) {
-        typeSize = RTTIPlainType<DataType>::getDynamicSize(value);
-      }
-      else {
-        typeSize = static_cast<uint32>(sizeof(DataType));
-      }
-
-      uint8* tempBuffer = reinterpret_cast<uint8*>
-                          (ge_stack_alloc(static_cast<SIZE_T>(typeSize)));
-      RTTIPlainType<DataType>::toMemory(value, reinterpret_cast<char*>(tempBuffer));
-      field->arrayElemFromBuffer(object, index, tempBuffer);
-
-      ge_stack_free(tempBuffer);
-    }
-
-    /**
-     * @brief Allows you to assign a value to a reflectable field with the
-     *        specified name on the provided instance.
-     * @note  Caller must ensure instance and value types are valid for this
-     *        field.
-     */
-    template<class ObjectType, class DataType>
-    void
-    setReflectableValue(ObjectType* object, const String& name, DataType& value) {
-      static_assert((is_base_of<geEngineSDK::IReflectable, DataType>::value),
-                    "Invalid data type for complex field. "
-                    "It needs to derive from geEngineSDK::IReflectable.");
-
-      RTTIField* genericField = findField(name);
-      genericField->checkIsComplex(false);
-
-      RTTIReflectableFieldBase*
-      field = static_cast<RTTIReflectableFieldBase*>(genericField);
-      field->setValue(object, value);
-    }
-
-    /**
-     * @brief Allows you to assign a value to a reflectable field array element
-     *        with the specified name and index on the provided instance.
-     * @note  Caller must ensure instance and value types are valid for this
-     *        field.
-     */
-    template<class ObjectType, class DataType>
-    void
-    setReflectableArrayValue(ObjectType* object,
-                             const String& name,
-                             uint32 index,
-                             DataType& value) {
-      static_assert((is_base_of<geEngineSDK::IReflectable, DataType>::value),
-                    "Invalid data type for complex field. "
-                    "It needs to derive from geEngineSDK::IReflectable.");
-
-      RTTIField* genericField = findField(name);
-      genericField->checkIsComplex(true);
-
-      RTTIReflectableFieldBase*
-      field = static_cast<RTTIReflectableFieldBase*>(genericField);
-      field->setArrayValue(object, index, value);
-    }
-
-    /**
-     * @brief Allows you to assign a value to a managed data block field with
-     *        the specified name on the provided instance.
-     * @note  Caller must ensure instance type is valid for this field.
-     */
-    template<class ObjectType>
-    void
-    setDataBlockValue(ObjectType* object,
-                      const String& name,
-                      const SPtr<DataStream>& value,
-                      uint32 size) {
-      RTTIField* genericField = findField(name);
-      genericField->checkIsDataBlock();
-
-      RTTIManagedDataBlockFieldBase*
-      field = static_cast<RTTIManagedDataBlockFieldBase*>(genericField);
-      field->setValue(object, value, size);
-    }
-
-    /**
-     * @brief Allows you to assign a value to a reflectable pointer field with
-     *        the specified name on the provided instance.
-     * @note  Caller must ensure instance and value types are valid for this
-     *        field.
-     */
-    template<class ObjectType, class DataType>
-    void
-    setReflectablePtrValue(ObjectType* object, const String& name, SPtr<DataType> value) {
-      static_assert((is_base_of<geEngineSDK::IReflectable, DataType>::value),
-                    "Invalid data type for complex field. "
-                    "It needs to derive from geEngineSDK::IReflectable.");
-
-      RTTIField* genericField = findField(name);
-      genericField->checkIsComplexPtr(false);
-
-      RTTIReflectablePtrFieldBase*
-      field = static_cast<RTTIReflectablePtrFieldBase*>(genericField);
-      field->setValue(object, value);
-    }
-
-    /**
-     * @brief Allows you to assign a value to a reflectable pointer field array
-     *        element with the specified name and index on the provided
-     *        instance.
-     * @note  Caller must ensure instance and value types are valid for this
-     *        field.
-     */
-    template<class ObjectType, class DataType>
-    void
-    setReflectablePtrArrayValue(ObjectType* object,
-                                const String& name,
-                                uint32 index,
-                                SPtr<DataType> value) {
-      static_assert((is_base_of<geEngineSDK::IReflectable, DataType>::value),
-                    "Invalid data type for complex field. "
-                    "It needs to derive from geEngineSDK::IReflectable.");
-
-      RTTIField* genericField = findField(name);
-      genericField->checkIsComplexPtr(true);
-
-      RTTIReflectablePtrFieldBase*
-      field = static_cast<RTTIReflectablePtrFieldBase*>(genericField);
-      field->setArrayValue(object, index, value);
-    }
-
-    /**
-     * @brief Reads a value from a plain field with the specified name from the
-     *        provided instance.
-     * @note  Caller must ensure instance and value types are valid for this
-     *        field.
-     */
-    template<class ObjectType, class DataType>
-    void
-    getPlainValue(ObjectType* object, const String& name, DataType& value) {
-      RTTIField* genericField = findField(name);
-      genericField->checkIsPlain(false);
-
-      RTTIPlainFieldBase* field = static_cast<RTTIPlainFieldBase*>(genericField);
-
-      uint32 typeSize = 0;
-      if (field->hasDynamicSize()) {
-        typeSize = field->getDynamicSize(object);
-      }
-      else {
-        typeSize = field->getTypeSize();
-      }
-
-      uint8* tempBuffer = reinterpret_cast<uint8*>(ge_stack_alloc(typeSize));
-
-      field->toBuffer(object, tempBuffer);
-      RTTIPlainType<DataType>::fromMemory(value, reinterpret_cast<char*>(tempBuffer));
-
-      ge_stack_free(tempBuffer);
-    }
-
-    /**
-     * @brief Reads a value from a plain array field with the specified name
-     *        and index from the provided instance.
-     * @note  Caller must ensure instance and value types are valid for this
-     *        field.
-     */
-    template <class ObjectType, class DataType>
-    void
-    getPlainArrayValue(ObjectType* object,
-                       const String& name,
-                       uint32 index,
-                       DataType& value) {
-      RTTIField* genericField = findField(name);
-      genericField->checkIsPlain(true);
-
-      RTTIPlainFieldBase* field = static_cast<RTTIPlainFieldBase*>(genericField);
-
-      uint32 typeSize = 0;
-      if (field->hasDynamicSize()) {
-        typeSize = field->getArrayElemDynamicSize(object, index);
-      }
-      else {
-        typeSize = field->getTypeSize();
-      }
-
-      uint8* tempBuffer = reinterpret_cast<uint8*>(ge_stack_alloc(typeSize));
-
-      field->arrayElemToBuffer(object, index, tempBuffer);
-      RTTIPlainType<DataType>::fromMemory(value, reinterpret_cast<char*>(tempBuffer));
-
-      ge_stack_free(tempBuffer);
-    }
-
-    /**
-     * @brief Reads a value from a reflectable object field with the specified
-     *        name from the provided instance.
-     * @note  Caller must ensure instance and value types are valid for this
-     *        field.
-     */
-    template <class ObjectType>
-    IReflectable&
-    getReflectableValue(ObjectType* object, const String& name) {
-      RTTIField* genericField = findField(name);
-      genericField->checkIsComplex(false);
-
-      RTTIReflectableFieldBase*
-      field = static_cast<RTTIReflectableFieldBase*>(genericField);
-      return field->getValue(object);
-    }
-
-    /**
-     * @brief Reads a value from a reflectable object array field with the
-     *        specified name and index from the provided instance.
-     * @note  Caller must ensure instance and value types are valid for this
-     *        field.
-     */
-    template <class ObjectType>
-    IReflectable&
-    getReflectableArrayValue(ObjectType* object, const String& name, uint32 index) {
-      RTTIField* genericField = findField(name);
-      genericField->checkIsComplex(true);
-
-      RTTIReflectableFieldBase*
-      field = static_cast<RTTIReflectableFieldBase*>(genericField);
-      return field->getArrayValue(object, index);
-    }
-
-    /**
-     * @brief Reads a managed data block field with the specified name from the
-     *        provided instance.
-     * @note  Caller must ensure instance type is valid for this field.
-     */
-    template <class ObjectType>
-    SPtr<DataStream>
-    getDataBlockValue(ObjectType* object, const String& name, uint32& size) {
-      RTTIField* genericField = findField(name);
-      genericField->checkIsDataBlock();
-
-      RTTIManagedDataBlockFieldBase*
-      field = static_cast<RTTIManagedDataBlockFieldBase*>(genericField);
-      return field->getValue(object, size);
-    }
-
-    /**
-     * @brief Reads a value from a reflectable object pointer field with the
-     *        specified name from the provided instance.
-     * @note  Caller must ensure instance and value types are valid for this
-     *        field.
-     */
-    template <class ObjectType>
-    SPtr<IReflectable>
-    getReflectablePtrValue(ObjectType* object, const String& name) {
-      RTTIField* genericField = findField(name);
-      genericField->checkIsComplexPtr(false);
-
-      RTTIReflectablePtrFieldBase*
-      field = static_cast<RTTIReflectablePtrFieldBase*>(genericField);
-      return field->getValue(object);
-    }
-
-    /**
-     * @brief Reads a value from a reflectable pointer array field with the
-     *        specified name and index from the provided instance.
-     * @note  Caller must ensure instance and value types are valid for this
-     *        field.
-     */
-    template <class ObjectType>
-    SPtr<IReflectable>
-    getReflectablePtrArrayValue(ObjectType* object, const String& name, uint32 index) {
-      RTTIField* genericField = findField(name);
-      genericField->checkIsComplexPtr(true);
-
-      RTTIReflectablePtrFieldBase*
-      field = static_cast<RTTIReflectablePtrFieldBase*>(genericField);
-      return field->getArrayValue(object, index);
-    }
-
-    /**
-     * @brief Returns the size of the array of the field with the specified
-     *        name on the provided instance.
-     * @note  Caller must ensure instance type is valid and that the field as
-     *        an array.
-     */
-    template <class ObjectType>
-    uint32
-    getArraySize(ObjectType* object, const String& name) {
-      RTTIField* field = findField(name);
-      return field->getArraySize(object);
-    }
-
-    /**
-     * @brief Sets the size of the array of the field with the specified name
-     *        on the provided instance.
-     * @note  Caller must ensure instance type is valid and that the field as
-     *        an array. This might clear any existing data from the array.
-     */
-    template <class ObjectType>
-    void
-    setArraySize(ObjectType* object, const String& name, uint32 size) {
-      RTTIField* field = findField(name);
-      field->setArraySize(object, size);
-    }
-
-    /**
      * @brief Returns the total number of fields in this RTTI type.
      */
     uint32
@@ -1043,31 +701,31 @@ namespace geEngineSDK {
     }
 
     /**
-     * @brief Returns a field based on the field index. Use getNumFields() to
-     *        get total number of fields available.
+     * @brief Returns a field based on the field index.
+     *        Use getNumFields() to get total number of fields available.
      */
     RTTIField*
     getField(uint32 idx) {
-      return m_fields.at(static_cast<SIZE_T>(idx));
+      return m_fields.at(idx);
     }
 
     /**
      * @brief Tries to find a field with the specified name.
      *        Throws an exception if it can't.
-     * @param name The name of the field.
+     * @param name  The name of the field.
      */
     RTTIField*
     findField(const String& name);
 
     /**
-     * @brief Tries to find a field with the specified unique ID. Doesn't throw
-     *        an exception if it can't find the field
+     * @brief Tries to find a field with the specified unique ID.
+     *        Doesn't throw an exception if it can't find the field
      *        (Unlike findField(const String&)).
-     * @param uniqueFieldId	Unique identifier for the field.
-     * @return nullptr if it can't find the field.
+     * @param uniqueFieldId Unique identifier for the field.
+     * @return  nullptr if it can't find the field.
      */
     RTTIField*
-    findField(uint32 uniqueFieldId);
+    findField(int32 uniqueFieldId);
 
     /**
      * @brief Called by the RTTI system when a class is first found in order to
@@ -1076,10 +734,21 @@ namespace geEngineSDK {
     virtual void
     _registerDerivedClass(RTTITypeBase* derivedClass) = 0;
 
+    /**
+     * @brief Constructs a cloned version of the underlying class.
+     *        The cloned version will not have any field information and should
+     *        instead be used for passing to various RTTIField methods during
+     *        serialization/deserialization. This allows each object instance
+     *        to have a unique places to store temporary instance-specific
+     *        data.
+     */
+    virtual RTTITypeBase*
+    _clone(FrameAlloc& alloc) = 0;
+
    protected:
     /**
      * @brief Tries to add a new field to the fields array, and throws an
-     *        exception if a field with the same name or id already exists.
+              exception if a field with the same name or id already exists.
      * @param[in] field Field, must be non-null.
      */
     void
@@ -1098,6 +767,7 @@ namespace geEngineSDK {
   {
   public:
     InitRTTIOnStart() {
+      IReflectable::_registerRTTIType(Type::getRTTIStatic());
       BaseType::getRTTIStatic()->_registerDerivedClass(Type::getRTTIStatic());
     }
 
@@ -1112,7 +782,7 @@ namespace geEngineSDK {
   {
    public:
     InitRTTIOnStart() {
-      IReflectable::_registerDerivedClass(Type::getRTTIStatic());
+      IReflectable::_registerRTTIType(Type::getRTTIStatic());
     }
 
     void makeSureIAmInstantiated() {}
@@ -1224,12 +894,15 @@ namespace geEngineSDK {
      */
     void
     _registerDerivedClass(RTTITypeBase* derivedClass) override {
-      if (IReflectable::_isTypeIdDuplicate(derivedClass->getRTTIId())) {
-        GE_EXCEPT(InternalErrorException, "RTTI type \"" + derivedClass->getRTTIName() +
-                  "\" has a duplicate ID: " + toString(derivedClass->getRTTIId()));
-      }
-
       getDerivedClasses().push_back(derivedClass);
+    }
+
+    /**
+     * @copydoc RTTITypeBase::_clone
+     */
+    RTTITypeBase*
+    _clone(FrameAlloc& alloc) override {
+      return alloc.construct<MyRTTIType>();
     }
 
     /*************************************************************************/
@@ -1237,6 +910,10 @@ namespace geEngineSDK {
      * Fields operating directly on serializable object
      */
     /*************************************************************************/
+
+   protected:
+    using OwnerType = Type;
+    using MyType = MyRTTIType;
 
     /**
      * @brief Registers a new plain field. This field can then be accessed
@@ -1253,18 +930,31 @@ namespace geEngineSDK {
      * @param[in] flags     Various flags you can use to specialize how systems
      *            handle this field. See RTTIFieldFlag.
      */
-    template<class ObjectType, class DataType>
+    template<class InterfaceType, class ObjectType, class DataType>
     void
     addPlainField(const String& name,
                   uint32 uniqueId,
-                  DataType& (ObjectType::*getter)(),
-                  void (ObjectType::*setter)(DataType&) = nullptr,
+                  DataType& (InterfaceType::*getter)(ObjectType*),
+                  void(InterfaceType::*setter)(ObjectType*, DataType&),
                   uint64 flags = 0) {
-      addPlainField<ObjectType, DataType>(name,
-                                          uniqueId,
-                                          function<DataType&(ObjectType*)>(getter),
-                                          function<void(ObjectType*, DataType&)>(setter),
-                                          flags);
+      static_assert((is_base_of<geEngineSDK::RTTIType<Type,
+                                                      BaseType,
+                                                      MyRTTIType>,
+                                InterfaceType>::value),
+                    "Class with the get/set methods must derive from "
+                    "geEngineSDK::RTTIType.");
+
+      static_assert(!(is_base_of<geEngineSDK::IReflectable, DataType>::value),
+                    "Data type derives from IReflectable but it is being "
+                    "added as a plain field.");
+
+      auto newField = ge_new<RTTIPlainField<InterfaceType, DataType, ObjectType>>();
+      newField->initSingle(name,
+                           static_cast<uint16>(uniqueId),
+                           getter,
+                           setter,
+                           flags);
+      addNewField(newField);
     }
 
     /**
@@ -1282,18 +972,24 @@ namespace geEngineSDK {
      * @param[in] flags     Various flags you can use to specialize how systems
      *            handle this field. See RTTIFieldFlag.
      */
-    template<class ObjectType, class DataType>
+    template<class InterfaceType, class ObjectType, class DataType>
     void
     addReflectableField(const String& name,
                         uint32 uniqueId,
-                        DataType& (ObjectType::*getter)(),
-                        void (ObjectType::*setter)(DataType&) = nullptr,
+                        DataType& (InterfaceType::*getter)(ObjectType*),
+                        void (InterfaceType::*setter)(ObjectType*, DataType&),
                         uint64 flags = 0) {
-      addReflectableField<ObjectType, DataType>(name,
-                                               uniqueId,
-                                               function<DataType&(ObjectType*)>(getter),
-                                               function<void(ObjectType*, DataType&)>(setter),
-                                               flags);
+      static_assert((is_base_of<geEngineSDK::IReflectable, DataType>::value),
+                    "Invalid data type for complex field. "
+                    "It needs to derive from bs::IReflectable.");
+
+      auto newField = ge_new<RTTIReflectableField<InterfaceType, DataType, ObjectType>>();
+      newField->initSingle(name,
+                           static_cast<uint16>(uniqueId),
+                           getter,
+                           setter,
+                           flags);
+      addNewField(newField);
     }
 
     /**
@@ -1312,18 +1008,24 @@ namespace geEngineSDK {
      * @param[in] flags     Various flags you can use to specialize how systems
      *            handle this field. See RTTIFieldFlag.
      */
-    template<class ObjectType, class DataType>
+    template<class InterfaceType, class ObjectType, class DataType>
     void
     addReflectablePtrField(const String& name,
                            uint32 uniqueId,
-                           SPtr<DataType>(ObjectType::*getter)(),
-                           void (ObjectType::*setter)(SPtr<DataType>) = nullptr,
+                           SPtr<DataType>(InterfaceType::*getter)(ObjectType*),
+                           void (InterfaceType::*setter)(ObjectType*, SPtr<DataType>),
                            uint64 flags = 0) {
-      addReflectablePtrField<ObjectType, DataType>(name,
-                                          uniqueId,
-                                          function<SPtr<DataType>(ObjectType*)>(getter),
-                                          function<void(ObjectType*, SPtr<DataType>)>(setter),
-                                          flags);
+      static_assert((is_base_of<geEngineSDK::IReflectable, DataType>::value),
+                    "Invalid data type for complex field. "
+                    "It needs to derive from bs::IReflectable.");
+
+      auto newField = ge_new<RTTIReflectablePtrField<InterfaceType, DataType, ObjectType>>();
+      newField->initSingle(name,
+                           static_cast<uint16>(uniqueId),
+                           getter,
+                           setter,
+                           flags);
+      addNewField(newField);
     }
 
     /**
@@ -1344,21 +1046,33 @@ namespace geEngineSDK {
      * @param[in] flags   Various flags you can use to specialize how systems
      *            handle this field. See RTTIFieldFlag.
      */
-    template<class ObjectType, class DataType>
+    template<class InterfaceType, class ObjectType, class DataType>
     void
     addPlainArrayField(const String& name,
                        uint32 uniqueId,
-                       DataType& (ObjectType::*getter)(uint32),
-                       uint32(ObjectType::*getSize)(),
-                       void (ObjectType::*setter)(uint32, DataType&) = nullptr,
-                       void(ObjectType::*setSize)(uint32) = nullptr,
+                       DataType& (InterfaceType::*getter)(ObjectType*, uint32),
+                       uint32(InterfaceType::*getSize)(ObjectType*),
+                       void (InterfaceType::*setter)(ObjectType*, uint32, DataType&),
+                       void(InterfaceType::*setSize)(ObjectType*, uint32),
                        uint64 flags = 0) {
-      addPlainArrayField<ObjectType, DataType>(name,
-                                       uniqueId,
-                                       function<DataType&(ObjectType*, uint32)>(getter),
-                                       function<uint32(ObjectType*)>(getSize),
-                                       function<void(ObjectType*, uint32, DataType&)>(setter),
-                                       function<void(ObjectType*, uint32)>(setSize), flags);
+      static_assert((is_base_of<geEngineSDK::RTTIType<Type, BaseType, MyRTTIType>,
+                                InterfaceType>::value),
+                    "Class with the get/set methods must derive from "
+                    "geEngineSDK::RTTIType.");
+
+      static_assert(!(is_base_of<geEngineSDK::IReflectable, DataType>::value),
+                    "Data type derives from IReflectable but it is being "
+                    "added as a plain field.");
+
+      auto newField = ge_new<RTTIPlainField<InterfaceType, DataType, ObjectType>>();
+      newField->initArray(name,
+                          static_cast<uint16>(uniqueId),
+                          getter,
+                          getSize,
+                          setter,
+                          setSize,
+                          flags);
+      addNewField(newField);
     }
 
     /**
@@ -1379,21 +1093,28 @@ namespace geEngineSDK {
      * @param[in] flags   Various flags you can use to specialize how systems
      *            handle this field. See RTTIFieldFlag.
      */
-    template<class ObjectType, class DataType>
+    template<class InterfaceType, class ObjectType, class DataType>
     void
     addReflectableArrayField(const String& name,
                              uint32 uniqueId,
-                             DataType& (ObjectType::*getter)(uint32),
-                             uint32(ObjectType::*getSize)(),
-                             void (ObjectType::*setter)(uint32, DataType&) = nullptr,
-                             void(ObjectType::*setSize)(uint32) = nullptr,
+                             DataType& (InterfaceType::*getter)(ObjectType*, uint32),
+                             uint32(InterfaceType::*getSize)(ObjectType*),
+                             void (InterfaceType::*setter)(ObjectType*, uint32, DataType&),
+                             void(InterfaceType::*setSize)(ObjectType*, uint32),
                              uint64 flags = 0) {
-      addReflectableArrayField<ObjectType, DataType>(name,
-                                       uniqueId,
-                                       function<DataType&(ObjectType*, uint32)>(getter),
-                                       function<uint32(ObjectType*)>(getSize),
-                                       function<void(ObjectType*, uint32, DataType&)>(setter),
-                                       function<void(ObjectType*, uint32)>(setSize), flags);
+      static_assert((is_base_of<geEngineSDK::IReflectable, DataType>::value),
+                    "Invalid data type for complex field. "
+                    "It needs to derive from bs::IReflectable.");
+
+      auto newField = ge_new<RTTIReflectableField<InterfaceType, DataType, ObjectType>>();
+      newField->initArray(name,
+                          static_cast<uint16>(uniqueId),
+                          getter,
+                          getSize,
+                          setter,
+                          setSize,
+                          flags);
+      addNewField(newField);
     }
 
     /**
@@ -1414,22 +1135,30 @@ namespace geEngineSDK {
      * @param[in] flags   Various flags you can use to specialize how systems
      *            handle this field. See RTTIFieldFlag.
      */
-    template<class ObjectType, class DataType>
+    template<class InterfaceType, class ObjectType, class DataType>
     void
     addReflectablePtrArrayField(const String& name,
                                 uint32 uniqueId,
-                                SPtr<DataType>(ObjectType::*getter)(uint32),
-                                uint32(ObjectType::*getSize)(),
-                                void (ObjectType::*setter)(uint32, SPtr<DataType>) = nullptr,
-                                void(ObjectType::*setSize)(uint32) = nullptr,
+                                SPtr<DataType>(InterfaceType::*getter)(ObjectType*, uint32),
+                                uint32(InterfaceType::*getSize)(ObjectType*),
+                                void(InterfaceType::*setter)(ObjectType*,
+                                                             uint32,
+                                                             SPtr<DataType>),
+                                void(InterfaceType::*setSize)(ObjectType*, uint32),
                                 uint64 flags = 0) {
-      addReflectablePtrArrayField<ObjectType, DataType>(name,
-                                  uniqueId,
-                                  function<SPtr<DataType>(ObjectType*, uint32)>(getter),
-                                  function<uint32(ObjectType*)>(getSize),
-                                  function<void(ObjectType*, uint32, SPtr<DataType>)>(setter),
-                                  function<void(ObjectType*, uint32)>(setSize),
-                                  flags);
+      static_assert((is_base_of<geEngineSDK::IReflectable, DataType>::value),
+                    "Invalid data type for complex field. "
+                    "It needs to derive from bs::IReflectable.");
+
+      auto newField = ge_new<RTTIReflectablePtrField<InterfaceType, DataType, ObjectType>>();
+      newField->initArray(name,
+                          static_cast<uint16>(uniqueId),
+                          getter,
+                          getSize,
+                          setter,
+                          setSize,
+                          flags);
+      addNewField(newField);
     }
 
     /**
@@ -1449,339 +1178,18 @@ namespace geEngineSDK {
      * @param[in] flags   Various flags you can use to specialize how systems
      *            handle this field. See RTTIFieldFlag.
      */
-    template<class ObjectType>
-    void
-    addDataBlockField(const String& name,
-                      uint32 uniqueId,
-                      SPtr<DataStream>(ObjectType::*getter)(uint32&),
-                      void (ObjectType::*setter)(const SPtr<DataStream>&, uint32) = nullptr,
-                      uint64 flags = 0) {
-      addDataBlockField<ObjectType>(name,
-                         uniqueId,
-                         function<SPtr<DataStream>(ObjectType*, uint32&)>(getter),
-                         function<void(ObjectType*, const SPtr<DataStream>&, uint32)>(setter),
-                         flags);
-    }
-
-   protected:
-    typedef Type OwnerType;
-    typedef MyRTTIType MyType;
-
-    virtual void
-    initSerializableFields() {}
-
-    /*************************************************************************/
-    /**
-     * Fields operating on derived serialization interface
-     * (Needs an extra pointer to the actual object)
-     */
-    /*************************************************************************/
-
-    template<class InterfaceType, class ObjectType, class DataType>
-    void
-    addPlainField(const String& name,
-                  uint32 uniqueId,
-                  DataType& (InterfaceType::*getter)(ObjectType*),
-                  void(InterfaceType::*setter)(ObjectType*, DataType&),
-                  uint64 flags = 0) {
-      using namespace std::placeholders;
-      static_assert( (is_base_of<geEngineSDK::RTTIType<Type, BaseType, MyRTTIType>,
-                                InterfaceType>::value),
-                                "Class with the get/set methods must derive from "
-                                "geEngineSDK::RTTIType.");
-
-      static_assert(!(is_base_of<geEngineSDK::IReflectable,
-                                DataType>::value),
-                                "Data type derives from IReflectable "
-                                "but it is being added as a plain field.");
-
-      addPlainField<ObjectType, DataType>(name,
-                                  uniqueId,
-                                  function<DataType&(ObjectType*)>
-                                    (bind(getter, static_cast<InterfaceType*>(this), _1)),
-                                  function<void(ObjectType*, DataType&)>
-                                    (bind(setter, static_cast<InterfaceType*>(this), _1, _2)),
-                                  flags);
-    }
-
-    template<class InterfaceType, class ObjectType, class DataType>
-    void
-    addReflectableField(const String& name,
-                        uint32 uniqueId,
-                        DataType& (InterfaceType::*getter)(ObjectType*),
-                        void (InterfaceType::*setter)(ObjectType*, DataType&),
-                        uint64 flags = 0) {
-      using namespace std::placeholders;
-
-      addReflectableField<ObjectType, DataType>(name,
-                                  uniqueId,
-                                  function<DataType&(ObjectType*)>
-                                    (bind(getter, static_cast<InterfaceType*>(this), _1)),
-                                  function<void(ObjectType*, DataType&)>
-                                    (bind(setter, static_cast<InterfaceType*>(this), _1, _2)),
-                                  flags);
-    }
-
-    template<class InterfaceType, class ObjectType, class DataType>
-    void
-    addReflectablePtrField(const String& name,
-                           uint32 uniqueId,
-                           SPtr<DataType>(InterfaceType::*getter)(ObjectType*),
-                           void (InterfaceType::*setter)(ObjectType*, SPtr<DataType>),
-                           uint64 flags = 0) {
-      using namespace std::placeholders;
-
-      addReflectablePtrField<ObjectType, DataType>(name,
-                                  uniqueId,
-                                  function<SPtr<DataType>(ObjectType*)>
-                                    (bind(getter, static_cast<InterfaceType*>(this), _1)),
-                                  function<void(ObjectType*, SPtr<DataType>)>
-                                    (bind(setter, static_cast<InterfaceType*>(this), _1, _2)),
-                                  flags);
-    }
-
-    template<class InterfaceType, class ObjectType, class DataType>
-    void
-    addPlainArrayField(const String& name,
-                       uint32 uniqueId,
-                       DataType& (InterfaceType::*getter)(ObjectType*, uint32),
-                       uint32(InterfaceType::*getSize)(ObjectType*),
-                       void (InterfaceType::*setter)(ObjectType*, uint32, DataType&),
-                       void(InterfaceType::*setSize)(ObjectType*, uint32),
-                       uint64 flags = 0) {
-      using namespace std::placeholders;
-
-      static_assert( (is_base_of<geEngineSDK::RTTIType<Type, BaseType, MyRTTIType>,
-                                InterfaceType>::value),
-                     "Class with the get/set methods must derive from "
-                     "geEngineSDK::RTTIType.");
-
-      static_assert(!(is_base_of<geEngineSDK::IReflectable, DataType>::value),
-                     "Data type derives from IReflectable but it is being "
-                     "added as a plain field.");
-
-      addPlainArrayField<ObjectType, DataType>(name,
-                              uniqueId,
-                              function<DataType&(ObjectType*, uint32)>
-                                (bind(getter, static_cast<InterfaceType*>(this), _1, _2)),
-                              function<uint32(ObjectType*)>
-                                (bind(getSize, static_cast<InterfaceType*>(this), _1)),
-                              function<void(ObjectType*, uint32, DataType&)>
-                                (bind(setter, static_cast<InterfaceType*>(this), _1, _2, _3)),
-                              function<void(ObjectType*, uint32)>
-                                (bind(setSize, static_cast<InterfaceType*>(this), _1, _2)),
-                              flags);
-    }
-
-    template<class InterfaceType, class ObjectType, class DataType>
-    void
-    addReflectableArrayField(const String& name,
-                             uint32 uniqueId,
-                             DataType& (InterfaceType::*getter)(ObjectType*, uint32),
-                             uint32(InterfaceType::*getSize)(ObjectType*),
-                             void (InterfaceType::*setter)(ObjectType*, uint32, DataType&),
-                             void(InterfaceType::*setSize)(ObjectType*, uint32),
-                             uint64 flags = 0) {
-      using namespace std::placeholders;
-
-      addReflectableArrayField<ObjectType, DataType>(name,
-                              uniqueId,
-                              function<DataType&(ObjectType*, uint32)>
-                                (bind(getter, static_cast<InterfaceType*>(this), _1, _2)),
-                              function<uint32(ObjectType*)>
-                                (bind(getSize, static_cast<InterfaceType*>(this), _1)),
-                              function<void(ObjectType*, uint32, DataType&)>
-                                (bind(setter, static_cast<InterfaceType*>(this), _1, _2, _3)),
-                              function<void(ObjectType*, uint32)>
-                                (bind(setSize, static_cast<InterfaceType*>(this), _1, _2)),
-                              flags);
-    }
-
-    template<class InterfaceType, class ObjectType, class DataType>
-    void
-    addReflectablePtrArrayField(const String& name,
-                           uint32 uniqueId,
-                           SPtr<DataType>(InterfaceType::*getter)(ObjectType*, uint32),
-                           uint32(InterfaceType::*getSize)(ObjectType*),
-                           void (InterfaceType::*setter)(ObjectType*, uint32, SPtr<DataType>),
-                           void(InterfaceType::*setSize)(ObjectType*, uint32),
-                           uint64 flags = 0) {
-      using namespace std::placeholders;
-
-      addReflectablePtrArrayField<ObjectType, DataType>(name,
-                              uniqueId,
-                              function<SPtr<DataType>(ObjectType*, uint32)>
-                                (bind(getter, static_cast<InterfaceType*>(this), _1, _2)),
-                              function<uint32(ObjectType*)>
-                                (bind(getSize, static_cast<InterfaceType*>(this), _1)),
-                              function<void(ObjectType*, uint32, SPtr<DataType>)>
-                                (bind(setter, static_cast<InterfaceType*>(this), _1, _2, _3)),
-                              function<void(ObjectType*, uint32)>
-                                (bind(setSize, static_cast<InterfaceType*>(this), _1, _2)),
-                              flags);
-    }
-
     template<class InterfaceType, class ObjectType>
     void
     addDataBlockField(const String& name,
-                  uint32 uniqueId,
-                  SPtr<DataStream>(InterfaceType::*getter)(ObjectType*, uint32&),
-                  void (InterfaceType::*setter)(ObjectType*, const SPtr<DataStream>&, uint32),
-                  uint64 flags = 0) {
-      using namespace std::placeholders;
-
-      addDataBlockField<ObjectType>(name,
-                              uniqueId,
-                              function<SPtr<DataStream>(ObjectType*, uint32&)>
-                                (bind(getter, static_cast<InterfaceType*>(this), _1, _2)),
-                              function<void(ObjectType*, const SPtr<DataStream>&, uint32)>
-                                (bind(setter, static_cast<InterfaceType*>(this), _1, _2, _3)),
-                              flags);
-    }
-
-   private:
-    template<class ObjectType, class DataType>
-    void
-    addPlainField(const String& name,
-                  uint32 uniqueId,
-                  Any getter,
-                  Any setter,
-                  uint64 flags) {
-      RTTIPlainField<DataType, ObjectType>*
-      newField = ge_new<RTTIPlainField<DataType, ObjectType>>();
-
-      newField->initSingle(name, static_cast<uint16>(uniqueId), getter, setter, flags);
-      addNewField(newField);
-    }
-
-    template<class ObjectType, class DataType>
-    void
-    addReflectableField(const String& name,
-                        uint32 uniqueId,
-                        Any getter,
-                        Any setter,
-                        uint64 flags) {
-      static_assert( (is_base_of<geEngineSDK::IReflectable, DataType>::value),
-                     "Invalid data type for complex field. It needs to derive "
-                     "from geEngineSDK::IReflectable.");
-
-      RTTIReflectableField<DataType, ObjectType>*
-      newField = ge_new<RTTIReflectableField<DataType, ObjectType>>();
-
-      newField->initSingle(name,
-                           static_cast<uint16>(uniqueId),
-                           getter,
-                           setter,
-                           flags);
-      addNewField(newField);
-    }
-
-    template<class ObjectType, class DataType>
-    void
-    addReflectablePtrField(const String& name,
-                           uint32 uniqueId,
-                           Any getter,
-                           Any setter,
-                           uint64 flags) {
-      static_assert( (is_base_of<geEngineSDK::IReflectable, DataType>::value),
-                     "Invalid data type for complex field. It needs to derive "
-                     "from geEngineSDK::IReflectable.");
-
-      RTTIReflectablePtrField<DataType, ObjectType>*
-      newField = ge_new<RTTIReflectablePtrField<DataType, ObjectType>>();
-
-      newField->initSingle(name,
-                           static_cast<uint16>(uniqueId),
-                           getter,
-                           setter,
-                           flags);
-      addNewField(newField);
-    }
-
-    template<class ObjectType, class DataType>
-    void
-    addPlainArrayField(const String& name,
-                       uint32 uniqueId,
-                       Any getter,
-                       Any getSize,
-                       Any setter,
-                       Any setSize,
-                       uint64 flags) {
-      RTTIPlainField<DataType, ObjectType>*
-      newField = ge_new<RTTIPlainField<DataType, ObjectType>>();
-      
-      newField->initArray(name,
-                          static_cast<uint16>(uniqueId),
-                          getter,
-                          getSize,
-                          setter,
-                          setSize,
-                          flags);
-      addNewField(newField);
-    }
-
-    template<class ObjectType, class DataType>
-    void
-    addReflectableArrayField(const String& name,
-                             uint32 uniqueId,
-                             Any getter,
-                             Any getSize,
-                             Any setter,
-                             Any setSize,
-                             uint64 flags) {
-      static_assert( (is_base_of<geEngineSDK::IReflectable, DataType>::value),
-                     "Invalid data type for complex field. It needs to derive "
-                     "from geEngineSDK::IReflectable.");
-
-      RTTIReflectableField<DataType, ObjectType>*
-      newField = ge_new<RTTIReflectableField<DataType, ObjectType>>();
-
-      newField->initArray(name,
-                          static_cast<uint16>(uniqueId),
-                          getter,
-                          getSize,
-                          setter,
-                          setSize,
-                          flags);
-      addNewField(newField);
-    }
-
-    template<class ObjectType, class DataType>
-    void
-    addReflectablePtrArrayField(const String& name,
-                                uint32 uniqueId,
-                                Any getter,
-                                Any getSize,
-                                Any setter,
-                                Any setSize,
-                                uint64 flags) {
-      static_assert( (is_base_of<geEngineSDK::IReflectable, DataType>::value),
-                     "Invalid data type for complex field. It needs to derive "
-                     "from geEngineSDK::IReflectable.");
-
-      RTTIReflectablePtrField<DataType, ObjectType>*
-      newField = ge_new<RTTIReflectablePtrField<DataType, ObjectType>>();
-
-      newField->initArray(name,
-                          static_cast<uint16>(uniqueId),
-                          getter,
-                          getSize,
-                          setter,
-                          setSize,
-                          flags);
-      addNewField(newField);
-    }
-
-    template<class ObjectType>
-    void
-    addDataBlockField(const String& name,
                       uint32 uniqueId,
-                      Any getter,
-                      Any setter,
-                      uint64 flags) {
-      RTTIManagedDataBlockField<uint8*, ObjectType>*
-      newField = ge_new<RTTIManagedDataBlockField<uint8*, ObjectType>>();
-
+                      SPtr<DataStream>(InterfaceType::*getter)(ObjectType*, uint32&),
+                      void(InterfaceType::*setter)(ObjectType*,
+                                                   const SPtr<DataStream>&,
+                                                   uint32),
+                      uint64 flags = 0) {
+      auto newField = ge_new<RTTIManagedDataBlockField<InterfaceType,
+                                                       uint8*,
+                                                       ObjectType>>();
       newField->initSingle(name,
                            static_cast<uint16>(uniqueId),
                            getter,
@@ -1789,13 +1197,28 @@ namespace geEngineSDK {
                            flags);
       addNewField(newField);
     }
-
+   
    protected:
     static InitRTTIOnStart<Type, BaseType> s_initOnStart;
   };
 
   template<typename Type, typename BaseType, typename MyRTTIType>
   InitRTTIOnStart<Type, BaseType> RTTIType<Type, BaseType, MyRTTIType>::s_initOnStart;
+
+  /**
+   * @brief Extendable class to be used by the user to provide extra
+   *        information to RTTIType objects during serialization.
+   */
+  struct GE_UTILITY_EXPORT SerializationContext : IReflectable
+  {
+    uint32 flags = 0;
+
+    static RTTITypeBase*
+    getRTTIStatic();
+
+    RTTITypeBase*
+    getRTTI() const override;
+  };
 
   /**
    * @brief Returns true if the provided object can be safely cast into type T.

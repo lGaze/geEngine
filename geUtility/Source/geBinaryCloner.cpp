@@ -8,6 +8,7 @@
  * Helper class that performs cloning of an object that implements RTTI.
  *
  * @bug     No known bugs.
+ * @note    Requires the Frame Buffer to be initialized
  */
 /*****************************************************************************/
 
@@ -37,7 +38,13 @@ namespace geEngineSDK {
 
     ObjectReferenceData referenceData;
     if (shallow) {
-      gatherReferences(object, referenceData);
+      FrameAlloc& alloc = g_frameAlloc();
+
+      alloc.markFrame();
+      gatherReferences(object, alloc, referenceData);
+      alloc.clear();
+
+      gatherReferences(object, alloc, referenceData);
     }
 
     function<void*(SIZE_T)> allocator = &MemoryAllocator<GenAlloc>::allocate;
@@ -48,7 +55,11 @@ namespace geEngineSDK {
     SPtr<IReflectable> clonedObj = ms.decode(data, dataSize);
 
     if (shallow) {
-      restoreReferences(clonedObj.get(), referenceData);
+      FrameAlloc& alloc = g_frameAlloc();
+
+      alloc.markFrame();
+      restoreReferences(clonedObj.get(), alloc, referenceData);
+      alloc.clear();
     }
 
     ge_free(data);
@@ -57,17 +68,17 @@ namespace geEngineSDK {
 
   void
   BinaryCloner::gatherReferences(IReflectable* object,
+                                 FrameAlloc& alloc,
                                  ObjectReferenceData& referenceData) {
-    static const UnorderedMap<String, uint64> dummyParams;
-
     if (nullptr == object) {
       return;
     }
 
     RTTITypeBase* rtti = object->getRTTI();
-    Stack<RTTITypeBase*> rttiTypes;
+    Stack<RTTITypeBase*> rttiInstances;
     while (nullptr != rtti) {
-      rtti->onSerializationStarted(object, dummyParams);
+      RTTITypeBase* rttiInstance = rtti->_clone(alloc);
+      rttiInstance->onSerializationStarted(object, nullptr);
       SubObjectReferenceData* subObjectData = nullptr;
 
       uint32 numFields = rtti->getNumFields();

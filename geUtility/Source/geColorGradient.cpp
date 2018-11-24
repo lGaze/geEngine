@@ -17,6 +17,7 @@
  */
 /*****************************************************************************/
 #include "geColorGradient.h"
+#include "geColorGradientRTTI.h"
 #include "geDebug.h"
 #include "geBitwise.h"
 

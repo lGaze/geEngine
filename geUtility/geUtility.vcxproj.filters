@@ -397,6 +397,9 @@
     <ClInclude Include="Include\geThreading.h">
       <Filter>Source Files\Threading</Filter>
     </ClInclude>
+    <ClInclude Include="Include\geColorGradientRTTI.h">
+      <Filter>Source Files\RTTI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\geMemoryAllocator.cpp">
@@ -591,5 +594,8 @@
     <ClCompile Include="Source\geColorGradient.cpp">
       <Filter>Source Files\Image</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

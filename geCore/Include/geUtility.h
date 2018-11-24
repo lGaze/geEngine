@@ -20,8 +20,11 @@
  */
 /*****************************************************************************/
 #include "gePrerequisitesCore.h"
+#include "geRTTIType.h"
 
 namespace geEngineSDK {
+  class GameObjectDeserializationState;
+
   /**
    * @brief Contains information about a resource dependency, including the
    *        dependant resource and number of references to it.
@@ -68,6 +71,16 @@ namespace geEngineSDK {
     static uint32
     getSceneObjectDepth(const HSceneObject& so);
 
+    /** Provides extra information and maintains state during serialization of various RTTI types in the core. */
+    struct GE_CORE_EXPORT CoreSerializationContext : SerializationContext
+    {
+      SPtr<GameObjectDeserializationState> goState;
+      bool goDeserializationActive = false;
+
+      static RTTITypeBase* getRTTIStatic();
+      RTTITypeBase* getRTTI() const override;
+    };
+  
    private:
     /**
      * @brief Helper method for recursion when finding resource dependencies.

@@ -58,7 +58,7 @@ namespace geEngineSDK {
   }
 
   RTTIField*
-  RTTITypeBase::findField(uint32 uniqueFieldId) {
+  RTTITypeBase::findField(int32 uniqueFieldId) {
     auto foundElement = find_if(m_fields.begin(),
                                 m_fields.end(),
                                 [&uniqueFieldId](RTTIField* x) {
@@ -86,7 +86,8 @@ namespace geEngineSDK {
                                     });
 
     if (m_fields.end() != foundElementById) {
-      GE_EXCEPT(InternalErrorException, "Field with the same ID already exists.");
+      GE_EXCEPT(InternalErrorException,
+                "Field with the same ID already exists.");
     }
 
     String& name = field->m_name;
@@ -97,10 +98,45 @@ namespace geEngineSDK {
                                       });
 
     if (m_fields.end() != foundElementByName) {
-      GE_EXCEPT(InternalErrorException, "Field with the same name already exists.");
+      GE_EXCEPT(InternalErrorException,
+                "Field with the same name already exists.");
     }
 
     m_fields.push_back(field);
+  }
+
+  class SerializationContextRTTI
+    : public RTTIType<SerializationContext,
+                      IReflectable,
+                      SerializationContextRTTI>
+  {
+    const String&
+    getRTTIName() override {
+      static String name = "SerializationContext";
+      return name;
+    }
+
+    uint32
+    getRTTIId() override {
+      return TYPEID_UTILITY::kID_SerializationContext;
+    }
+
+    SPtr<IReflectable>
+    newRTTIObject() override {
+      GE_EXCEPT(InternalErrorException,
+                "Cannot instantiate an abstract class.");
+      return nullptr;
+    }
+  };
+
+  RTTITypeBase*
+  SerializationContext::getRTTIStatic() {
+    return SerializationContextRTTI::instance();
+  }
+
+  RTTITypeBase*
+  SerializationContext::getRTTI() const {
+    return getRTTIStatic();
   }
 
   SPtr<IReflectable> rtti_create(uint32 rttiId) {

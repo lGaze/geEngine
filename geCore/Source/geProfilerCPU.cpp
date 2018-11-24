@@ -27,7 +27,7 @@
 #endif
 
 #if GE_COMPILER == GE_COMPILER_GNUC || GE_COMPILER == GE_COMPILER_CLANG
-# include <cpuid.h>
+# include <geCpuid.h>
 #endif
 
 #if GE_COMPILER == GE_COMPILER_CLANG

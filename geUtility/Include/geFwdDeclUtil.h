@@ -179,11 +179,13 @@ namespace geEngineSDK {
       kID_SerializedArrayEntry  = 85,
       kID_SerializedSubObject   = 86,
       kID_SerializedDataBlock   = 87,
+      kID_SerializationContext  = 88,
 
       kID_IReflectable          = 90,
 
       kID_DataBlob              = 100,
-      kID_Transform             = 101
+      kID_Transform             = 101,
+      kID_ColorGradient         = 102
     };
   }
 }

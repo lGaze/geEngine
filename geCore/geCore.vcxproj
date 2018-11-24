@@ -33,6 +33,7 @@
     <ClInclude Include="Include\geCoreObjectManager.h" />
     <ClInclude Include="Include\geCoreThread.h" />
     <ClInclude Include="Include\geCoreThreadQueue.h" />
+    <ClInclude Include="Include\geCpuid.h" />
     <ClInclude Include="Include\geDeferredCallManager.h" />
     <ClInclude Include="Include\geDepthStencilState.h" />
     <ClInclude Include="Include\geDepthStencilStateRTTI.h" />
@@ -214,7 +215,7 @@
     <ProjectGuid>{14CA93F1-5E5A-4FCF-80FB-B60AE2EDA742}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>geCore</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

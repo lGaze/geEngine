@@ -41,12 +41,12 @@ namespace geEngineSDK {
     getRTTI() const = 0;
 
     /**
-     * @brief Returns all classes deriving directly from IReflectable.
+     * @brief Returns all available RTTI types.
      */
-    static Vector<RTTITypeBase*>&
-    getDerivedClasses() {
-      static Vector<RTTITypeBase*> m_rttiDerivedClasses;
-      return m_rttiDerivedClasses;
+    static UnorderedMap<uint32, RTTITypeBase*>&
+    getAllRTTITypes() {
+      static UnorderedMap<uint32, RTTITypeBase*> s_AllRTTITypes;
+      return s_AllRTTITypes;
     }
 
     /**
@@ -76,10 +76,10 @@ namespace geEngineSDK {
     createInstanceFromTypeId(uint32 rttiTypeId);
 
     /**
-     * @brief Called by each type deriving from IReflectable, on program load.
+     * @brief Called by each type implementing RTTITypeBase, on program load.
      */
     static void
-    _registerDerivedClass(RTTITypeBase* derivedClass);
+    _registerRTTIType(RTTITypeBase* rttiType);
 
     /**
      * @brief Returns class's RTTI type from type id.
@@ -114,13 +114,5 @@ namespace geEngineSDK {
      */
     static RTTITypeBase*
     getRTTIStatic();
-
-   protected:
-    /**
-     * @brief Temporary per-instance data storage used during various RTTI
-     *        operations. Needed since there is one RTTI class instance per
-     *        type and sometimes we need per-instance data.
-     */
-    Any m_rttiData;
   };
 }

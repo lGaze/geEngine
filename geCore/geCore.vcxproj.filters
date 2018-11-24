@@ -379,6 +379,9 @@
     <ClInclude Include="Include\geMeshManager.h">
       <Filter>Source Files\RenderAPI\Managers</Filter>
     </ClInclude>
+    <ClInclude Include="Include\geCpuid.h">
+      <Filter>Source Files\Profiling</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\geHString.cpp">

@@ -103,7 +103,7 @@ namespace geEngineSDK {
 
     void
     setData(SerializedDataBlock* obj, const SPtr<DataStream>& value, uint32 size) {
-      uint8* data = reinterpret_cast<uint8*>(ge_alloc(static_cast<SIZE_T>(size)));
+      auto data = reinterpret_cast<uint8*>(ge_alloc(static_cast<SIZE_T>(size)));
       SPtr<MemoryDataStream>
         memStream = ge_shared_ptr_new<MemoryDataStream>(data, static_cast<SIZE_T>(size));
       value->read(data, static_cast<SIZE_T>(size));
@@ -112,6 +112,7 @@ namespace geEngineSDK {
       obj->size = size;
       obj->offset = 0;
     }
+
    public:
     SerializedDataBlockRTTI() {
       addDataBlockField("data",
@@ -204,9 +205,7 @@ namespace geEngineSDK {
 
     SerializedArrayEntry&
     getEntry(SerializedArray* obj, uint32 arrayIdx) {
-      Vector<SerializedArrayEntry>&
-        sequentialEntries = any_cast_ref<Vector<SerializedArrayEntry>>(obj->m_rttiData);
-      return sequentialEntries[arrayIdx];
+      return m_sequentialEntries[arrayIdx];
     }
 
     void
@@ -216,9 +215,7 @@ namespace geEngineSDK {
 
     uint32
     getNumEntries(SerializedArray* obj) {
-      Vector<SerializedArrayEntry>&
-        sequentialEntries = any_cast_ref<Vector<SerializedArrayEntry>>(obj->m_rttiData);
-      return static_cast<uint32>(sequentialEntries.size());
+      return static_cast<uint32>(m_sequentialEntries.size());
     }
 
     void
@@ -243,22 +240,12 @@ namespace geEngineSDK {
 
     void
     onSerializationStarted(IReflectable* obj,
-                           const UnorderedMap<String, uint64>& /*params*/) override {
-      SerializedArray* serializedArray = static_cast<SerializedArray*>(obj);
+                           SerializationContext* /*context*/) override {
+      auto serializedArray = static_cast<SerializedArray*>(obj);
 
-      Vector<SerializedArrayEntry> sequentialData;
       for (auto& entry : serializedArray->entries) {
-        sequentialData.push_back(entry.second);
+        m_sequentialEntries.push_back(entry.second);
       }
-
-      serializedArray->m_rttiData = sequentialData;
-    }
-
-    void
-    onSerializationEnded(IReflectable* obj,
-                         const UnorderedMap<String, uint64>& /*params*/) override {
-      SerializedArray* serializedArray = static_cast<SerializedArray*>(obj);
-      serializedArray->m_rttiData = nullptr;
     }
 
     const String&
@@ -276,6 +263,9 @@ namespace geEngineSDK {
     newRTTIObject() override {
       return ge_shared_ptr_new<SerializedArray>();
     }
+
+   private:
+    Vector<SerializedArrayEntry> m_sequentialEntries;
   };
 
   class GE_UTILITY_EXPORT SerializedSubObjectRTTI
@@ -294,9 +284,7 @@ namespace geEngineSDK {
 
     SerializedEntry&
     getEntry(SerializedSubObject* obj, uint32 arrayIdx) {
-      Vector<SerializedEntry>&
-        sequentialEntries = any_cast_ref<Vector<SerializedEntry>>(obj->m_rttiData);
-      return sequentialEntries[arrayIdx];
+      return m_sequentialEntries[arrayIdx];
     }
 
     void
@@ -306,9 +294,7 @@ namespace geEngineSDK {
 
     uint32
     getNumEntries(SerializedSubObject* obj) {
-      Vector<SerializedEntry>&
-        sequentialEntries = any_cast_ref<Vector<SerializedEntry>>(obj->m_rttiData);
-      return static_cast<uint32>(sequentialEntries.size());
+      return static_cast<uint32>(m_sequentialEntries.size());
     }
 
     void
@@ -333,22 +319,12 @@ namespace geEngineSDK {
 
     void
     onSerializationStarted(IReflectable* obj,
-                           const UnorderedMap<String, uint64>& /*params*/) override {
-      SerializedSubObject* serializableObject = static_cast<SerializedSubObject*>(obj);
+                           SerializationContext* /*params*/) override {
+      auto serializableObject = static_cast<SerializedSubObject*>(obj);
 
-      Vector<SerializedEntry> sequentialData;
       for (auto& entry : serializableObject->entries) {
-        sequentialData.push_back(entry.second);
+        m_sequentialEntries.push_back(entry.second);
       }
-
-      serializableObject->m_rttiData = sequentialData;
-    }
-
-    void
-    onSerializationEnded(IReflectable* obj,
-                         const UnorderedMap<String, uint64>& /*params*/) override {
-      SerializedSubObject* serializableObject = static_cast<SerializedSubObject*>(obj);
-      serializableObject->m_rttiData = nullptr;
     }
 
     const String&
@@ -366,6 +342,9 @@ namespace geEngineSDK {
     newRTTIObject() override {
       return ge_shared_ptr_new<SerializedSubObject>();
     }
+
+   private:
+    Vector<SerializedEntry> m_sequentialEntries;
   };
 
   class GE_UTILITY_EXPORT SerializedEntryRTTI
@@ -448,8 +427,7 @@ namespace geEngineSDK {
     }
 
    public:
-    SerializedArrayEntryRTTI() {
-      
+    SerializedArrayEntryRTTI() {  
       addPlainField("index",
         0,
         &SerializedArrayEntryRTTI::getArrayIdx,

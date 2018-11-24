@@ -29,13 +29,14 @@
 
 namespace geEngineSDK {
   void
-  IReflectable::_registerDerivedClass(RTTITypeBase* derivedClass) {
-    if (_isTypeIdDuplicate(derivedClass->getRTTIId())) {
-      GE_EXCEPT(InternalErrorException, "RTTI type \"" + derivedClass->getRTTIName() +
-                "\" has a duplicate ID: " + toString(derivedClass->getRTTIId()));
+  IReflectable::_registerRTTIType(RTTITypeBase* rttiType) {
+    if (_isTypeIdDuplicate(rttiType->getRTTIId())) {
+      GE_EXCEPT(InternalErrorException,
+                "RTTI type \"" + rttiType->getRTTIName() +
+                "\" has a duplicate ID: " + toString(rttiType->getRTTIId()));
     }
 
-    getDerivedClasses().push_back(derivedClass);
+    getAllRTTITypes()[rttiType->getRTTIId()] = rttiType;
   }
 
   SPtr<IReflectable>
@@ -45,7 +46,6 @@ namespace geEngineSDK {
     SPtr<IReflectable> output;
     if (nullptr != type) {
       output = type->newRTTIObject();
-      output->m_rttiData = nullptr;
     }
 
     return output;
@@ -53,23 +53,9 @@ namespace geEngineSDK {
 
   RTTITypeBase*
   IReflectable::_getRTTIfromTypeId(uint32 rttiTypeId) {
-    Stack<RTTITypeBase*> todo;
-
-    for (const auto& item : getDerivedClasses()) {
-      todo.push(item);
-    }
-
-    while (!todo.empty()) {
-      RTTITypeBase* curType = todo.top();
-      todo.pop();
-
-      if (curType->getRTTIId() == rttiTypeId) {
-        return curType;
-      }
-
-      for (const auto& item : curType->getDerivedClasses()) {
-        todo.push(item);
-      }
+    const auto iterFind = getAllRTTITypes().find(rttiTypeId);
+    if (getAllRTTITypes().end() != iterFind) {
+      return iterFind->second;
     }
 
     return nullptr;
@@ -93,13 +79,9 @@ namespace geEngineSDK {
   IReflectable::_checkForCircularReferences() {
     Stack<RTTITypeBase*> todo;
 
-    Vector<RTTITypeBase*> rootTypes = getDerivedClasses();
-    for (auto& entry : rootTypes) {
-      todo.push(entry);
-    }
-
-    while (!todo.empty()) {
-      RTTITypeBase* myType = todo.top();
+    const UnorderedMap<uint32, RTTITypeBase*>& allTypes = getAllRTTITypes();
+    for (auto& entry : allTypes) {
+      RTTITypeBase* myType = entry.second;
       todo.pop();
 
       uint32 myNumFields = myType->getNumFields();
@@ -110,8 +92,7 @@ namespace geEngineSDK {
           continue;
         }
 
-        RTTIReflectablePtrFieldBase*
-        myReflectablePtrField = static_cast<RTTIReflectablePtrFieldBase*>(myField);
+        auto myReflectablePtrField = static_cast<RTTIReflectablePtrFieldBase*>(myField);
 
         RTTITypeBase* otherType = myReflectablePtrField->getType();
         uint32 otherNumFields = otherType->getNumFields();
@@ -122,8 +103,7 @@ namespace geEngineSDK {
             continue;
           }
 
-          RTTIReflectablePtrFieldBase*
-          otherReflectablePtrField = static_cast<RTTIReflectablePtrFieldBase*>(otherField);
+          auto otherReflectablePtrField = static_cast<RTTIReflectablePtrFieldBase*>(otherField);
 
           if (myType->getRTTIId() == otherReflectablePtrField->getType()->getRTTIId() &&
               0 == (myReflectablePtrField->getFlags() & RTTI_FIELD_FLAG::kWeakRef) &&
