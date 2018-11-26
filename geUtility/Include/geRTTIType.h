@@ -1264,4 +1264,18 @@ namespace geEngineSDK {
 
     return object->isDerivedFrom(T::getRTTIStatic());
   }
+
+  /**
+   * @brief Attempts to cast the object to the provided type,
+   *        or returns null if cast is not valid.
+   */
+  template<class T>
+  T*
+  rtti_cast(IReflectable* object) {
+    if (rtti_is_subclass<T>(object)) {
+      return reinterpret_cast<T*>(object);
+    }
+
+    return nullptr;
+  }
 }

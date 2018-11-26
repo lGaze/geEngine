@@ -28,6 +28,11 @@
 
 
 namespace geEngineSDK {
+  using std::declval;
+  using std::true_type;
+  using std::false_type;
+  using std::is_same;
+
   /**
    * @brief Template that you may specialize with a class if you want to provide simple
    *        serialization for it.
@@ -189,6 +194,27 @@ namespace geEngineSDK {
   }
 
   /**
+   * @brief Helper for checking for existence of rttiEnumFields method on a
+   *        class.
+   */
+  template<class T>
+  struct has_rttiEnumFields
+  {
+    struct dummy {};
+
+    template<typename C, typename P>
+    static auto
+    test(P* p) -> decltype(declval<C>().rttiEnumFields(*p), true_type());
+
+    template<typename, typename>
+    static std::false_type
+    test(...);
+
+    typedef decltype(test<T, dummy>(nullptr)) type;
+    static const bool value = is_same<true_type, decltype(test<T, dummy>(nullptr))>::value;
+  };
+
+  /**
    * @brief Tell the RTTI system that the specified type may be serialized
    *        just by using a memcpy.
    *
@@ -304,7 +330,7 @@ namespace geEngineSDK {
      * @copydoc RTTIPlainType::toMemory
      */
     static void
-    toMemory(const std::vector<T, StdAlloc<T>>& data, char* memory) {
+    toMemory(const std::set<T, std::less<T>, StdAlloc<T>>& data, char* memory) {
       uint32 size = sizeof(uint32);
       char* memoryStart = memory;
       memory += sizeof(uint32);
@@ -329,7 +355,7 @@ namespace geEngineSDK {
      * @copydoc	RTTIPlainType::fromMemory
      */
     static uint32
-    fromMemory(std::vector<T, StdAlloc<T>>& data, char* memory) {
+    fromMemory(std::set<T, std::less<T>, StdAlloc<T>>& data, char* memory) {
       uint32 size = 0;
       memcpy(&size, memory, sizeof(uint32));
       memory += sizeof(uint32);
@@ -353,7 +379,7 @@ namespace geEngineSDK {
      * @copydoc	RTTIPlainType::getDynamicSize
      */
     static uint32
-    getDynamicSize(const std::vector<T, StdAlloc<T>>& data) {
+    getDynamicSize(const std::set<T, std::less<T>, StdAlloc<T>>& data) {
       uint64 dataSize = sizeof(uint32) * 2;
 
       for (const auto& item : data) {
@@ -388,7 +414,9 @@ namespace geEngineSDK {
      * @copydoc		RTTIPlainType::toMemory
      */
     static void
-    toMemory(const MapType& data, char* memory) {
+    toMemory(const std::map<Key, Value, std::less<Key>,
+             StdAlloc<std::pair<const Key, Value>>>& data,
+             char* memory) {
       uint32 size = sizeof(uint32);
       char* memoryStart = memory;
       memory += sizeof(uint32);
@@ -419,7 +447,9 @@ namespace geEngineSDK {
      * @copydoc   RTTIPlainType::fromMemory
      */
     static uint32
-    fromMemory(MapType& data, char* memory) {
+    fromMemory(std::map<Key, Value, std::less<Key>,
+               StdAlloc<std::pair<const Key, Value>>>& data,
+               char* memory) {
       uint32 size = 0;
       memcpy(&size, memory, sizeof(uint32));
       memory += sizeof(uint32);
@@ -447,7 +477,8 @@ namespace geEngineSDK {
      * @copydoc   RTTIPlainType::getDynamicSize
      */
     static uint32
-    getDynamicSize(const MapType& data) {
+    getDynamicSize(const std::map<Key, Value, std::less<Key>,
+                   StdAlloc<std::pair<const Key, Value>>>& data) {
       uint64 dataSize = sizeof(uint32) * 2;
 
       for (const auto& item : data) {
