@@ -401,9 +401,6 @@
     <ClCompile Include="Source\Win32\geWin32PlatformUtility.cpp" />
     <ClCompile Include="Source\Win32\geWin32Windows.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp.hint" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
