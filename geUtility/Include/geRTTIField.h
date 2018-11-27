@@ -162,14 +162,14 @@ namespace geEngineSDK {
      *        represents an array. Throws exception if field is not an array.
      */
     virtual uint32
-    getArraySize(void* object) = 0;
+    getArraySize(RTTITypeBase* rtti, void* object) = 0;
 
     /**
      * @brief Changes the size of an array contained by the field, if the field
      *        represents an array. Throws exception if field is not an array.
      */
     virtual void
-    setArraySize(void* object, uint32 size) = 0;
+    setArraySize(RTTITypeBase* rtti, void* object, uint32 size) = 0;
 
     /**
      * @brief Returns the type id for the type used in this field.
@@ -228,20 +228,12 @@ namespace geEngineSDK {
 
    protected:
     void
-    initAll(Any valueGetter,
-            Any valueSetter,
-            Any arraySizeGetter,
-            Any arraySizeSetter,
-            String name,
-            uint16 uniqueId,
-            bool isVectorType,
-            SERIALIZABLE_FIELD_TYPE::E type,
-            uint64 flags) {
-      m_valueGetter = valueGetter;
-      m_valueSetter = valueSetter;
-      m_arraySizeGetter = arraySizeGetter;
-      m_arraySizeSetter = arraySizeSetter;
-      m_name = name;
+      init(String name,
+           uint16 uniqueId,
+           bool isVectorType,
+           SERIALIZABLE_FIELD_TYPE::E type,
+           uint64 flags) {
+      m_name = std::move(name);
       m_uniqueId = uniqueId;
       m_isVectorType = isVectorType;
       m_type = type;
@@ -249,12 +241,6 @@ namespace geEngineSDK {
     }
 
    public:
-    Any m_valueGetter;
-    Any m_valueSetter;
-
-    Any m_arraySizeGetter;
-    Any m_arraySizeSetter;
-
     String m_name;
     uint16 m_uniqueId;
     bool m_isVectorType;

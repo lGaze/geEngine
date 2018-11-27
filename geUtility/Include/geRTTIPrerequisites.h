@@ -210,7 +210,7 @@ namespace geEngineSDK {
     static std::false_type
     test(...);
 
-    typedef decltype(test<T, dummy>(nullptr)) type;
+    using type = decltype(test<T, dummy>(nullptr));
     static const bool value = is_same<true_type, decltype(test<T, dummy>(nullptr))>::value;
   };
 
@@ -404,11 +404,10 @@ namespace geEngineSDK {
   {
     enum { kID = TYPEID_UTILITY::kID_Map }; enum { kHasDynamicSize = 1 };
 
-    typedef std::map<Key,
-                     Value,
-                     std::less<Key>,
-                     StdAlloc<std::pair<const Key, Value>>>
-                     MapType;
+    using MapType = std::map<Key,
+                             Value,
+                             std::less<Key>,
+                             StdAlloc<std::pair<const Key, Value>>>;
 
     /**
      * @copydoc		RTTIPlainType::toMemory
@@ -505,12 +504,11 @@ namespace geEngineSDK {
   {
     enum { kID = TYPEID_UTILITY::kID_UnorderedMap }; enum { kHasDynamicSize = 1 };
 
-    typedef std::unordered_map<Key,
-                               Value,
-                               std::hash<Key>,
-                               std::equal_to<Key>,
-                               StdAlloc<std::pair<const Key, Value>>>
-                               UnorderedMapType;
+    using UnorderedMapType = std::unordered_map<Key,
+                                                Value,
+                                                std::hash<Key>,
+                                                std::equal_to<Key>,
+                                                StdAlloc<std::pair<const Key, Value>>>;
 
     /**
      * @copydoc   RTTIPlainType::toMemory
@@ -601,11 +599,10 @@ namespace geEngineSDK {
   {
     enum { kID = TYPEID_UTILITY::kID_UnorderedSet }; enum { kHasDynamicSize = 1 };
 
-    typedef std::unordered_set<Key,
-                               std::hash<Key>,
-                               std::equal_to<Key>,
-                               StdAlloc<Key>>
-                               UnorderedSetType;
+    using UnorderedSetType = std::unordered_set<Key,
+                                                std::hash<Key>,
+                                                std::equal_to<Key>,
+                                                StdAlloc<Key>>;
 
     /**
      * @copydoc    RTTIPlainType::toMemory

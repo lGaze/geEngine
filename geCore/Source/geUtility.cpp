@@ -23,43 +23,43 @@
 #include "geSceneObject.h"
 
 namespace geEngineSDK {
-  Vector<ResourceDependency>
-  Utility::findResourceDependencies(IReflectable& obj, bool recursive) {
-    Map<UUID, ResourceDependency> dependencies;
-    findResourceDependenciesInternal(obj, recursive, dependencies);
-
-    Vector<ResourceDependency> dependencyList(dependencies.size());
-    uint32 i = 0;
-    for (auto& entry : dependencies) {
-      dependencyList[i] = entry.second;
-      ++i;
+  /**
+   * @brief Checks if the specified type (or any of its derived classes)
+   *        have any IReflectable pointer or value types as their fields.
+   */
+  bool
+  hasReflectableChildren(RTTITypeBase* type) {
+    uint32 numFields = type->getNumFields();
+    for (uint32 i = 0; i < numFields; ++i) {
+      RTTIField* field = type->getField(i);
+      if (field->isReflectableType() || field->isReflectablePtrType()) {
+        return true;
+      }
     }
 
-    return dependencyList;
-  }
-
-  uint32
-  Utility::getSceneObjectDepth(const HSceneObject& so) {
-    HSceneObject parent = so->getParent();
-
-    uint32 depth = 0;
-    while (nullptr != parent) {
-      ++depth;
-      parent = parent->getParent();
+    const Vector<RTTITypeBase*>& derivedClasses = type->getDerivedClasses();
+    for (auto& derivedClass : derivedClasses) {
+      numFields = derivedClass->getNumFields();
+      for (uint32 i = 0; i < numFields; ++i) {
+        RTTIField* field = derivedClass->getField(i);
+        if (field->isReflectableType() || field->isReflectablePtrType()) {
+          return true;
+        }
+      }
     }
 
-    return depth;
+    return false;
   }
 
   void
-  Utility::findResourceDependenciesInternal(IReflectable& obj,
-                                            bool recursive,
-                                            Map<UUID, ResourceDependency>& dependencies) {
-    static const UnorderedMap<String, uint64> dummyParams;
-
+  findResourceDependenciesInternal(IReflectable& obj,
+                                   FrameAlloc& allocVal,
+                                   bool recursive,
+                                   Map<UUID, ResourceDependency>& dependencies) {
     RTTITypeBase* rtti = obj.getRTTI();
     do {
-      rtti->onSerializationStarted(&obj, dummyParams);
+      RTTITypeBase* rttiInstance = rtti->_clone(allocVal);
+      rttiInstance->onSerializationStarted(&obj, nullptr);
 
       const uint32 numFields = rtti->getNumFields();
       for (uint32 i = 0; i < numFields; ++i) {
@@ -73,7 +73,7 @@ namespace geEngineSDK {
 
           if (TYPEID_CORE::kID_ResourceHandle == reflectableField->getType()->getRTTIId()) {
             if (reflectableField->isArray()) {
-              const uint32 numElements = reflectableField->getArraySize(&obj);
+              const uint32 numElements = reflectableField->getArraySize(rttiInstance, &obj);
               for (uint32 j = 0; j < numElements; ++j) {
                 HResource resource = static_cast<HResource&>(
                   reflectableField->getArrayValue(&obj, j));
@@ -144,6 +144,38 @@ namespace geEngineSDK {
     } while (nullptr != rtti);
   }
 
+  Vector<ResourceDependency>
+  Utility::findResourceDependencies(IReflectable& obj, bool recursive) {
+    g_frameAlloc().markFrame();
+
+    Map<UUID, ResourceDependency> dependencies;
+    findResourceDependenciesInternal(obj, g_frameAlloc(), recursive, dependencies);
+
+    g_frameAlloc().clear();
+
+    Vector<ResourceDependency> dependencyList(dependencies.size());
+    uint32 i = 0;
+    for (auto& entry : dependencies) {
+      dependencyList[i] = entry.second;
+      ++i;
+    }
+
+    return dependencyList;
+  }
+
+  uint32
+  Utility::getSceneObjectDepth(const HSceneObject& so) {
+    HSceneObject parent = so->getParent();
+
+    uint32 depth = 0;
+    while (nullptr != parent) {
+      ++depth;
+      parent = parent->getParent();
+    }
+
+    return depth;
+  }
+
   Vector<HComponent>
   Utility::findComponents(const HSceneObject& object, uint32 typeId) {
     Vector<HComponent> output;
@@ -171,27 +203,37 @@ namespace geEngineSDK {
     return output;
   }
 
-  bool
-  Utility::hasReflectableChildren(RTTITypeBase* type) {
-    uint32 numFields = type->getNumFields();
-    for (uint32 i = 0; i < numFields; ++i) {
-      RTTIField* field = type->getField(i);
-      if (field->isReflectableType() || field->isReflectablePtrType()) {
-        return true;
-      }
+  class CoreSerializationContextRTTI
+    : public RTTIType<CoreSerializationContext,
+                      SerializationContext,
+                      CoreSerializationContextRTTI>
+  {
+    const String&
+    getRTTIName() override {
+      static String name = "CoreSerializationContext";
+      return name;
     }
 
-    const Vector<RTTITypeBase*>& derivedClasses = type->getDerivedClasses();
-    for (auto& derivedClass : derivedClasses) {
-      numFields = derivedClass->getNumFields();
-      for (uint32 i = 0; i < numFields; ++i) {
-        RTTIField* field = derivedClass->getField(i);
-        if (field->isReflectableType() || field->isReflectablePtrType()) {
-          return true;
-        }
-      }
+    uint32
+    getRTTIId() override {
+      return TYPEID_CORE::kID_CoreSerializationContext;
     }
 
-    return false;
+    SPtr<IReflectable>
+    newRTTIObject() override {
+      GE_EXCEPT(InternalErrorException,
+                "Cannot instantiate an abstract class.");
+      return nullptr;
+    }
+  };
+
+  RTTITypeBase*
+  CoreSerializationContext::getRTTIStatic() {
+    return CoreSerializationContextRTTI::instance();
+  }
+
+  RTTITypeBase*
+  CoreSerializationContext::getRTTI() const {
+    return getRTTIStatic();
   }
 }

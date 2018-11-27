@@ -40,7 +40,7 @@ namespace geEngineSDK {
      * @note  Field type must not be an array.
      */
     virtual SPtr<IReflectable>
-    getValue(void* object) = 0;
+    getValue(RTTITypeBase* rtti, void* object) = 0;
 
     /**
      * @brief Retrieves the IReflectable value from an array on the provided
@@ -48,14 +48,14 @@ namespace geEngineSDK {
      * @note  Field type must be an array.
      */
     virtual SPtr<IReflectable>
-    getArrayValue(void* object, uint32 index) = 0;
+    getArrayValue(RTTITypeBase* rtti, void* object, uint32 index) = 0;
 
     /**
      * @brief Sets the IReflectable value in the provided instance.
      * @note  Field type must not be an array.
      */
     virtual void
-    setValue(void* object, SPtr<IReflectable> value) = 0;
+    setValue(RTTITypeBase* rtti, void* object, SPtr<IReflectable> value) = 0;
 
     /**
      * @brief Sets the IReflectable value in an array on the provided instance
@@ -63,7 +63,10 @@ namespace geEngineSDK {
      * @note  Field type must be an array.
      */
     virtual void
-    setArrayValue(void* object, uint32 index, SPtr<IReflectable> value) = 0;
+    setArrayValue(RTTITypeBase* rtti,
+                  void* object,
+                  uint32 index,
+                  SPtr<IReflectable> value) = 0;
 
     /**
      * @brief Creates a new object of the field type.
@@ -102,9 +105,35 @@ namespace geEngineSDK {
    * @brief Reflectable field containing a pointer to a specific type with RTTI
    *        implemented.
    */
-  template <class DataType, class ObjectType>
+  template <class InterfaceType, class DataType, class ObjectType>
   struct RTTIReflectablePtrField : public RTTIReflectablePtrFieldBase
   {
+    using GetterType = SPtr<DataType>(InterfaceType::*)(ObjectType*);
+    using SetterType = void (InterfaceType::*)(ObjectType*, SPtr<DataType>);
+
+    using ArrayGetterType = SPtr<DataType>(InterfaceType::*)(ObjectType*, uint32);
+    using ArraySetterType = void (InterfaceType::*)(ObjectType*, uint32, SPtr<DataType>);
+    using ArrayGetSizeType = uint32(InterfaceType::*)(ObjectType*);
+    using ArraySetSizeType = void(InterfaceType::*)(ObjectType*, uint32);
+
+   private:
+    union {
+      struct
+      {
+        GetterType m_valueGetter;
+        SetterType m_valueSetter;
+      };
+
+      struct
+      {
+        ArrayGetterType m_arrayGetter;
+        ArraySetterType m_arraySetter;
+
+        ArrayGetSizeType m_arraySizeGetter;
+        ArraySetSizeType m_arraySizeSetter;
+      };
+    };
+
     /**
      * @brief Initializes a field pointing to a single data type implementing
      *        IReflectable interface.
@@ -122,20 +151,19 @@ namespace geEngineSDK {
      *            handle this field. See "RTTIFieldFlag".
      */
     void
-    initSingle(const String& name,
+    initSingle(String name,
                uint16 uniqueId,
-               Any getter,
-               Any setter,
+               GetterType getter,
+               SetterType setter,
                uint64 flags) {
-      initAll(getter,
-              setter,
-              nullptr,
-              nullptr,
-              name,
-              uniqueId,
-              false,
-              SERIALIZABLE_FIELD_TYPE::kReflectablePtr,
-              flags);
+      m_valueGetter = getter;
+      m_valueSetter = setter;
+
+      init(std::move(name),
+           uniqueId,
+           false,
+           SERIALIZABLE_FIELD_TYPE::kReflectablePtr,
+           flags);
     }
 
     /**
@@ -159,22 +187,23 @@ namespace geEngineSDK {
      * @param[in] flags     Various flags you can use to specialize how systems
      *            handle this field. See "RTTIFieldFlag".
      */
-    void initArray(const String& name,
+    void initArray(String name,
                    uint16 uniqueId,
-                   Any getter,
-                   Any getSize,
-                   Any setter,
-                   Any setSize,
+                   ArrayGetterType getter,
+                   ArrayGetSizeType getSize,
+                   ArraySetterType setter,
+                   ArraySetSizeType setSize,
                    uint64 flags) {
-      initAll(getter,
-              setter,
-              getSize,
-              setSize,
-              name,
-              uniqueId,
-              true,
-              SERIALIZABLE_FIELD_TYPE::kReflectablePtr,
-              flags);
+      m_arrayGetter = getter;
+      m_arraySetter = setter;
+      m_arraySizeGetter = getSize;
+      m_arraySizeSetter = setSize;
+
+      init(std::move(name)
+           uniqueId,
+           true,
+           SERIALIZABLE_FIELD_TYPE::kReflectablePtr,
+           flags);
     }
 
     /**
@@ -189,14 +218,13 @@ namespace geEngineSDK {
      * @copydoc RTTIReflectablePtrFieldBase::getValue
      */
     SPtr<IReflectable>
-    getValue(void* object) override {
+    getValue(RTTITypeBase* rtti, void* object) override {
       checkIsArray(false);
 
-      ObjectType* castObjType = static_cast<ObjectType*>(object);
-      function<SPtr<DataType>(ObjectType*)>
-      f = any_cast<function<SPtr<DataType>(ObjectType*)>>(m_valueGetter);
-      SPtr<IReflectable> castDataType = f(castObjType);
+      auto rttiObject = static_cast<InterfaceType*>(rtti);
+      auto castObjType = static_cast<ObjectType*>(object);
 
+      SPtr<IReflectable> castDataType = (rttiObject->*m_valueGetter)(castObjType);
       return castDataType;
     }
 
@@ -204,14 +232,13 @@ namespace geEngineSDK {
      * @copydoc RTTIReflectablePtrFieldBase::getArrayValue
      */
     SPtr<IReflectable>
-    getArrayValue(void* object, uint32 index) override {
+    getArrayValue(RTTITypeBase* rtti, void* object, uint32 index) override {
       checkIsArray(true);
 
-      ObjectType* castObjType = static_cast<ObjectType*>(object);
-      function<SPtr<DataType>(ObjectType*, uint32)>
-      f = any_cast<function<SPtr<DataType>(ObjectType*, uint32)>>(m_valueGetter);
-      SPtr<IReflectable> castDataType = f(castObjType, index);
+      auto rttiObject = static_cast<InterfaceType*>(rtti);
+      auto castObjType = static_cast<ObjectType*>(object);
 
+      SPtr<IReflectable> castDataType = (rttiObject->*m_arrayGetter)(castObjType, index);
       return castDataType;
     }
 
@@ -219,67 +246,71 @@ namespace geEngineSDK {
      * @copydoc RTTIReflectablePtrFieldBase::setValue
      */
     void
-    setValue(void* object, SPtr<IReflectable> value) override {
+    setValue(RTTITypeBase* rtti, void* object, SPtr<IReflectable> value) override {
       checkIsArray(false);
 
-      if (m_valueSetter.empty()) {
+      if (!m_valueSetter) {
         GE_EXCEPT(InternalErrorException, "Specified field (" + m_name + ") has no setter.");
       }
 
-      ObjectType* castObjType = static_cast<ObjectType*>(object);
-      SPtr<DataType> castDataObj = static_pointer_cast<DataType>(value);
-      function<void(ObjectType*, SPtr<DataType>)>
-      f = any_cast<function<void(ObjectType*, SPtr<DataType>)>>(m_valueSetter);
-      f(castObjType, castDataObj);
+      auto rttiObject = static_cast<InterfaceType*>(rtti);
+      auto castObjType = static_cast<ObjectType*>(object);
+      SPtr<DataType> castDataObj = std::static_pointer_cast<DataType>(value);
+
+      (rttiObject->*m_valueSetter)(castObjType, castDataObj);
     }
 
     /**
      * @copydoc RTTIReflectablePtrFieldBase::setArrayValue
      */
     void
-    setArrayValue(void* object, uint32 index, SPtr<IReflectable> value) override {
+    setArrayValue(RTTITypeBase* rtti,
+                  void* object,
+                  uint32 index,
+                  SPtr<IReflectable> value) override {
       checkIsArray(true);
 
-      if (m_valueSetter.empty()) {
-        GE_EXCEPT(InternalErrorException, "Specified field (" + m_name + ") has no setter.");
+      if (!m_arraySetter) {
+        GE_EXCEPT(InternalErrorException,
+                  "Specified field (" + m_name + ") has no setter.");
       }
 
-      ObjectType* castObjType = static_cast<ObjectType*>(object);
-      SPtr<DataType> castDataObj = static_pointer_cast<DataType>(value);
-      function<void(ObjectType*, uint32, SPtr<DataType>)>
-      f = any_cast<function<void(ObjectType*, uint32, SPtr<DataType>)>>(m_valueSetter);
-      f(castObjType, index, castDataObj);
+      auto rttiObject = static_cast<InterfaceType*>(rtti);
+      auto castObjType = static_cast<ObjectType*>(object);
+      SPtr<DataType> castDataObj = std::static_pointer_cast<DataType>(value);
+
+      (rttiObject->*m_arraySetter)(castObjType, index, castDataObj);
     }
 
     /**
      * @copydoc RTTIField::setArraySize
      */
     uint32
-    getArraySize(void* object) override {
+    getArraySize(RTTITypeBase* rtti, void* object) override {
       checkIsArray(true);
 
-      function<uint32(ObjectType*)>
-      f = any_cast<function<uint32(ObjectType*)>>(m_arraySizeGetter);
-      ObjectType* castObject = static_cast<ObjectType*>(object);
-      return f(castObject);
+      auto rttiObject = static_cast<InterfaceType*>(rtti);
+      auto castObject = static_cast<ObjectType*>(object);
+
+      return (rttiObject->*m_arraySizeGetter)(castObject);
     }
 
     /**
      * @copydoc RTTIField::setArraySize
      */
     void
-    setArraySize(void* object, uint32 size) override {
+    setArraySize(RTTITypeBase* rtti, void* object, uint32 size) override {
       checkIsArray(true);
 
-      if (m_arraySizeSetter.empty()) {
+      if (!m_arraySizeSetter) {
         GE_EXCEPT(InternalErrorException,
                   "Specified field (" + m_name + ") has no array size setter.");
       }
 
-      function<void(ObjectType*, uint32)>
-      f = any_cast<function<void(ObjectType*, uint32)>>(m_arraySizeSetter);
-      ObjectType* castObject = static_cast<ObjectType*>(object);
-      f(castObject, size);
+      auto rttiObject = static_cast<InterfaceType*>(rtti);
+      auto castObject = static_cast<ObjectType*>(object);
+
+      (rttiObject->*m_arraySizeSetter)(castObject, size);
     }
 
     /**

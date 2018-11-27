@@ -70,75 +70,151 @@
 # define GE_CORE_HIDDEN __attribute__ ((visibility ("hidden")))
 #endif
 
+#include <geStringID.h>
+#include "geHString.h"
+
 namespace geEngineSDK {
-  static const StringID RenderAPIAny = "AnyRenderAPI";
-  static const StringID RendererAny = "AnyRenderer";
+  /***************************************************************************/
+  /*
+   * Core objects
+   */
+  /***************************************************************************/
+  template<class T>
+  struct CoreThreadType {};
+
+#define CORE_OBJECT_FORWARD_DECLARE(TYPE)                                     \
+	class TYPE;                                                                 \
+	namespace geCoreThread { class TYPE; }                                      \
+	template<>                                                                  \
+  struct CoreThreadType<TYPE> { typedef geCoreThread::TYPE Type; };
+
+  CORE_OBJECT_FORWARD_DECLARE(IndexBuffer)
+  CORE_OBJECT_FORWARD_DECLARE(VertexBuffer)
+  CORE_OBJECT_FORWARD_DECLARE(GPUBuffer)
+  CORE_OBJECT_FORWARD_DECLARE(GPUProgram)
+  CORE_OBJECT_FORWARD_DECLARE(Pass)
+  CORE_OBJECT_FORWARD_DECLARE(Technique)
+  CORE_OBJECT_FORWARD_DECLARE(Shader)
+  CORE_OBJECT_FORWARD_DECLARE(Material)
+  CORE_OBJECT_FORWARD_DECLARE(RenderTarget)
+  CORE_OBJECT_FORWARD_DECLARE(RenderTexture)
+  CORE_OBJECT_FORWARD_DECLARE(RenderWindow)
+  CORE_OBJECT_FORWARD_DECLARE(SamplerState)
+  CORE_OBJECT_FORWARD_DECLARE(Viewport)
+  CORE_OBJECT_FORWARD_DECLARE(VertexDeclaration)
+  CORE_OBJECT_FORWARD_DECLARE(DepthStencilState)
+  CORE_OBJECT_FORWARD_DECLARE(RasterizerState)
+  CORE_OBJECT_FORWARD_DECLARE(BlendState)
+  CORE_OBJECT_FORWARD_DECLARE(GPUParamBlockBuffer)
+  CORE_OBJECT_FORWARD_DECLARE(GPUParams)
+  CORE_OBJECT_FORWARD_DECLARE(GPUParamsSet)
+  CORE_OBJECT_FORWARD_DECLARE(MaterialParams)
+  CORE_OBJECT_FORWARD_DECLARE(Light)
+  CORE_OBJECT_FORWARD_DECLARE(Camera)
+  CORE_OBJECT_FORWARD_DECLARE(Renderable)
+  CORE_OBJECT_FORWARD_DECLARE(GraphicsPipelineState)
+  CORE_OBJECT_FORWARD_DECLARE(ComputePipelineState)
+  CORE_OBJECT_FORWARD_DECLARE(ReflectionProbe)
+  CORE_OBJECT_FORWARD_DECLARE(ParticleSystem)
+  CORE_OBJECT_FORWARD_DECLARE(Texture)
+  CORE_OBJECT_FORWARD_DECLARE(SpriteTexture)
+  CORE_OBJECT_FORWARD_DECLARE(Mesh)
+  CORE_OBJECT_FORWARD_DECLARE(VectorField)
+  CORE_OBJECT_FORWARD_DECLARE(Skybox)
+  CORE_OBJECT_FORWARD_DECLARE(Decal)
+
+  class Collider;
+  class Rigidbody;
+  class BoxCollider;
+  class SphereCollider;
+  class PlaneCollider;
+  class CapsuleCollider;
+  class MeshCollider;
+  class Joint;
+  class FixedJoint;
+  class DistanceJoint;
+  class HingeJoint;
+  class SphericalJoint;
+  class SliderJoint;
+  class D6Joint;
+  class CharacterController;
+  class AudioListener;
+  class AudioSource;
+  class Animation;
+  class Bone;
+  class LightProbeVolume;
 
   /***************************************************************************/
-  /**
-   * Forward declaration of Core classes
+  /*
+   * Components
    */
-   /***************************************************************************/
-  class HString;
-  class StringTable;
-  struct LocalizedStringData;
-  
-  class GPUProgram;
+  /***************************************************************************/
+  template<class T>
+  struct ComponentType {};
+
+#define COMPONENT_FORWARD_DECLARE(TYPE)                                       \
+	class C##TYPE;                                                              \
+	template<>                                                                  \
+  struct ComponentType<TYPE> { typedef C##TYPE Type; };
+
+  COMPONENT_FORWARD_DECLARE(Collider)
+  COMPONENT_FORWARD_DECLARE(Rigidbody)
+  COMPONENT_FORWARD_DECLARE(BoxCollider)
+  COMPONENT_FORWARD_DECLARE(SphereCollider)
+  COMPONENT_FORWARD_DECLARE(PlaneCollider)
+  COMPONENT_FORWARD_DECLARE(CapsuleCollider)
+  COMPONENT_FORWARD_DECLARE(MeshCollider)
+  COMPONENT_FORWARD_DECLARE(Joint)
+  COMPONENT_FORWARD_DECLARE(HingeJoint)
+  COMPONENT_FORWARD_DECLARE(DistanceJoint)
+  COMPONENT_FORWARD_DECLARE(FixedJoint)
+  COMPONENT_FORWARD_DECLARE(SphericalJoint)
+  COMPONENT_FORWARD_DECLARE(SliderJoint)
+  COMPONENT_FORWARD_DECLARE(D6Joint)
+  COMPONENT_FORWARD_DECLARE(CharacterController)
+  COMPONENT_FORWARD_DECLARE(Camera)
+  COMPONENT_FORWARD_DECLARE(Renderable)
+  COMPONENT_FORWARD_DECLARE(Light)
+  COMPONENT_FORWARD_DECLARE(Animation)
+  COMPONENT_FORWARD_DECLARE(Bone)
+  COMPONENT_FORWARD_DECLARE(AudioSource)
+  COMPONENT_FORWARD_DECLARE(AudioListener)
+  COMPONENT_FORWARD_DECLARE(ReflectionProbe)
+  COMPONENT_FORWARD_DECLARE(Skybox)
+  COMPONENT_FORWARD_DECLARE(LightProbeVolume)
+  COMPONENT_FORWARD_DECLARE(ParticleSystem)
+  COMPONENT_FORWARD_DECLARE(Decal)
+
+  class Color;
   class GPUProgramManager;
-  class GPUBuffer;
+  class GPUProgramManager;
   class GPUProgramFactory;
-  class GPUParamBlock;
-  class GPUParamBlockBuffer;
-  class GPUParams;
-  struct GPUParamDesc;
-  struct GPUParamDataDesc;
-  struct GPUParamObjectDesc;
-  class GPUProgramImportOptions;
-  class GPUResourceData;
-  class GPUPipelineParamInfo;
-  class GPUParamsSet;
-  struct GPUParamBlockDesc;
-  class IndexBuffer;
-  class VertexBuffer;
-
   class IndexData;
-  class Pass;
-  class Technique;
-  class Shader;
-  class Material;
   class RenderAPICapabilities;
-  class RenderTarget;
-  class RenderTexture;
-  class RenderWindow;
   class RenderTargetProperties;
-  class RendererFactory;
-  class SamplerState;
   class TextureManager;
-  class Viewport;
-  class VertexDeclaration;
-
   class Input;
   struct PointerEvent;
-
+  class RendererFactory;
   class AsyncOp;
   class HardwareBufferManager;
   class FontManager;
-  class DepthStencilState;
   class RenderStateManager;
-  class RasterizerState;
-  class BlendState;
-  
+  class GPUParamBlock;
+  struct GPUParamDesc;
+  struct GPUParamDataDesc;
+  struct GPUParamObjectDesc;
+  struct GPUParamBlockDesc;
   class ShaderInclude;
-
   class CoreObject;
   class ImportOptions;
   class TextureImportOptions;
   class FontImportOptions;
-  
+  class GPUProgramImportOptions;
   class MeshImportOptions;
   struct FontBitmap;
   class GameObject;
-  
+  class GPUResourceData;
   struct RenderOperation;
   class RenderQueue;
   struct ProfilerReport;
@@ -155,86 +231,36 @@ namespace geEngineSDK {
   class Prefab;
   class PrefabDiff;
   class RendererMeshData;
-  class Light;
   class Win32Window;
   class RenderAPIFactory;
   class PhysicsManager;
   class Physics;
   class FCollider;
-  class Collider;
-  class Rigidbody;
   class PhysicsMaterial;
-  class BoxCollider;
-  class SphereCollider;
-  class PlaneCollider;
-  class CapsuleCollider;
-  class MeshCollider;
-  class CCollider;
-  class CRigidbody;
-  class CBoxCollider;
-  class CSphereCollider;
-  class CPlaneCollider;
-  class CCapsuleCollider;
-  class CMeshCollider;
-  class Joint;
-  class FixedJoint;
-  class DistanceJoint;
-  class HingeJoint;
-  class SphericalJoint;
-  class SliderJoint;
-  class D6Joint;
-  class CharacterController;
-  class CJoint;
-  class CHingeJoint;
-  class CDistanceJoint;
-  class CFixedJoint;
-  class CSphericalJoint;
-  class CSliderJoint;
-  class CD6Joint;
-  class CCharacterController;
   class ShaderDefines;
   class ShaderImportOptions;
-  class AudioListener;
-  class AudioSource;
   class AudioClipImportOptions;
   class AnimationClip;
-  class CCamera;
-  class CRenderable;
-  class CLight;
-  class CAnimation;
-  class CBone;
-  class CAudioSource;
-  class CAudioListener;
-  
-  class MaterialParams;
-  template <class T> class TAnimationCurve;
+  class GPUPipelineParamInfo;
+  template<class T> class TAnimationCurve;
   struct AnimationCurves;
   class Skeleton;
-  class Animation;
-  
-  class Camera;
-  class Renderable;
   class MorphShapes;
   class MorphShape;
   class MorphChannel;
-  class GraphicsPipelineState;
-  class ComputePipelineState;
-  class ReflectionProbe;
-  class CReflectionProbe;
-  class CSkybox;
-  class CLightProbeVolume;
+  class Transform;
   class SceneActor;
-
+  class CoreObjectManager;
+  struct CollisionData;
+  
   //Asset import
   class SpecificImporter;
   class Importer;
-
+  
   //Resources
   class Resource;
   class Resources;
   class ResourceManifest;
-  class Texture;
-  class Mesh;
   class MeshBase;
   class TransientMesh;
   class MeshHeap;
@@ -245,17 +271,15 @@ namespace geEngineSDK {
   class PhysicsMaterial;
   class PhysicsMesh;
   class AudioClip;
-  class CoreObjectManager;
-  struct CollisionData;
-
+  
   //Scene
   class SceneObject;
   class Component;
   class SceneManager;
-
+  
   //RTTI
   class MeshRTTI;
-
+  
   //Desc structs
   struct SAMPLER_STATE_DESC;
   struct DEPTH_STENCIL_STATE_DESC;
@@ -283,57 +307,29 @@ namespace geEngineSDK {
   namespace geCoreThread {
     class Renderer;
     class VertexData;
-    class SamplerState;
-    class IndexBuffer;
-    class VertexBuffer;
     class RenderAPI;
-    class RenderTarget;
-    class RenderTexture;
-    class RenderWindow;
-    class DepthStencilState;
-    class RasterizerState;
-    class BlendState;
     class CoreObject;
-    class Camera;
-    class Renderable;
     class MeshBase;
-    class Mesh;
     class TransientMesh;
-    class Texture;
     class MeshHeap;
-    class VertexDeclaration;
-    class GPUBuffer;
-    class GPUParamBlockBuffer;
-    class GPUParams;
-    class Shader;
-    class Viewport;
-    class Pass;
-    class GPUParamsSet;
-    class Technique;
-    class Material;
-    class GPUProgram;
-    class Light;
-    class ComputePipelineState;
-    class GraphicsPipelineState;
-    class Camera;
-    class GPUParamsSet;
-    class MaterialParams;
     class GPUPipelineParamInfo;
     class CommandBuffer;
     class EventQuery;
     class TimerQuery;
     class OcclusionQuery;
     class TextureView;
-    class RenderableElement;
+    class RenderElement;
     class RenderWindowManager;
     class RenderStateManager;
     class HardwareBufferManager;
-    class ReflectionProbe;
-    class Skybox;
   }
+}
 
+namespace geEngineSDK {
   using CoreThreadQueue = TCoreThreadQueue<CommandQueueNoSync>;
+}
 
+namespace geEngineSDK {
   namespace TYPEID_CORE {
     enum E {
       kID_Texture = 1001,
@@ -386,7 +382,7 @@ namespace geEngineSDK {
       kID_PrefabObjectDiff = 1079,
       kID_PrefabComponentDiff = 1080,
       kID_CGUIWidget = 1081,
-      kID_ProfilerOverlay = 1082,
+      ///kID_ProfilerOverlay = 1082,
       kID_StringTable = 1083,
       kID_LanguageData = 1084,
       kID_LocalizedStringData = 1085,
@@ -459,6 +455,45 @@ namespace geEngineSDK {
       kID_SerializedGPUProgramData = 1153,
       kID_SubShader = 1154,
 
+      kID_ParticleSystem = 1155,
+      kID_ColorDistribution = 1156,
+      kID_TDistribution = 1157,
+      kID_SHADER_PARAM_ATTRIBUTE = 1158,
+      kID_DataParamInfo = 1159,
+      kID_SpriteSheetGridAnimation = 1160,
+      kID_ParticleEmitter = 1161,
+      kID_ParticleEmitterConeShape = 1162,
+      kID_ParticleEmitterSphereShape = 1163,
+      kID_ParticleEmitterHemisphereShape = 1164,
+      kID_ParticleEmitterBoxShape = 1165,
+      kID_ParticleEmitterCircleShape = 1166,
+      kID_ParticleEmitterRectShape = 1167,
+      kID_ParticleEmitterLineShape = 1168,
+      kID_ParticleEmitterStaticMeshShape = 1169,
+      kID_ParticleEmitterSkinnedMeshShape = 1170,
+      kID_ParticleTextureAnimation = 1171,
+      kID_ParticleCollisions = 1172,
+      kID_ParticleOrbit = 1173,
+      kID_ParticleVelocity = 1174,
+      kID_ParticleSystemSettings = 1175,
+      kID_ParticleSystemEmitters = 1176,
+      kID_ParticleSystemEvolvers = 1177,
+      kID_CParticleSystem = 1178,
+      kID_ParticleGravity = 1179,
+      kID_VectorField = 1180,
+      kID_ParticleVectorFieldSettings = 1181,
+      kID_ParticleGpuSimulationSettings = 1182,
+      kID_ParticleDepthCollisionSettings = 1183,
+      kID_BloomSettings = 1184,
+      kID_ParticleBurst = 1185,
+      kID_CoreSerializationContext = 1186,
+      kID_ParticleForce = 1187,
+      kID_ParticleSize = 1188,
+      kID_ParticleColor = 1189,
+      kID_ParticleRotation = 1190,
+      kID_Decal = 1191,
+      kID_CDecal = 1192,
+
       //Moved from Engine layer
       kID_CCamera = 30000,
       kID_Camera = 30003,
@@ -477,8 +512,6 @@ namespace geEngineSDK {
     };
   }
 }
-
-#include "geHString.h"
 
 /*****************************************************************************/
 /**
@@ -502,6 +535,8 @@ namespace geEngineSDK {
   using HPhysicsMesh = ResourceHandle<PhysicsMesh>;
   using HAnimationClip = ResourceHandle<AnimationClip>;
   using HAudioClip = ResourceHandle<AudioClip>;
+  using HSpriteTexture = ResourceHandle<SpriteTexture>;
+  using HVectorField = ResourceHandle<VectorField>;
 }
 
 #include "geGameObjectHandle.h"
@@ -535,6 +570,8 @@ namespace geEngineSDK {
   using HLightProbeVolume = GameObjectHandle<CLightProbeVolume>;
   using HAudioSource = GameObjectHandle<CAudioSource>;
   using HAudioListener = GameObjectHandle<CAudioListener>;
+  using HParticleSystem = GameObjectHandle<CParticleSystem>;
+  using HDecal = GameObjectHandle<CDecal>;
 }
 
 namespace geEngineSDK {
@@ -587,6 +624,125 @@ namespace geEngineSDK {
   };
 
 # define GE_ALL_LAYERS 0xFFFFFFFFFFFFFFFF
+
+  /**
+   * @brief Used for marking a CoreObject dependency as dirty.
+   */
+  static constexpr int32 DIRTY_DEPENDENCY_MASK = 1 << 31;
+
+  template<class T, bool Core>
+  struct CoreVariant {};
+
+  template<class T>
+  struct CoreVariant<T, false>
+  {
+    using Type = T;
+  };
+
+  template<class T>
+  struct CoreVariant<T, true>
+  {
+    using Type = typename CoreThreadType<T>::Type;
+  };
+
+  /**
+   * @brief Allows a simple way to define a member that can be both CoreObject
+   *        variants depending on the Core template parameter.
+   */
+  template<class T, bool Core>
+  using CoreVariantType = typename CoreVariant<T, Core>::Type;
+
+  template<class T, bool Core>
+  struct CoreVariantHandle {};
+
+  template<class T>
+  struct CoreVariantHandle<T, false>
+  {
+    using Type = ResourceHandle<T>;
+  };
+
+  template<class T>
+  struct CoreVariantHandle<T, true>
+  {
+    using Type = SPtr<typename CoreThreadType<T>::Type>;
+  };
+
+  /**
+   * @brief Allows a simple way to define a member that can be both CoreObject
+   *        variants depending on the Core template parameter. Sim thread type
+   *        is wrapped in as a resource handle while the core thread variant is
+   *        wrapped in a shared pointer.
+   */
+  template<class T, bool Core>
+  using CoreVariantHandleType = typename CoreVariantHandle<T, Core>::Type;
+
+  /**
+   * @brief Flags that are provided to the serialization system to control
+   *        serialization/deserialization.
+   */
+  namespace SERIALIZATION_FLAGS {
+    enum E {
+      /**
+       * Used when deserializing resources. Lets the system know not to discard
+       * any intermediate resource data that might be required if the resource
+       * needs to be serialized.
+       */
+      kKeepResourceSourceData
+    };
+  }
+
+  /**
+   * @brief Helper type that can contain either a component or scene actor
+   *        version of an object.
+   */
+  template<class T>
+  struct ComponentOrActor
+  {
+    using ComponentType = typename ComponentType<T>::Type;
+    using HandleType = GameObjectHandle<ComponentType>;
+
+    ComponentOrActor() = default;
+
+    ComponentOrActor(const GameObjectHandle<ComponentType>& component)
+      : m_component(component)
+    {}
+
+    ComponentOrActor(const SPtr<T>& actor)
+      : m_actor(actor)
+    {}
+
+    /**
+     * @brief Returns true if both the component and the actor fields are not
+     *        assigned.
+     */
+    bool
+    empty() const {
+      return !m_actor && !m_component;
+    }
+
+    /**
+     * Returns the assigned value as a scene actor.
+     */
+    SPtr<T>
+    getActor() const {
+      if (m_actor) {
+        return m_actor;
+      }
+      return m_component->_getInternal();
+    }
+
+    /**
+     * @brief Returns the assigned value as a component.
+     */
+    HandleType
+    getComponent() const {
+      return m_component;
+    }
+
+   private:
+    GameObjectHandle<ComponentType> m_component;
+    SPtr<T> m_actor;
+  };
 }
 
 #include "geCommonTypes.h"

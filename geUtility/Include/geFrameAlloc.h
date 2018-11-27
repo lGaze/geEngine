@@ -118,6 +118,17 @@ namespace geEngineSDK {
 		}
 
     /**
+     * @brief Destructs and deallocates an object.
+     * @note  Not thread safe.
+     */
+    template<class T>
+    void
+    destruct(T* data) {
+      data->~T();
+      free(reinterpret_cast<uint8*>(data));
+    }
+
+    /**
      * @brief Deallocates a previously allocated block of memory.
      * @note  No deallocation is actually done here. This method is only used
      *        for debug purposes so it is easier to track down memory leaks and

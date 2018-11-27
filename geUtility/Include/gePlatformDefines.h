@@ -307,6 +307,12 @@
 # define _CRT_SECURE_NO_WARNINGS
 
   /**
+   * Disable: nonstandard extension used: nameless struct/union.
+   * Happens when a struct or union is defined without a name.
+   */
+# pragma warning(disable : 4201)
+
+  /**
    * Disable: "<type> needs to have DLL interface to be used by clients'
    * Happens on STL member variables which are not public therefore is ok
    */

@@ -66,36 +66,25 @@ namespace geEngineSDK {
 
     /**
      * @brief Calculates how deep in the scene object hierarchy is the provided
-              object. Zero means root.
+     *        object. Zero means root.
      */
     static uint32
     getSceneObjectDepth(const HSceneObject& so);
 
-    /** Provides extra information and maintains state during serialization of various RTTI types in the core. */
+    /**
+     * @brief Provides extra information and maintains state during
+     *        serialization of various RTTI types in the core.
+     */
     struct GE_CORE_EXPORT CoreSerializationContext : SerializationContext
     {
       SPtr<GameObjectDeserializationState> goState;
       bool goDeserializationActive = false;
 
-      static RTTITypeBase* getRTTIStatic();
-      RTTITypeBase* getRTTI() const override;
-    };
-  
-   private:
-    /**
-     * @brief Helper method for recursion when finding resource dependencies.
-     * @see findDependencies
-     */
-    static void
-    findResourceDependenciesInternal(IReflectable& object,
-                                     bool recursive,
-                                     Map<UUID, ResourceDependency>& dependencies);
+      static RTTITypeBase*
+      getRTTIStatic();
 
-    /**
-     * @brief Checks if the specified type (or any of its derived classes) have
-     *        any IReflectable pointer or value types as their fields.
-     */
-    static bool
-    hasReflectableChildren(RTTITypeBase* type);
+      RTTITypeBase*
+      getRTTI() const override;
+    };
   };
 }
