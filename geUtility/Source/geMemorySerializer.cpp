@@ -33,7 +33,7 @@ namespace geEngineSDK {
                            uint32& bytesWritten,
                            function<void*(SIZE_T)> allocator,
                            bool shallow,
-                           const UnorderedMap<String, uint64>& params) {
+                           SerializationContext* context) {
     BinarySerializer bs;
 
     BufferPiece piece;
@@ -48,7 +48,7 @@ namespace geEngineSDK {
               &bytesWritten,
               bind(&MemorySerializer::flushBuffer, this, _1, _2, _3),
               shallow,
-              params);
+              context);
 
     uint8* resultBuffer;
     if (nullptr != allocator) {
@@ -78,12 +78,12 @@ namespace geEngineSDK {
   SPtr<IReflectable>
   MemorySerializer::decode(uint8* buffer,
                            uint32 bufferSize,
-                           const UnorderedMap<String, uint64>& params) {
+                           SerializationContext* context) {
     SPtr<MemoryDataStream>
       stream = ge_shared_ptr_new<MemoryDataStream>(buffer, bufferSize, false);
 
     BinarySerializer bs;
-    SPtr<IReflectable> object = bs.decode(stream, bufferSize, params);
+    SPtr<IReflectable> object = bs.decode(stream, bufferSize, context);
 
     return object;
   }

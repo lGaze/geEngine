@@ -20,6 +20,8 @@
 #include "gePrerequisitesUtil.h"
 
 namespace geEngineSDK {
+  struct SerializationContext;
+
   using std::function;
 
   class GE_UTILITY_EXPORT MemorySerializer
@@ -57,7 +59,7 @@ namespace geEngineSDK {
            uint32& bytesWritten,
            function<void*(SIZE_T)> allocator = nullptr,
            bool shallow = false,
-           const UnorderedMap<String, uint64>& params = UnorderedMap<String, uint64>());
+           SerializationContext* context = nullptr);
 
     /**
      * @brief Deserializes an IReflectable object by reading the binary data
@@ -70,7 +72,7 @@ namespace geEngineSDK {
     SPtr<IReflectable>
     decode(uint8* buffer,
            uint32 bufferSize,
-           const UnorderedMap<String, uint64>& params = UnorderedMap<String, uint64>());
+           SerializationContext* context = nullptr);
 
    private:
     Vector<BufferPiece> m_bufferPieces;

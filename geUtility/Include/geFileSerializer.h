@@ -20,6 +20,8 @@
 #include "gePrerequisitesUtil.h"
 
 namespace geEngineSDK {
+  struct SerializationContext;
+
   using std::ofstream;
 
   class GE_UTILITY_EXPORT FileEncoder
@@ -37,8 +39,7 @@ namespace geEngineSDK {
      *            callbacks on the objects being serialized.
      */
     void
-    encode(IReflectable* object,
-           const UnorderedMap<String, uint64>& params = UnorderedMap<String, uint64>());
+    encode(IReflectable* object, SerializationContext* context = nullptr);
 
    private:
     /**
@@ -68,7 +69,7 @@ namespace geEngineSDK {
      *            callbacks on the objects being serialized.
      */
     SPtr<IReflectable>
-    decode(const UnorderedMap<String, uint64>& params = UnorderedMap<String, uint64>());
+    decode(SerializationContext* context = nullptr);
 
     /**
      * @brief Skips over an object in the file. Calling decode() will decode

@@ -24,8 +24,6 @@
 #include "geDataStream.h"
 #include "geDebug.h"
 
-#include <numeric>
-
 namespace geEngineSDK {
   using namespace std::placeholders;
   using std::ios;
@@ -56,12 +54,12 @@ namespace geEngineSDK {
   }
 
   void
-  FileEncoder::encode(IReflectable* object, const UnorderedMap<String, uint64>& params) {
+  FileEncoder::encode(IReflectable* object, SerializationContext* context) {
     if (nullptr == object) {
       return;
     }
 
-    uint64 curPos = static_cast<uint64>(m_outputStream.tellp());
+    auto curPos = static_cast<uint64>(m_outputStream.tellp());
     m_outputStream.seekp(sizeof(uint32), ios_base::cur);
 
     BinarySerializer bs;
@@ -72,7 +70,7 @@ namespace geEngineSDK {
               &totalBytesWritten,
               bind(&FileEncoder::flushBuffer, this, _1, _2, _3),
               false,
-              params);
+              context);
 
     m_outputStream.seekp(curPos);
     m_outputStream.write(reinterpret_cast<char*>(&totalBytesWritten),
@@ -103,7 +101,7 @@ namespace geEngineSDK {
   }
 
   SPtr<IReflectable>
-  FileDecoder::decode(const UnorderedMap<String, uint64>& params) {
+  FileDecoder::decode(SerializationContext* context) {
     if (m_inputStream->isEOF()) {
       return nullptr;
     }
@@ -112,7 +110,7 @@ namespace geEngineSDK {
     m_inputStream->read(&objectSize, sizeof(objectSize));
 
     BinarySerializer bs;
-    SPtr<IReflectable> object = bs.decode(m_inputStream, objectSize, params);
+    SPtr<IReflectable> object = bs.decode(m_inputStream, objectSize, context);
 
     return object;
   }

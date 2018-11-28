@@ -175,12 +175,16 @@ namespace geEngineSDK {
               ArraySetterType setter,
               ArraySetSizeType setSize,
               uint64 flags) {
-      arrayGetter = getter;
-      arraySetter = setter;
-      arrayGetSize = getSize;
-      arraySetSize = setSize;
+      m_arrayGetter = getter;
+      m_arraySetter = setter;
+      m_arraySizeGetter = getSize;
+      m_arraySizeSetter = setSize;
 
-      init(std::move(name), uniqueId, true, SerializableFT_Reflectable, flags);
+      init(std::move(name),
+           uniqueId,
+           true,
+           SERIALIZABLE_FIELD_TYPE::kReflectable,
+           flags);
     }
 
     /**

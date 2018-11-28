@@ -136,7 +136,7 @@ namespace geEngineSDK {
      * @copydoc RTTIManagedDataBlockFieldBase::getValue
      */
     SPtr<DataStream>
-    getValue(void* object, uint32& size) override {
+    getValue(RTTITypeBase* rtti, void* object, uint32& size) override {
       auto rttiObject = static_cast<InterfaceType*>(rtti);
       auto castObj = static_cast<ObjectType*>(object);
 

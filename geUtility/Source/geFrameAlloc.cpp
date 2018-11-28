@@ -148,7 +148,7 @@ namespace geEngineSDK {
 
   void
   FrameAlloc::markFrame() {
-    void** framePtr = reinterpret_cast<void**>(alloc(sizeof(void*)));
+    auto framePtr = reinterpret_cast<void**>(alloc(sizeof(void*)));
     *framePtr = m_lastFrame;
     m_lastFrame = framePtr;
   }
@@ -160,7 +160,7 @@ namespace geEngineSDK {
       //HACK: Test if this casting is working correctly on PS4
       free(static_cast<uint8*>(m_lastFrame));
 
-      uint8* framePtr = static_cast<uint8*>(m_lastFrame);
+      auto framePtr = static_cast<uint8*>(m_lastFrame);
       m_lastFrame = *static_cast<void**>(m_lastFrame);
 
 #if GE_DEBUG_MODE
@@ -173,7 +173,7 @@ namespace geEngineSDK {
         uint8* blockEnd = curBlock->m_data + curBlock->m_size;
         if (framePtr >= curBlock->m_data && framePtr < blockEnd) {
           uint8* dataEnd = curBlock->m_data + curBlock->m_freePtr;
-          SIZE_T sizeInBlock = (SIZE_T)(dataEnd - framePtr);
+          auto sizeInBlock = static_cast<SIZE_T>(dataEnd - framePtr);
           GE_ASSERT(sizeInBlock <= curBlock->m_freePtr);
 
           curBlock->m_freePtr -= sizeInBlock;
@@ -269,9 +269,9 @@ namespace geEngineSDK {
     if (nullptr == newBlock) {
       SIZE_T alignOffset = 16 - (sizeof(MemBlock) & (16 - 1));
 
-      uint8* data = reinterpret_cast<uint8*>(ge_alloc_aligned16(blockSize +
-                                                                sizeof(MemBlock) +
-                                                                alignOffset));
+      auto data = reinterpret_cast<uint8*>(ge_alloc_aligned16(blockSize +
+                                                              sizeof(MemBlock) +
+                                                              alignOffset));
       newBlock = new (data) MemBlock(blockSize);
       data += sizeof(MemBlock) + alignOffset;
       newBlock->m_data = data;

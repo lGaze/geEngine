@@ -23,6 +23,8 @@
 #include "geIReflectable.h"
 
 namespace geEngineSDK {
+  struct SerializationContext;
+
   struct GE_UTILITY_EXPORT SerializedInstance : IReflectable
   {
     virtual ~SerializedInstance() = default;
@@ -79,32 +81,7 @@ namespace geEngineSDK {
     getRTTI() const override;
   };
 
-  /**
-   * @brief A serialized value representing a single entry in an array.
-   */
-  struct GE_UTILITY_EXPORT SerializedArrayEntry : IReflectable
-  {
-    SerializedArrayEntry() = default;
-
-    uint32 index = 0;
-    SPtr<SerializedInstance> serialized;
-
-    /*************************************************************************/
-    /**
-     * RTTI
-     */
-    /*************************************************************************/
-   public:
-    friend class SerializedArrayEntryRTTI;
-
-    static RTTITypeBase*
-    getRTTIStatic();
-
-    RTTITypeBase*
-    getRTTI() const override;
-  };
-
-  /**
+   /**
    * @brief A serialized portion of an object belonging to a specific class in
    *        a class hierarchy. Consists of multiple entries, one for each field
    */
@@ -149,6 +126,37 @@ namespace geEngineSDK {
     SPtr<SerializedInstance>
     clone(bool cloneData = true) override;
 
+    /**
+     * @brief Decodes the serialized object back into its original IReflectable
+     *        object form.
+     * @param[in] context Optional object that will be passed along to all
+     *            serialized objects through their serialization callbacks.
+     *            Can be used for controlling serialization, maintaining state
+     *            or sharing information between objects during serialization.
+     */
+    SPtr<IReflectable>
+    decode(SerializationContext* context = nullptr) const;
+
+    /**
+     * @brief Serializes the provided object and returns its SerializedObject
+     *        representation.
+     *
+     * @param[in] obj     Object to serialize;
+     * @param[in] shallow If true then pointers to other IReflectable objects
+     *                    will not be followed. If false the entire hierarchy
+     *                    will be serialized.
+     * @param[in] context Optional object that will be passed along to all
+     *                    deserialized objects through their deserialization
+     *                    callbacks. Can be used for controlling
+     *                    deserialization, maintaining state or sharing
+     *                    information between objects during deserialization.
+     * @return    Serialized version of @p obj.
+     */
+    static SPtr<SerializedObject>
+    create(IReflectable& obj,
+           bool shallow = false,
+           SerializationContext* context = nullptr);
+
     Vector<SerializedSubObject> subObjects;
 
     /*************************************************************************/
@@ -158,10 +166,10 @@ namespace geEngineSDK {
     /*************************************************************************/
    public:
     friend class SerializedObjectRTTI;
-    
+
     static RTTITypeBase*
     getRTTIStatic();
-    
+
     RTTITypeBase*
     getRTTI() const override;
   };
@@ -229,6 +237,31 @@ namespace geEngineSDK {
     /*************************************************************************/
    public:
     friend class SerializedDataBlockRTTI;
+
+    static RTTITypeBase*
+    getRTTIStatic();
+
+    RTTITypeBase*
+    getRTTI() const override;
+  };
+
+  /**
+   * @brief A serialized value representing a single entry in an array.
+   */
+  struct GE_UTILITY_EXPORT SerializedArrayEntry : IReflectable
+  {
+    SerializedArrayEntry() = default;
+
+    uint32 index = 0;
+    SPtr<SerializedInstance> serialized;
+
+    /*************************************************************************/
+    /**
+     * RTTI
+     */
+    /*************************************************************************/
+   public:
+    friend class SerializedArrayEntryRTTI;
 
     static RTTITypeBase*
     getRTTIStatic();
