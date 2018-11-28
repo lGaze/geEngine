@@ -134,6 +134,7 @@ namespace geEngineSDK {
       };
     };
 
+   public:
     /**
      * @brief Initializes a field pointing to a single data type implementing
      *        IReflectable interface.

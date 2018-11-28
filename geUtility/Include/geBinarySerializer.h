@@ -31,8 +31,6 @@
  * Includes
  */
 /*****************************************************************************/
-#include <unordered_map>
-
 #include "gePrerequisitesUtil.h"
 #include "geSerializedObject.h"
 #include "geRTTIField.h"
@@ -43,11 +41,12 @@ namespace geEngineSDK {
   class IReflectable;
   struct RTTIReflectableFieldBase;
   struct RTTIReflectablePtrFieldBase;
+  struct SerializationContext;
 
   class GE_UTILITY_EXPORT BinarySerializer
   {
   public:
-    BinarySerializer() = default;
+    BinarySerializer();
 
     /**
      * @brief Encodes all serializable fields provided by @p object into a
@@ -69,7 +68,7 @@ namespace geEngineSDK {
      *             then references will not be encoded and will be set to null.
      *             If false then references will be encoded as well and
      *             restored upon decoding.
-     * @param[in]  params  Optional parameters to be passed to the
+     * @param[in]  context  Optional parameters to be passed to the
      *             serialization callbacks on the objects being serialized.
      */
     void
@@ -77,10 +76,11 @@ namespace geEngineSDK {
            uint8* buffer,
            uint32 bufferLength,
            uint32* bytesWritten,
-           function<uint8*(uint8*, uint32, uint32&)>
-           flushBufferCallback,
+           function<uint8*(uint8*, uint32, uint32&)> flushBufferCallback,
            bool shallow = false,
-           const UnorderedMap<String, uint64>& params = UnorderedMap<String, uint64>());
+           SerializationContext* context = nullptr);
+
+
 
     /**
      * @brief Decodes an object from binary data.
@@ -92,43 +92,7 @@ namespace geEngineSDK {
     SPtr<IReflectable>
     decode(const SPtr<DataStream>& data,
            uint32 dataLength,
-           const UnorderedMap<String, uint64>& params = UnorderedMap<String, uint64>());
-
-    /**
-     * @brief Encodes an object into an intermediate representation.
-     * @param[in] object  Object to encode.
-     * @param[in] shallow Determines how to handle referenced objects. If true
-     *            then references will not be encoded and will be set to null.
-     *            If false then references will be encoded as well and restored
-     *            upon decoding.
-     */
-    SPtr<SerializedObject>
-    _encodeToIntermediate(IReflectable* object, bool shallow = false);
-
-    /**
-     * @brief Decodes a serialized object into an intermediate representation
-     *        for easier parsing.
-     * @param[in] data        Binary data to decode.
-     * @param[in] dataLength  Length of the data in bytes.
-     * @param[in] copyData    Determines should the data be copied or just
-     *            referenced. If referenced then the returned serialized object
-     *            will be invalid as soon as the original data buffer is
-     *            destroyed. Referencing is faster than copying. If the source
-     *            data stream is a file stream the data will always be copied.
-     * @note References to field data will point to the original buffer and
-     *       will become invalid when it is destroyed.
-     */
-    SPtr<SerializedObject>
-    _decodeToIntermediate(const SPtr<DataStream>& data,
-                          uint32 dataLength,
-                          bool copyData = false);
-
-    /**
-     * @brief Decodes an intermediate representation of a serialized object
-     *        into the actual object.
-     */
-    SPtr<IReflectable>
-    _decodeFromIntermediate(const SPtr<SerializedObject>& serializedObject);
+           SerializationContext* context = nullptr);
 
    private:
     struct ObjectMetaData
@@ -139,7 +103,7 @@ namespace geEngineSDK {
 
     struct ObjectToEncode
     {
-      ObjectToEncode(uint32 _objectId, SPtr<IReflectable> _object)
+      ObjectToEncode(uint32 _objectId, const SPtr<IReflectable>& _object)
         : objectId(_objectId),
           object(_object)
       {}
@@ -150,18 +114,15 @@ namespace geEngineSDK {
 
     struct ObjectToDecode
     {
-      ObjectToDecode(const SPtr<IReflectable>& _object,
-                     const SPtr<SerializedObject>& serializedObject)
+      ObjectToDecode(const SPtr<IReflectable>& _object, SIZE_T _offset = 0)
         : object(_object),
-          serializedObject(serializedObject),
-          isDecoded(false),
-          decodeInProgress(false)
+          offset(_offset)
       {}
 
       SPtr<IReflectable> object;
-      SPtr<SerializedObject> serializedObject;
-      bool isDecoded;
-      bool decodeInProgress;  //Used for error reporting circular references
+      bool isDecoded = false;
+      bool decodeInProgress = false; //Used for error reporting circular references
+      SIZE_T offset;
     };
 
     /**
@@ -179,21 +140,10 @@ namespace geEngineSDK {
     /**
      * @brief Decodes a single IReflectable object.
      */
-    void
-    decodeEntry(const SPtr<IReflectable>& object,
-                const SPtr<SerializedObject>& serializableObject);
-
-    /**
-     * @brief Decodes an object in memory into an intermediate representation
-     *        for easier parsing.
-     */
     bool
     decodeEntry(const SPtr<DataStream>& data,
-                uint32 dataLength,
-                uint32& bytesRead,
-                SPtr<SerializedObject>& output,
-                bool copyData,
-                bool streamDataBlock);
+                SIZE_T dataLength,
+                const SPtr<IReflectable>& output);
 
     /**
      * @brief Helper method for encoding a complex object and copying its data
@@ -285,15 +235,14 @@ namespace geEngineSDK {
     static bool
     isObjectMetaData(uint32 encodedData);
 
+    Map<uint32, ObjectToDecode> m_decodeObjectMap;
+    Vector<ObjectToEncode> m_objectsToEncode;
     UnorderedMap<void*, uint32> m_objectAddrToId;
     uint32 m_lastUsedObjectId = 1;
-    Vector<ObjectToEncode> m_objectsToEncode;
     uint32 m_totalBytesWritten;
+    FrameAlloc* m_alloc = nullptr;
 
-    UnorderedMap<SPtr<SerializedObject>, ObjectToDecode> m_objectMap;
-    UnorderedMap<uint32, SPtr<SerializedObject>> m_interimObjectMap;
-
-    UnorderedMap<String, uint64> m_params;
+    SerializationContext* m_context = nullptr;
 
     //Meta field size
     static constexpr const uint32 META_SIZE = 4;

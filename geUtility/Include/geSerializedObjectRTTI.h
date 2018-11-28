@@ -204,7 +204,7 @@ namespace geEngineSDK {
     }
 
     SerializedArrayEntry&
-    getEntry(SerializedArray* obj, uint32 arrayIdx) {
+    getEntry(SerializedArray* /*obj*/, uint32 arrayIdx) {
       return m_sequentialEntries[arrayIdx];
     }
 
@@ -214,7 +214,7 @@ namespace geEngineSDK {
     }
 
     uint32
-    getNumEntries(SerializedArray* obj) {
+    getNumEntries(SerializedArray* /*obj*/) {
       return static_cast<uint32>(m_sequentialEntries.size());
     }
 
@@ -283,7 +283,7 @@ namespace geEngineSDK {
     }
 
     SerializedEntry&
-    getEntry(SerializedSubObject* obj, uint32 arrayIdx) {
+    getEntry(SerializedSubObject* /*obj*/, uint32 arrayIdx) {
       return m_sequentialEntries[arrayIdx];
     }
 
@@ -293,7 +293,7 @@ namespace geEngineSDK {
     }
 
     uint32
-    getNumEntries(SerializedSubObject* obj) {
+    getNumEntries(SerializedSubObject* /*obj*/) {
       return static_cast<uint32>(m_sequentialEntries.size());
     }
 

@@ -22,6 +22,8 @@
 #include "gePrerequisitesUtil.h"
 
 namespace geEngineSDK {
+  struct SerializationContext;
+
   /**
    * @brief Types of commands that are used when applying difference field
    *        values.
@@ -35,6 +37,7 @@ namespace geEngineSDK {
       kArraySize      = 0x05,
       kObjectStart    = 0x06,
       kObjectEnd      = 0x07,
+      kSubObjectStart = 0x08,
       kArrayFlag      = 0x10
     };
   }
@@ -63,7 +66,8 @@ namespace geEngineSDK {
      */
     void
     applyDiff(const SPtr<IReflectable>& object,
-              const SPtr<SerializedObject>& diff);
+              const SPtr<SerializedObject>& diff,
+              SerializationContext* context);
 
    protected:
     using ObjectMap = UnorderedMap<SPtr<SerializedObject>, SPtr<SerializedObject>>;
@@ -86,6 +90,7 @@ namespace geEngineSDK {
       union {
         uint32 arrayIdx;
         uint32 arraySize;
+        RTTITypeBase* rttiType;
       };
     };
 
@@ -121,8 +126,10 @@ namespace geEngineSDK {
     virtual void
     applyDiff(const SPtr<IReflectable>& object,
               const SPtr<SerializedObject>& diff,
+              FrameAlloc& alloc,
               DiffObjectMap& objectMap,
-              Vector<DiffCommand>& diffCommands) = 0;
+              FrameVector<DiffCommand>& diffCommands,
+              SerializationContext* context) = 0;
 
     /**
      * @brief Applies diff according to the diff handler retrieved from the
@@ -133,8 +140,10 @@ namespace geEngineSDK {
     applyDiff(RTTITypeBase* rtti,
               const SPtr<IReflectable>& object,
               const SPtr<SerializedObject>& diff,
+              FrameAlloc& alloc,
               DiffObjectMap& objectMap,
-              Vector<DiffCommand>& diffCommands);
+              FrameVector<DiffCommand>& diffCommands,
+              SerializationContext* context);
   };
 
   /**
@@ -166,7 +175,9 @@ namespace geEngineSDK {
     void
     applyDiff(const SPtr<IReflectable>& object,
               const SPtr<SerializedObject>& diff,
+              FrameAlloc& alloc,
               DiffObjectMap& objectMap,
-              Vector<DiffCommand>& diffCommands) override;
+              FrameVector<DiffCommand>& diffCommands,
+              SerializationContext* context) override;
   };
 }

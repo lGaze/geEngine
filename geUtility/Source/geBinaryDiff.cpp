@@ -108,7 +108,7 @@ namespace geEngineSDK {
         if (!isModified) {
           uint8* orgStreamData = nullptr;
           if (orgFieldData->stream->isFile()) {
-            SIZE_T readSize = static_cast<SIZE_T>(orgFieldData->size);
+            auto readSize = static_cast<SIZE_T>(orgFieldData->size);
             orgStreamData = reinterpret_cast<uint8*>(ge_stack_alloc(readSize));
             orgFieldData->stream->seek(static_cast<SIZE_T>(orgFieldData->offset));
             orgFieldData->stream->read(orgStreamData, readSize);
@@ -121,7 +121,7 @@ namespace geEngineSDK {
 
           uint8* newStreamData = nullptr;
           if (newFieldData->stream->isFile()) {
-            SIZE_T readSize = static_cast<SIZE_T>(newFieldData->size);
+            auto readSize = static_cast<SIZE_T>(newFieldData->size);
             newStreamData = reinterpret_cast<uint8*>(ge_stack_alloc(readSize));
             newFieldData->stream->seek(newFieldData->offset);
             newFieldData->stream->read(newStreamData, readSize);
@@ -154,56 +154,84 @@ namespace geEngineSDK {
   }
 
   void
-  IDiff::applyDiff(const SPtr<IReflectable>& object, const SPtr<SerializedObject>& diff) {
-    static const UnorderedMap<String, uint64> dummyParams;
+  IDiff::applyDiff(const SPtr<IReflectable>& object,
+                   const SPtr<SerializedObject>& diff,
+                   SerializationContext* context) {
+    FrameAlloc& alloc = g_frameAlloc();
+    alloc.markFrame();
 
-    Vector<DiffCommand> commands;
+    FrameVector<DiffCommand> commands;
 
     DiffObjectMap objectMap;
-    applyDiff(object, diff, objectMap, commands);
+    applyDiff(object, diff, alloc, objectMap, commands, context);
 
     IReflectable* destObject = nullptr;
+    RTTITypeBase* rttiInstance = nullptr;
+
     Stack<IReflectable*> objectStack;
-    Vector<RTTITypeBase*> rttiTypes;
+    Vector<std::pair<RTTITypeBase*, IReflectable*>> rttiInstances;
 
     for (auto& command : commands) {
       bool isArray = (command.type & DIFF_COMMAND_TYPE::kArrayFlag) != 0;
-      DIFF_COMMAND_TYPE::E type = static_cast<DIFF_COMMAND_TYPE::E>(command.type & 0xF);
+      auto type = static_cast<DIFF_COMMAND_TYPE::E>(command.type & 0xF);
 
       switch (type)
       {
         case DIFF_COMMAND_TYPE::kArraySize:
-          command.field->setArraySize(destObject, command.arraySize);
+          command.field->setArraySize(rttiInstance, destObject, command.arraySize);
           break;
         case DIFF_COMMAND_TYPE::kObjectStart:
         {
           destObject = command.object.get();
           objectStack.push(destObject);
 
+          FrameStack<RTTITypeBase*> rttiTypes;
           RTTITypeBase* curRtti = destObject->getRTTI();
           while (nullptr != curRtti) {
-            rttiTypes.push_back(curRtti);
+            rttiTypes.push(curRtti);
             curRtti = curRtti->getBaseClass();
           }
 
           //Call base class first, followed by derived classes
-          for (auto iter = rttiTypes.rbegin(); iter != rttiTypes.rend(); ++iter) {
-            (*iter)->onDeserializationStarted(destObject, dummyParams);
+          while (!rttiTypes.empty()) {
+            curRtti = rttiTypes.top();
+            rttiInstance = curRtti->_clone(alloc);
+
+            rttiInstances.emplace_back(rttiInstance, destObject);
+            rttiInstance->onDeserializationStarted(destObject, context);
+
+            rttiTypes.pop();
           }
+        }
+          break;
+        case DIFF_COMMAND_TYPE::kSubObjectStart:
+        {
+          //Find the instance
+          rttiInstance = nullptr;
+          for (auto iter = rttiInstances.rbegin(); iter != rttiInstances.rend(); ++iter) {
+            if (iter->second != destObject) {
+              break;
+            }
+
+            if (iter->first->getRTTIId() == command.rttiType->getRTTIId()) {
+              rttiInstance = iter->first;
+            }
+          }
+          GE_ASSERT(rttiInstance);
         }
           break;
         case DIFF_COMMAND_TYPE::kObjectEnd:
         {
-          Stack<RTTITypeBase*> sRTTITypes;
-          RTTITypeBase* curRtti = destObject->getRTTI();
-          while (nullptr != curRtti) {
-            sRTTITypes.push(curRtti);
-            curRtti = curRtti->getBaseClass();
-          }
+          while (!rttiInstances.empty()) {
+            if (rttiInstances.back().second != destObject) {
+              break;
+            }
 
-          while (!sRTTITypes.empty()) {
-            sRTTITypes.top()->onDeserializationEnded(destObject, dummyParams);
-            sRTTITypes.pop();
+            rttiInstance = rttiInstances.back().first;
+            rttiInstance->onDeserializationEnded(destObject, context);
+
+            alloc.destruct(rttiInstance);
+            rttiInstances.erase(rttiInstances.end() - 1);
           }
 
           objectStack.pop();
@@ -221,29 +249,26 @@ namespace geEngineSDK {
         }
 
         if (isArray) {
-          uint32 arrayInx = static_cast<uint32>(command.arrayIdx);
+          auto arrayInx = static_cast<uint32>(command.arrayIdx);
 
           switch (type)
           {
             case DIFF_COMMAND_TYPE::kReflectablePtr:
             {
-              RTTIReflectablePtrFieldBase*
-                field = static_cast<RTTIReflectablePtrFieldBase*>(command.field);
-              field->setArrayValue(destObject, arrayInx, command.object);
+              auto field = static_cast<RTTIReflectablePtrFieldBase*>(command.field);
+              field->setArrayValue(rttiInstance, destObject, arrayInx, command.object);
             }
               break;
             case DIFF_COMMAND_TYPE::kReflectable:
             {
-              RTTIReflectableFieldBase*
-                field = static_cast<RTTIReflectableFieldBase*>(command.field);
-              field->setArrayValue(destObject, arrayInx, *command.object);
+              auto field = static_cast<RTTIReflectableFieldBase*>(command.field);
+              field->setArrayValue(rttiInstance, destObject, arrayInx, *command.object);
             }
               break;
             case DIFF_COMMAND_TYPE::kPlain:
             {
-              RTTIPlainFieldBase*
-                field = static_cast<RTTIPlainFieldBase*>(command.field);
-              field->arrayElemFromBuffer(destObject, arrayInx, command.value);
+              auto field = static_cast<RTTIPlainFieldBase*>(command.field);
+              field->arrayElemFromBuffer(rttiInstance, destObject, arrayInx, command.value);
             }
               break;
             default:
@@ -255,30 +280,26 @@ namespace geEngineSDK {
           {
             case DIFF_COMMAND_TYPE::kReflectablePtr:
             {
-              RTTIReflectablePtrFieldBase*
-                field = static_cast<RTTIReflectablePtrFieldBase*>(command.field);
-              field->setValue(destObject, command.object);
+              auto field = static_cast<RTTIReflectablePtrFieldBase*>(command.field);
+              field->setValue(rttiInstance, destObject, command.object);
             }
               break;
             case DIFF_COMMAND_TYPE::kReflectable:
             {
-              RTTIReflectableFieldBase*
-                field = static_cast<RTTIReflectableFieldBase*>(command.field);
-              field->setValue(destObject, *command.object);
+              auto field = static_cast<RTTIReflectableFieldBase*>(command.field);
+              field->setValue(rttiInstance, destObject, *command.object);
             }
               break;
             case DIFF_COMMAND_TYPE::kPlain:
             {
-              RTTIPlainFieldBase*
-                field = static_cast<RTTIPlainFieldBase*>(command.field);
-              field->fromBuffer(destObject, command.value);
+              auto field = static_cast<RTTIPlainFieldBase*>(command.field);
+              field->fromBuffer(rttiInstance, destObject, command.value);
             }
               break;
             case DIFF_COMMAND_TYPE::kDataBlock:
             {
-              RTTIManagedDataBlockFieldBase*
-                field = static_cast<RTTIManagedDataBlockFieldBase*>(command.field);
-              field->setValue(destObject, command.streamValue, command.size);
+              auto field = static_cast<RTTIManagedDataBlockFieldBase*>(command.field);
+              field->setValue(rttiInstance, destObject, command.streamValue, command.size);
             }
               break;
             default:
@@ -286,16 +307,20 @@ namespace geEngineSDK {
         }
       }
     }
+
+    alloc.clear();
   }
 
   void
   IDiff::applyDiff(RTTITypeBase* rtti,
                    const SPtr<IReflectable>& object,
                    const SPtr<SerializedObject>& diff,
+                   FrameAlloc& alloc,
                    DiffObjectMap& objectMap,
-                   Vector<DiffCommand>& diffCommands) {
+                   FrameVector<DiffCommand>& diffCommands,
+                   SerializationContext* context) {
     IDiff& diffHandler = rtti->getDiffHandler();
-    diffHandler.applyDiff(object, diff, objectMap, diffCommands);
+    diffHandler.applyDiff(object, diff, alloc, objectMap, diffCommands, context);
   }
 
   SPtr<SerializedObject>
@@ -438,8 +463,10 @@ namespace geEngineSDK {
   void
   BinaryDiff::applyDiff(const SPtr<IReflectable>& object,
                         const SPtr<SerializedObject>& diff,
+                        FrameAlloc& alloc,
                         DiffObjectMap& objectMap,
-                        Vector<DiffCommand>& diffCommands) {
+                        FrameVector<DiffCommand>& diffCommands,
+                        SerializationContext* context) {
     static const UnorderedMap<String, uint64> dummyParams;
 
     if (nullptr == object ||
@@ -448,28 +475,34 @@ namespace geEngineSDK {
       return;
     }
 
-    DiffCommand objStartCommand;
-    objStartCommand.field = nullptr;
-    objStartCommand.type = DIFF_COMMAND_TYPE::kObjectStart;
-    objStartCommand.object = object;
+    // Generate a list of commands per sub-object
+    FrameVector<FrameVector<DiffCommand>> commandsPerSubObj;
 
-    diffCommands.push_back(objStartCommand);
-
-    Stack<RTTITypeBase*> rttiTypes;
+    Stack<RTTITypeBase*> rttiInstances;
     for (auto& subObject : diff->subObjects) {
+      RTTITypeBase* rtti = IReflectable::_getRTTIfromTypeId(subObject.typeId);
+      if (nullptr == rtti) {
+        continue;
+      }
+
+      if (!object->isDerivedFrom(rtti)) {
+        continue;
+      }
+
+      RTTITypeBase* rttiInstance = rtti->_clone(alloc);
+      rttiInstance->onSerializationStarted(object.get(), nullptr);
+      rttiInstances.push(rttiInstance);
+
+      FrameVector<DiffCommand> commands;
+
+      DiffCommand subObjStartCommand;
+      subObjStartCommand.rttiType = rtti;
+      subObjStartCommand.field = nullptr;
+      subObjStartCommand.type = DIFF_COMMAND_TYPE::kSubObjectStart;
+
+      commands.push_back(subObjStartCommand);
+
       for (auto& diffEntry : subObject.entries) {
-        RTTITypeBase* rtti = IReflectable::_getRTTIfromTypeId(subObject.typeId);
-        if (nullptr == rtti) {
-          continue;
-        }
-
-        if (!object->isDerivedFrom(rtti)) {
-          continue;
-        }
-
-        rtti->onSerializationStarted(object.get(), dummyParams);
-        rttiTypes.push(rtti);
-
         RTTIField* genericField = rtti->findField(diffEntry.first);
         if (nullptr == genericField) {
           continue;
@@ -494,10 +527,9 @@ namespace geEngineSDK {
           {
             case SERIALIZABLE_FIELD_TYPE::kReflectablePtr:
             {
-              RTTIReflectablePtrFieldBase*
-                field = static_cast<RTTIReflectablePtrFieldBase*>(genericField);
+              auto field = static_cast<RTTIReflectablePtrFieldBase*>(genericField);
 
-              uint32 orgArraySize = genericField->getArraySize(object.get());
+              uint32 orgArraySize = genericField->getArraySize(rttiInstance, object.get());
               for (auto& arrayElem : diffArray->entries) {
                 SPtr<SerializedObject> arrayElemData = 
                   static_pointer_cast<SerializedObject>(arrayElem.second.serialized);
@@ -516,14 +548,17 @@ namespace geEngineSDK {
                   bool needsNewObject = arrayElem.first >= orgArraySize;
 
                   if (!needsNewObject) {
-                    SPtr<IReflectable>
-                      childObj = field->getArrayValue(object.get(), arrayElem.first);
+                    SPtr<IReflectable> childObj = field->getArrayValue(rttiInstance,
+                                                                       object.get(),
+                                                                       arrayElem.first);
                     if (nullptr != childObj) {
                       IDiff::applyDiff(childObj->getRTTI(),
                                        childObj,
                                        arrayElemData,
+                                       alloc,
                                        objectMap,
-                                       diffCommands);
+                                       diffCommands,
+                                       context);
                       command.object = childObj;
                     }
                     else {
@@ -544,8 +579,10 @@ namespace geEngineSDK {
                       IDiff::applyDiff(childRtti,
                                        findObj->second,
                                        arrayElemData,
+                                       alloc,
                                        objectMap,
-                                       diffCommands);
+                                       diffCommands,
+                                       context);
                       command.object = findObj->second;
                       diffCommands.push_back(command);
                     }
@@ -560,15 +597,14 @@ namespace geEngineSDK {
               break;
             case SERIALIZABLE_FIELD_TYPE::kReflectable:
             {
-              RTTIReflectableFieldBase* 
-                field = static_cast<RTTIReflectableFieldBase*>(genericField);
+              auto field = static_cast<RTTIReflectableFieldBase*>(genericField);
 
-              uint32 orgArraySize = genericField->getArraySize(object.get());
+              uint32 orgArraySize = genericField->getArraySize(rttiInstance, object.get());
 
               Vector<SPtr<IReflectable>> newArrayElements(numArrayElements);
               uint32 minArrayLength = Math::min(orgArraySize, numArrayElements);
               for (uint32 i = 0; i < minArrayLength; ++i) {
-                IReflectable& childObj = field->getArrayValue(object.get(), i);
+                IReflectable& childObj = field->getArrayValue(rttiInstance, object.get(), i);
                 newArrayElements[i] = BinaryCloner::clone(&childObj, true);
               }
 
@@ -581,8 +617,10 @@ namespace geEngineSDK {
                   IDiff::applyDiff(childObj->getRTTI(),
                                    childObj,
                                    arrayElemData,
+                                   alloc,
                                    objectMap,
-                                   diffCommands);
+                                   diffCommands,
+                                   context);
                 }
                 else {
                   RTTITypeBase* childRtti = 
@@ -592,8 +630,10 @@ namespace geEngineSDK {
                     IDiff::applyDiff(childRtti,
                                      newObject,
                                      arrayElemData,
+                                     alloc,
                                      objectMap,
-                                     diffCommands);
+                                     diffCommands,
+                                     context);
                     newArrayElements[arrayElem.first] = newObject;
                   }
                 }
@@ -639,8 +679,7 @@ namespace geEngineSDK {
           {
             case SERIALIZABLE_FIELD_TYPE::kReflectablePtr:
             {
-              RTTIReflectablePtrFieldBase*
-                field = static_cast<RTTIReflectablePtrFieldBase*>(genericField);
+              auto field = static_cast<RTTIReflectablePtrFieldBase*>(genericField);
               SPtr<SerializedObject> 
                 fieldObjectData = static_pointer_cast<SerializedObject>(diffData);
 
@@ -652,7 +691,7 @@ namespace geEngineSDK {
                 command.object = nullptr;
               }
               else {
-                SPtr<IReflectable> childObj = field->getValue(object.get());
+                SPtr<IReflectable> childObj = field->getValue(rttiInstance, object.get());
                 if (nullptr == childObj) {
                   RTTITypeBase* childRtti = 
                     IReflectable::_getRTTIfromTypeId(fieldObjectData->getRootTypeId());
@@ -666,8 +705,10 @@ namespace geEngineSDK {
                     IDiff::applyDiff(childRtti,
                                      findObj->second,
                                      fieldObjectData,
+                                     alloc,
                                      objectMap,
-                                     diffCommands);
+                                     diffCommands,
+                                     context);
                     command.object = findObj->second;
                   }
                   else {
@@ -678,8 +719,10 @@ namespace geEngineSDK {
                   IDiff::applyDiff(childObj->getRTTI(),
                                    childObj,
                                    fieldObjectData,
+                                   alloc,
                                    objectMap,
-                                   diffCommands);
+                                   diffCommands,
+                                   context);
                   command.object = childObj;
                 }
               }
@@ -689,19 +732,20 @@ namespace geEngineSDK {
               break;
             case SERIALIZABLE_FIELD_TYPE::kReflectable:
             {
-              RTTIReflectableFieldBase*
-                field = static_cast<RTTIReflectableFieldBase*>(genericField);
+              auto field = static_cast<RTTIReflectableFieldBase*>(genericField);
               SPtr<SerializedObject>
                 fieldObjectData = static_pointer_cast<SerializedObject>(diffData);
 
-              IReflectable& childObj = field->getValue(object.get());
+              IReflectable& childObj = field->getValue(rttiInstance, object.get());
               SPtr<IReflectable> clonedObj = BinaryCloner::clone(&childObj, true);
 
               IDiff::applyDiff(clonedObj->getRTTI(),
                                clonedObj,
                                fieldObjectData,
+                               alloc,
                                objectMap,
-                               diffCommands);
+                               diffCommands,
+                               context);
 
               DiffCommand command;
               command.field = genericField;
@@ -745,6 +789,8 @@ namespace geEngineSDK {
           }
         }
       }
+
+      commandsPerSubObj.emplace_back(std::move(commands));
     }
 
     DiffCommand objEndCommand;
@@ -754,9 +800,11 @@ namespace geEngineSDK {
 
     diffCommands.push_back(objEndCommand);
 
-    while (!rttiTypes.empty()) {
-      rttiTypes.top()->onSerializationEnded(object.get(), dummyParams);
-      rttiTypes.pop();
+    while (!rttiInstances.empty()) {
+      RTTITypeBase* rttiInstance = rttiInstances.top();
+      rttiInstance->onSerializationEnded(object.get(), nullptr);
+      alloc.destruct(rttiInstance);
+      rttiInstances.pop();
     }
   }
 }

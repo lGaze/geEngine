@@ -74,7 +74,7 @@ namespace geEngineSDK {
      *        size, static size of the object is returned.
      */
     virtual uint32
-    getDynamicSize(void*) {
+    getDynamicSize(RTTITypeBase*, void*) {
       return 0;
     }
 
@@ -83,7 +83,7 @@ namespace geEngineSDK {
      *        dynamic size, static size of the element is returned.
      */
     virtual uint32
-    getArrayElemDynamicSize(void*, uint32) {
+    getArrayElemDynamicSize(RTTITypeBase*, void*, uint32) {
       return 0;
     }
 
@@ -93,7 +93,7 @@ namespace geEngineSDK {
      *        buffer is large enough.
      */
     virtual void
-    toBuffer(void* object, void* buffer) = 0;
+    toBuffer(RTTITypeBase* rtti, void* object, void* buffer) = 0;
 
     /**
      * @brief Retrieves the value at the specified array index on the provided
@@ -101,7 +101,7 @@ namespace geEngineSDK {
      *        It does not check if buffer is large enough.
      */
     virtual void
-    arrayElemToBuffer(void* object, uint32 index, void* buffer) = 0;
+    arrayElemToBuffer(RTTITypeBase* rtti, void* object, uint32 index, void* buffer) = 0;
 
     /**
      * @brief Sets the value on the provided field of the provided object.
@@ -110,7 +110,7 @@ namespace geEngineSDK {
      *        proper location and contains the proper type.
      */
     virtual void
-    fromBuffer(void* object, void* buffer) = 0;
+    fromBuffer(RTTITypeBase* rtti, void* object, void* buffer) = 0;
 
     /**
      * @brief Sets the value at the specified array index on the provided field
@@ -119,15 +119,43 @@ namespace geEngineSDK {
      *        buffer points to the proper location and contains the proper type.
      */
     virtual void
-    arrayElemFromBuffer(void* object, uint32 index, void* buffer) = 0;
+    arrayElemFromBuffer(RTTITypeBase* rtti, void* object, uint32 index, void* buffer) = 0;
   };
 
   /**
    * @brief Represents a plain class field containing a specific type.
    */
-  template<class DataType, class ObjectType>
+  template <class InterfaceType, class DataType, class ObjectType>
   struct RTTIPlainField : public RTTIPlainFieldBase
   {
+    using GetterType = DataType& (InterfaceType::*)(ObjectType*);
+    using SetterType = void (InterfaceType::*)(ObjectType*, DataType&);
+
+    using ArrayGetterType = DataType& (InterfaceType::*)(ObjectType*, uint32);
+    using ArraySetterType = void (InterfaceType::*)(ObjectType*, uint32, DataType&);
+    using ArrayGetSizeType = uint32(InterfaceType::*)(ObjectType*);
+    using ArraySetSizeType = void(InterfaceType::*)(ObjectType*, uint32);
+
+   private:
+    union {
+      struct
+      {
+        GetterType m_valueGetter;
+        SetterType m_valueSetter;
+      };
+
+      struct
+      {
+        ArrayGetterType m_arrayGetter;
+        ArraySetterType m_arraySetter;
+
+        ArrayGetSizeType m_arraySizeGetter;
+        ArraySetSizeType m_arraySizeSetter;
+      };
+    };
+
+   public:
+
     /**
      * @brief Initializes a plain field containing a single value.
      * @param[in] name  Name of the field.
@@ -143,7 +171,11 @@ namespace geEngineSDK {
      *            this field. See "RTTIFieldFlag".
      */
     void
-    initSingle(const String& name, uint16 uniqueId, Any getter, Any setter, uint64 flags) {
+    initSingle(String name,
+               uint16 uniqueId,
+               GetterType getter,
+               SetterType setter,
+               uint64 flags) {
       //Just making sure provided type has a type ID
       static_assert(sizeof(RTTIPlainType<DataType>::kID) > 0, "Type has no RTTI ID.");
       static_assert(0 != RTTIPlainType<DataType>::kHasDynamicSize || sizeof(DataType) <= 255,
@@ -151,15 +183,14 @@ namespace geEngineSDK {
                     "In order to use larger sizes for plain types please specialize "        \
                     "RTTIPlainType, set hasDynamicSize to true.");
 
-      initAll(getter,
-              setter,
-              nullptr,
-              nullptr,
-              name,
-              uniqueId,
-              false,
-              SERIALIZABLE_FIELD_TYPE::kPlain,
-              flags);
+      m_valueGetter = getter;
+      m_valueSetter = setter;
+
+      init(std::move(name),
+           uniqueId,
+           false,
+           SERIALIZABLE_FIELD_TYPE::kPlain,
+           flags);
     }
 
     /**
@@ -181,12 +212,12 @@ namespace geEngineSDK {
      *            handle this field. See "RTTIFieldFlag".
      */
     void
-    initArray(const String& name,
+    initArray(String name,
               uint16 uniqueId,
-              Any getter,
-              Any getSize,
-              Any setter,
-              Any setSize,
+              ArrayGetterType getter,
+              ArrayGetSizeType getSize,
+              ArraySetterType setter,
+              ArraySetSizeType setSize,
               uint64 flags) {
       //Just making sure provided type has a type ID
       static_assert(RTTIPlainType<DataType>::kID || true, "");
@@ -195,15 +226,16 @@ namespace geEngineSDK {
                     "In order to use larger sizes for plain types please specialize "        \
                     "RTTIPlainType, set hasDynamicSize to true.");
 
-      initAll(getter,
-              setter,
-              getSize,
-              setSize,
-              name,
-              uniqueId,
-              true,
-              SERIALIZABLE_FIELD_TYPE::kPlain,
-              flags);
+      m_arrayGetter = getter;
+      m_arraySetter = setter;
+      m_arraySizeGetter = getSize;
+      m_arraySizeSetter = setSize;
+
+      init(std::move(name),
+           uniqueId,
+           true,
+           SERIALIZABLE_FIELD_TYPE::kPlain,
+           flags);
     }
 
     /**
@@ -234,15 +266,13 @@ namespace geEngineSDK {
      * @copydoc RTTIPlainFieldBase::getDynamicSize
      */
     uint32
-    getDynamicSize(void* object) override {
+    getDynamicSize(RTTITypeBase* rtti, void* object) override {
       checkIsArray(false);
       checkType<DataType>();
 
-      ObjectType* castObject = static_cast<ObjectType*>(object);
-
-      function<DataType&(ObjectType*)> f = 
-        any_cast<function<DataType&(ObjectType*)>>(m_valueGetter);
-      DataType value = f(castObject);
+      auto rttiObject = static_cast<InterfaceType*>(rtti);
+      auto castObject = static_cast<ObjectType*>(object);
+      DataType value = (rttiObject->*m_valueGetter)(castObject);
 
       return RTTIPlainType<DataType>::getDynamicSize(value);
     }
@@ -251,15 +281,13 @@ namespace geEngineSDK {
      * @copydoc RTTIPlainFieldBase::getArrayElemDynamicSize
      */
     uint32
-    getArrayElemDynamicSize(void* object, uint32 index) override {
+    getArrayElemDynamicSize(RTTITypeBase* rtti, void* object, uint32 index) override {
       checkIsArray(true);
       checkType<DataType>();
 
-      ObjectType* castObject = static_cast<ObjectType*>(object);
-
-      function<DataType&(ObjectType*, uint32)> f =
-        any_cast<function<DataType&(ObjectType*, uint32)>>(m_valueGetter);
-      DataType value = f(castObject, index);
+      auto rttiObject = static_cast<InterfaceType*>(rtti);
+      auto castObject = static_cast<ObjectType*>(object);
+      DataType value = (rttiObject->*m_arrayGetter)(castObject, index);
 
       return RTTIPlainType<DataType>::getDynamicSize(value);
     }
@@ -268,13 +296,12 @@ namespace geEngineSDK {
      * @brief Returns the size of the array managed by the field.
      */
     uint32
-    getArraySize(void* object) override {
+    getArraySize(RTTITypeBase* rtti, void* object) override {
       checkIsArray(true);
 
-      function<uint32(ObjectType*)> f =
-        any_cast<function<uint32(ObjectType*)>>(m_arraySizeGetter);
-      ObjectType* castObject = static_cast<ObjectType*>(object);
-      return f(castObject);
+      auto rttiObject = static_cast<InterfaceType*>(rtti);
+      auto castObject = static_cast<ObjectType*>(object);
+      return (rttiObject->*m_arraySizeGetter)(castObject);
     }
 
     /**
@@ -282,33 +309,30 @@ namespace geEngineSDK {
      *        Array must be re-populated after.
      */
     void
-    setArraySize(void* object, uint32 size) override {
+    setArraySize(RTTITypeBase* rtti, void* object, uint32 size) override {
       checkIsArray(true);
 
-      if (m_arraySizeSetter.empty()) {
+      if (!m_arraySizeSetter) {
         GE_EXCEPT(InternalErrorException,
                   "Specified field (" + m_name + ") has no array size setter.");
       }
 
-      function<void(ObjectType*, uint32)> f =
-        any_cast<function<void(ObjectType*, uint32)>>(m_arraySizeSetter);
-      ObjectType* castObject = static_cast<ObjectType*>(object);
-      f(castObject, size);
+      auto rttiObject = static_cast<InterfaceType*>(rtti);
+      auto castObject = static_cast<ObjectType*>(object);
+      (rttiObject->*m_arraySizeSetter)(castObject, size);
     }
 
     /**
      * @copydoc RTTIPlainFieldBase::toBuffer
      */
     void
-    toBuffer(void* object, void* buffer) override {
+    toBuffer(RTTITypeBase* rtti, void* object, void* buffer) override {
       checkIsArray(false);
       checkType<DataType>();
 
-      ObjectType* castObject = static_cast<ObjectType*>(object);
-
-      function<DataType&(ObjectType*)> f =
-        any_cast<function<DataType&(ObjectType*)>>(m_valueGetter);
-      DataType value = f(castObject);
+      auto rttiObject = static_cast<InterfaceType*>(rtti);
+      auto castObject = static_cast<ObjectType*>(object);
+      DataType value = (rttiObject->*m_valueGetter)(castObject);
 
       RTTIPlainType<DataType>::toMemory(value, static_cast<char*>(buffer));
     }
@@ -317,15 +341,16 @@ namespace geEngineSDK {
      * @copydoc RTTIPlainFieldBase::arrayElemToBuffer
      */
     void
-    arrayElemToBuffer(void* object, uint32 index, void* buffer) override {
+    arrayElemToBuffer(RTTITypeBase* rtti,
+                      void* object,
+                      uint32 index,
+                      void* buffer) override {
       checkIsArray(true);
       checkType<DataType>();
 
-      ObjectType* castObject = static_cast<ObjectType*>(object);
-
-      function<DataType&(ObjectType*, uint32)> f =
-        any_cast<function<DataType&(ObjectType*, uint32)>>(m_valueGetter);
-      DataType value = f(castObject, index);
+      auto rttiObject = static_cast<InterfaceType*>(rtti);
+      auto castObject = static_cast<ObjectType*>(object);
+      DataType value = (rttiObject->*m_arrayGetter)(castObject, index);
 
       RTTIPlainType<DataType>::toMemory(value, static_cast<char*>(buffer));
     }
@@ -334,46 +359,47 @@ namespace geEngineSDK {
      * @copydoc RTTIPlainFieldBase::fromBuffer
      */
     void
-    fromBuffer(void* object, void* buffer) override {
+    fromBuffer(RTTITypeBase* rtti, void* object, void* buffer) override {
       checkIsArray(false);
       checkType<DataType>();
 
-      ObjectType* castObject = static_cast<ObjectType*>(object);
+      auto rttiObject = static_cast<InterfaceType*>(rtti);
+      auto castObject = static_cast<ObjectType*>(object);
 
       DataType value;
       RTTIPlainType<DataType>::fromMemory(value, static_cast<char*>(buffer));
 
-      if (m_valueSetter.empty()) {
+      if (!m_valueSetter) {
         GE_EXCEPT(InternalErrorException,
                   "Specified field (" + m_name + ") has no setter.");
       }
 
-      function<void(ObjectType*, DataType&)> f =
-        any_cast<function<void(ObjectType*, DataType&)>>(m_valueSetter);
-      f(castObject, value);
+      (rttiObject->*m_valueSetter)(castObject, value);
     }
 
     /**
      * @copydoc RTTIPlainFieldBase::arrayElemFromBuffer
      */
     void
-    arrayElemFromBuffer(void* object, uint32 index, void* buffer) override {
+    arrayElemFromBuffer(RTTITypeBase* rtti,
+                        void* object,
+                        uint32 index,
+                        void* buffer) override {
       checkIsArray(true);
       checkType<DataType>();
 
-      ObjectType* castObject = static_cast<ObjectType*>(object);
+      auto rttiObject = static_cast<InterfaceType*>(rtti);
+      auto castObject = static_cast<ObjectType*>(object);
 
       DataType value;
       RTTIPlainType<DataType>::fromMemory(value, static_cast<char*>(buffer));
 
-      if (m_valueSetter.empty()) {
+      if (!m_arraySetter) {
         GE_EXCEPT(InternalErrorException,
                   "Specified field (" + m_name + ") has no setter.");
       }
 
-      function<void(ObjectType*, uint32, DataType&)> f =
-        any_cast<function<void(ObjectType*, uint32, DataType&)>>(m_valueSetter);
-      f(castObject, index, value);
+      (rttiObject->*m_arraySetter)(castObject, index, value);
     }
   };
 }

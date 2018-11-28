@@ -84,7 +84,9 @@ namespace geEngineSDK {
      *        parameter, also in a hierarchical format for easier parsing.
      */
     static void
-    gatherReferences(IReflectable* object, FrameAlloc& alloc, ObjectReferenceData& referenceData);
+    gatherReferences(IReflectable* object,
+                     FrameAlloc& alloc,
+                     ObjectReferenceData& referenceData);
 
     /**
      * @brief Restores a set of references retrieved by gatherReferences() and
