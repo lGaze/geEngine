@@ -19,6 +19,7 @@
 /*****************************************************************************/
 #include "gePrerequisitesCore.h"
 #include "gePrefabDiff.h"
+#include "geUtility.h"
 
 #include <geRTTIType.h>
 #include <geSerializedObject.h>
@@ -30,7 +31,7 @@ namespace geEngineSDK {
   using std::static_pointer_cast;
 
   class GE_CORE_EXPORT PrefabComponentDiffRTTI
-    : public RTTIType<PrefabComponentDiff, IReflectable, PrefabComponentDiffRTTI>
+    : public RTTIType< PrefabComponentDiff, IReflectable, PrefabComponentDiffRTTI >
   {
    private:
     GE_BEGIN_RTTI_MEMBERS
@@ -117,27 +118,32 @@ namespace geEngineSDK {
 
    public:
     void
-    onDeserializationStarted(IReflectable* obj,
-                             const UnorderedMap<String, uint64>& /*params*/) override {
-      PrefabDiff* prefabDiff = static_cast<PrefabDiff*>(obj);
+    onDeserializationStarted(IReflectable* obj, SerializationContext* context) override {
+      auto prefabDiff = static_cast<PrefabDiff*>(obj);
 
-      if (GameObjectManager::instance().isGameObjectDeserializationActive()) {
-        GameObjectManager::instance().registerOnDeserializationEndCallback(
-          bind(&PrefabDiffRTTI::delayedOnDeserializationEnded, prefabDiff)
-        );
+      GE_ASSERT(nullptr != context &&
+                rtti_is_of_type<CoreSerializationContext>(context));
+      
+      auto coreContext = static_cast<CoreSerializationContext*>(context);
+
+      if (coreContext->goState) {
+        coreContext->goState->registerOnDeserializationEndCallback(
+          bind(&PrefabDiffRTTI::delayedOnDeserializationEnded, prefabDiff));
       }
     }
 
     void
-    onDeserializationEnded(IReflectable* obj,
-                           const UnorderedMap<String, uint64>& /*params*/) override {
-      GE_ASSERT(GameObjectManager::instance().isGameObjectDeserializationActive());
+    onDeserializationEnded(IReflectable* obj, SerializationContext* context) override {
+      GE_ASSERT(nullptr != context &&
+                rtti_is_of_type<CoreSerializationContext>(context));
+      const auto coreContext = static_cast<CoreSerializationContext*>(context);
+      GE_ASSERT(coreContext->goState);
 
       //Make sure to deserialize all game object handles since their IDs need
       //to be updated. Normally they are updated automatically upon
       //deserialization but since we store them in intermediate form we need to
       //manually deserialize and reserialize them in order to update their IDs.
-      PrefabDiff* prefabDiff = static_cast<PrefabDiff*>(obj);
+      auto prefabDiff = static_cast<PrefabDiff*>(obj);
       Stack<SPtr<PrefabObjectDiff>> todo;
 
       if (nullptr != prefabDiff->m_root) {
@@ -170,13 +176,11 @@ namespace geEngineSDK {
       Vector<SerializedHandle> handleData(handleObjects.size());
 
       uint32 idx = 0;
-      BinarySerializer bs;
       for (auto& handleObject : handleObjects) {
         SerializedHandle& handle = handleData[idx];
         handle.object = handleObject;
-        handle.handle = static_pointer_cast<GameObjectHandleBase>(
-          bs._decodeFromIntermediate(handleObject)
-        );
+        handle.handle = static_pointer_cast<GameObjectHandleBase>
+                          (handleObject->decode(context));
         ++idx;
       }
 
@@ -192,13 +196,11 @@ namespace geEngineSDK {
      */
     static void
     delayedOnDeserializationEnded(PrefabDiff* prefabDiff) {
-      Vector<SerializedHandle>&
-        handleData = any_cast_ref<Vector<SerializedHandle>>(prefabDiff->m_rttiData);
+      auto& handleData = any_cast_ref<Vector<SerializedHandle>>(prefabDiff->m_rttiData);
 
-      BinarySerializer bs;
       for (auto& serializedHandle : handleData) {
         if (nullptr != serializedHandle.handle) {
-          *serializedHandle.object = *bs._encodeToIntermediate(serializedHandle.handle.get());
+          *serializedHandle.object = *SerializedObject::create(serializedHandle.handle);
         }
       }
 
@@ -235,21 +237,19 @@ namespace geEngineSDK {
           }
 
           if (rtti_is_of_type<SerializedArray>(entryData)) {
-            SPtr<SerializedArray>
-              arrayData = static_pointer_cast<SerializedArray>(entryData);
+            auto arrayData = static_pointer_cast<SerializedArray>(entryData);
 
             for (auto& arrayElem : arrayData->entries) {
               if (nullptr != arrayElem.second.serialized &&
                   rtti_is_of_type<SerializedObject>(arrayElem.second.serialized)) {
-                SPtr<SerializedObject> arrayElemData =
+                auto arrayElemData =
                   static_pointer_cast<SerializedObject>(arrayElem.second.serialized);
                 findGameObjectHandles(arrayElemData, handleObjects);
               }
             }
           }
           else if (rtti_is_of_type<SerializedObject>(entryData)) {
-            SPtr<SerializedObject> fieldObjectData =
-              static_pointer_cast<SerializedObject>(entryData);
+            auto fieldObjectData = static_pointer_cast<SerializedObject>(entryData);
             findGameObjectHandles(fieldObjectData, handleObjects);
           }
         }

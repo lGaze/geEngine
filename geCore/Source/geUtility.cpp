@@ -53,12 +53,12 @@ namespace geEngineSDK {
 
   void
   findResourceDependenciesInternal(IReflectable& obj,
-                                   FrameAlloc& allocVal,
+                                   FrameAlloc& alloc,
                                    bool recursive,
                                    Map<UUID, ResourceDependency>& dependencies) {
     RTTITypeBase* rtti = obj.getRTTI();
     do {
-      RTTITypeBase* rttiInstance = rtti->_clone(allocVal);
+      RTTITypeBase* rttiInstance = rtti->_clone(alloc);
       rttiInstance->onSerializationStarted(&obj, nullptr);
 
       const uint32 numFields = rtti->getNumFields();
@@ -76,9 +76,9 @@ namespace geEngineSDK {
               const uint32 numElements = reflectableField->getArraySize(rttiInstance, &obj);
               for (uint32 j = 0; j < numElements; ++j) {
                 HResource resource = static_cast<HResource&>(
-                  reflectableField->getArrayValue(&obj, j));
+                  reflectableField->getArrayValue(rttiInstance, &obj, j));
                 if (!resource.getUUID().empty()) {
-                  ResourceDependency& dependency = dependencies[resource.getUUID()];
+                  auto& dependency = dependencies[resource.getUUID()];
                   dependency.resource = resource;
                   ++dependency.numReferences;
                 }
@@ -86,9 +86,9 @@ namespace geEngineSDK {
             }
             else {
               HResource resource = static_cast<HResource&>
-                (reflectableField->getValue(&obj));
+                                     (reflectableField->getValue(rttiInstance, &obj));
               if (!resource.getUUID().empty()) {
-                ResourceDependency& dependency = dependencies[resource.getUUID()];
+                auto& dependency = dependencies[resource.getUUID()];
                 dependency.resource = resource;
                 ++dependency.numReferences;
               }
@@ -99,15 +99,17 @@ namespace geEngineSDK {
             //no reflectable children that may hold the reference.
             if (hasReflectableChildren(reflectableField->getType())) {
               if (reflectableField->isArray()) {
-                const uint32 numElements = reflectableField->getArraySize(&obj);
+                const uint32 numElements = reflectableField->getArraySize(rttiInstance, &obj);
                 for (uint32 j = 0; j < numElements; ++j) {
-                  IReflectable& childObj = reflectableField->getArrayValue(&obj, j);
-                  findResourceDependenciesInternal(childObj, true, dependencies);
+                  IReflectable& childObj = reflectableField->getArrayValue(rttiInstance,
+                                                                           &obj,
+                                                                           j);
+                  findResourceDependenciesInternal(childObj, alloc, true, dependencies);
                 }
               }
               else {
-                IReflectable& childObj = reflectableField->getValue(&obj);
-                findResourceDependenciesInternal(childObj, true, dependencies);
+                auto& childObj = reflectableField->getValue(rttiInstance, &obj);
+                findResourceDependenciesInternal(childObj, alloc, true, dependencies);
               }
             }
           }
@@ -119,27 +121,31 @@ namespace geEngineSDK {
           //no reflectable children that may hold the reference.
           if (hasReflectableChildren(reflectablePtrField->getType())) {
             if (reflectablePtrField->isArray()) {
-              const uint32 numElements = reflectablePtrField->getArraySize(&obj);
+              const auto numElements = reflectablePtrField->getArraySize(rttiInstance, &obj);
               for (uint32 j = 0; j < numElements; ++j) {
-                const auto& childObj = reflectablePtrField->getArrayValue(&obj, j);
+                const auto& childObj = reflectablePtrField->getArrayValue(rttiInstance,
+                                                                          &obj,
+                                                                          j);
 
                 if (nullptr != childObj) {
-                  findResourceDependenciesInternal(*childObj, true, dependencies);
+                  findResourceDependenciesInternal(*childObj, alloc, true, dependencies);
                 }
               }
             }
             else {
-              const auto& childObj = reflectablePtrField->getValue(&obj);
+              const auto& childObj = reflectablePtrField->getValue(rttiInstance, &obj);
 
               if (nullptr != childObj) {
-                findResourceDependenciesInternal(*childObj, true, dependencies);
+                findResourceDependenciesInternal(*childObj, alloc, true, dependencies);
               }
             }
           }
         }
       }
 
-      rtti->onSerializationEnded(&obj, dummyParams);
+      rttiInstance->onSerializationEnded(&obj, nullptr);
+      alloc.destruct(rttiInstance);
+      
       rtti = rtti->getBaseClass();
     } while (nullptr != rtti);
   }

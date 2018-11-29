@@ -20,6 +20,7 @@
 #include "gePrefabDiffRTTI.h"
 #include "geSceneObject.h"
 #include "geSceneManager.h"
+#include "geUtility.h"
 
 #include <geMemorySerializer.h>
 #include <geBinarySerializer.h>
@@ -79,14 +80,20 @@ namespace geEngineSDK {
       return;
     }
 
-    GameObjectManager::instance().startDeserialization();
-    applyDiff(m_root, object);
-    GameObjectManager::instance().endDeserialization();
+    CoreSerializationContext serzContext;
+    serzContext.goState = ge_shared_ptr_new<GameObjectDeserializationState>
+                            (GODM_UseNewIds | GODM_RestoreExternal);
+    serzContext.goDeserializationActive = true;
+
+    applyDiff(m_root, object, &serzContext);
+
+    serzContext.goState->resolve();
   }
 
   void
   PrefabDiff::applyDiff(const SPtr<PrefabObjectDiff>& diff,
-                        const HSceneObject& object) {
+                        const HSceneObject& object,
+                        SerializationContext* context) {
     if ((diff->soFlags & static_cast<uint32>(SCENE_OBJECT_DIFF_FLAGS::kName)) != 0) {
       object->setName(diff->name);
     }
@@ -133,18 +140,12 @@ namespace geEngineSDK {
     }
 
     for (auto& addedComponentData : diff->addedComponents) {
-      BinarySerializer bs;
-      SPtr<Component> component = static_pointer_cast<Component>(
-        bs._decodeFromIntermediate(addedComponentData)
-      );
+      auto component = static_pointer_cast<Component>(addedComponentData->decode(context));
       object->addAndInitializeComponent(component);
     }
 
     for (auto& addedChildData : diff->addedChildren) {
-      BinarySerializer bs;
-      SPtr<SceneObject> sceneObject = static_pointer_cast<SceneObject>(
-        bs._decodeFromIntermediate(addedChildData)
-      );
+      auto sceneObject = static_pointer_cast<SceneObject>(addedChildData->decode(context));
       sceneObject->setParent(object);
 
       if (object->isInstantiated()) {
@@ -156,7 +157,7 @@ namespace geEngineSDK {
       for (auto& component : components) {
         if (static_cast<int32>(component->getLinkId()) == componentDiff->id) {
           IDiff& diffHandler = component->getRTTI()->getDiffHandler();
-          diffHandler.applyDiff(component.getInternalPtr(), componentDiff->data);
+          diffHandler.applyDiff(component.getInternalPtr(), componentDiff->data, context);
           break;
         }
       }
@@ -167,7 +168,7 @@ namespace geEngineSDK {
       for (uint32 i = 0; i < childCount; ++i) {
         HSceneObject child = object->getChild(i);
         if (child->getLinkId() == childDiff->id) {
-          applyDiff(childDiff, child);
+          applyDiff(childDiff, child, context);
           break;
         }
       }
@@ -286,8 +287,7 @@ namespace geEngineSDK {
       }
 
       if (!foundMatching) {
-        BinarySerializer bs;
-        SPtr<SerializedObject> obj = bs._encodeToIntermediate(instanceChild.get());
+        SPtr<SerializedObject> obj = SerializedObject::create(*instanceChild);
 
         if (nullptr == output) {
           output = ge_shared_ptr_new<PrefabObjectDiff>();
@@ -300,8 +300,8 @@ namespace geEngineSDK {
     const Vector<HComponent>& prefabComponents = prefab->getComponents();
     const Vector<HComponent>& instanceComponents = instance->getComponents();
 
-    uint32 prefabComponentCount = static_cast<uint32>(prefabComponents.size());
-    uint32 instanceComponentCount = static_cast<uint32>(instanceComponents.size());
+    auto prefabComponentCount = static_cast<uint32>(prefabComponents.size());
+    auto instanceComponentCount = static_cast<uint32>(instanceComponents.size());
 
     //Find modified and removed components
     for (uint32 i = 0; i < prefabComponentCount; ++i) {
@@ -313,17 +313,11 @@ namespace geEngineSDK {
         HComponent instanceComponent = instanceComponents[j];
 
         if (prefabComponent->getLinkId() == instanceComponent->getLinkId()) {
-          BinarySerializer bs;
-
-          SPtr<SerializedObject> encodedPrefab =
-            bs._encodeToIntermediate(prefabComponent.get());
-
-          SPtr<SerializedObject> encodedInstance =
-            bs._encodeToIntermediate(instanceComponent.get());
+          auto encodedPrefab = SerializedObject::create(*prefabComponent);
+          auto encodedInstance = SerializedObject::create(*instanceComponent);
 
           IDiff& diffHandler = prefabComponent->getRTTI()->getDiffHandler();
-          SPtr<SerializedObject>
-            diff = diffHandler.generateDiff(encodedPrefab, encodedInstance);
+          auto diff = diffHandler.generateDiff(encodedPrefab, encodedInstance);
 
           if (nullptr != diff) {
             childDiff = ge_shared_ptr_new<PrefabComponentDiff>();
@@ -370,8 +364,7 @@ namespace geEngineSDK {
       }
 
       if (!foundMatching) {
-        BinarySerializer bs;
-        SPtr<SerializedObject> obj = bs._encodeToIntermediate(instanceComponent.get());
+        SPtr<SerializedObject> obj = SerializedObject::create(*instanceComponent);
 
         if (nullptr == output) {
           output = ge_shared_ptr_new<PrefabObjectDiff>();

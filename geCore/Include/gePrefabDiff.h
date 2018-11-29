@@ -25,6 +25,8 @@
 #include <geQuaternion.h>
 
 namespace geEngineSDK {
+  struct SerializationContext;
+
   struct GE_CORE_EXPORT PrefabComponentDiff : public IReflectable
   {
     int32 id;
@@ -151,7 +153,9 @@ namespace geEngineSDK {
      * @see   apply
      */
     static void
-    applyDiff(const SPtr<PrefabObjectDiff>& diff, const HSceneObject& object);
+    applyDiff(const SPtr<PrefabObjectDiff>& diff,
+              const HSceneObject& object,
+              SerializationContext* context);
 
     /**
      * @brief Renames all game objects in the provided instance so that IDs of
@@ -185,6 +189,9 @@ namespace geEngineSDK {
      * RTTI
      */
     /*************************************************************************/
+
+    Any m_rttiData;
+
   public:
     friend class PrefabDiffRTTI;
 
