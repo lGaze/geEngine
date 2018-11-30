@@ -48,7 +48,7 @@ namespace geEngineSDK {
 
     void
     onDeserializationEnded(IReflectable* obj,
-                           const UnorderedMap<String, uint64>& /*params*/) override {
+                           SerializationContext* /*context*/) override {
       auto blendState = static_cast<BlendState*>(obj);
       blendState->initialize();
     }

@@ -20,6 +20,7 @@
 #include "gePrerequisitesCore.h"
 #include "geComponent.h"
 #include "geGameObjectRTTI.h"
+#include "geUtility.h"
 
 #include <geRTTIType.h>
 
@@ -34,8 +35,8 @@ namespace geEngineSDK {
 
     void
     onDeserializationEnded(IReflectable* obj,
-                           const UnorderedMap<String, uint64>& /*params*/) override {
-      Component* comp = static_cast<Component*>(obj);
+                           SerializationContext* context) override {
+      auto comp = static_cast<Component*>(obj);
 
       //It's possible we're just accessing the game object fields, in which
       //case the process below is not needed (it's only required for new
@@ -44,8 +45,10 @@ namespace geEngineSDK {
         return;
       }
 
-      GODeserializationData&
-        deserializationData = any_cast_ref<GODeserializationData>(comp->m_rttiData);
+      GE_ASSERT(nullptr != context &&
+                rtti_is_of_type<CoreSerializationContext>(context));
+      auto coreContext = static_cast<CoreSerializationContext*>(context);
+      auto& deserializationData = any_cast_ref<GODeserializationData>(comp->m_rttiData);
 
       //This shouldn't be null during normal deserialization but could be
       //during some other operations, like applying a binary diff.
@@ -53,8 +56,8 @@ namespace geEngineSDK {
         //Register the newly created SO with the GameObjectManager and provide
         //it with the original ID so that deserialized handles pointing to this
         //object can be resolved.
-        SPtr<Component> compPtr = static_pointer_cast<Component>(deserializationData.ptr);
-        GameObjectManager::instance().registerObject(compPtr, deserializationData.originalId);
+        auto compPtr = static_pointer_cast<Component>(deserializationData.ptr);
+        coreContext->goState->registerObject(compPtr, deserializationData.originalId);
       }
 
       comp->m_rttiData = nullptr;

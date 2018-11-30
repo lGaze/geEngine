@@ -104,6 +104,10 @@ namespace geEngineSDK {
 
   class PixelData;
 
+  class HString;
+  class StringTable;
+  struct LocalizedStringData;
+
   class Path;
 
   class HThread;

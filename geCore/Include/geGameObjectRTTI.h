@@ -115,9 +115,8 @@ namespace geEngineSDK {
 
     void
     onDeserializationStarted(IReflectable* obj,
-                             const UnorderedMap<String,
-                             uint64>&/* params*/) override {
-      GameObject* gameObject = static_cast<GameObject*>(obj);
+                             SerializationContext* context) override {
+      auto gameObject = static_cast<GameObject*>(obj);
 
       //It's possible we're just accessing the game object fields, in which
       //case the process below is not needed (it's only required for new game
@@ -131,8 +130,7 @@ namespace geEngineSDK {
       //Every GameObject must store GODeserializationData in its RTTI data
       //field during deserialization
       gameObject->m_rttiData = GODeserializationData();
-      GODeserializationData& deserializationData =
-        any_cast_ref<GODeserializationData>(gameObject->m_rttiData);
+      auto& deserializationData = any_cast_ref<GODeserializationData>(gameObject->m_rttiData);
 
       //Store shared pointer since the system only provides us with raw ones
       deserializationData.ptr = gameObjectPtr;
