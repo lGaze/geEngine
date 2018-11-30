@@ -53,9 +53,9 @@ namespace geEngineSDK {
   {
     GameObjectHandleData() = default;
 
-    GameObjectHandleData(const SPtr<GameObjectInstanceData>& ptr) {
-      m_ptr = ptr;
-    }
+    GameObjectHandleData(const SPtr<GameObjectInstanceData>& ptr)
+      : m_ptr(std::move(ptr))
+    {}
 
     SPtr<GameObjectInstanceData> m_ptr;
   };
@@ -159,6 +159,7 @@ namespace geEngineSDK {
 
    protected:
     friend class GameObjectManager;
+    friend class GameObjectDeserializationState;
 
     template<class _Ty1, class _Ty2>
     friend bool
@@ -166,8 +167,13 @@ namespace geEngineSDK {
                const GameObjectHandle<_Ty2>& _Right);
 
     GameObjectHandleBase(const SPtr<GameObject> ptr);
-    GameObjectHandleBase(const SPtr<GameObjectHandleData>& data);
-    GameObjectHandleBase(nullptr_t ptr);
+    GameObjectHandleBase(const SPtr<GameObjectHandleData>& data)
+      : m_data(std::move(data))
+    {}
+
+    GameObjectHandleBase(nullptr_t /*ptr*/)
+      : m_data(ge_shared_ptr_new<GameObjectHandleData>(nullptr))
+    {}
 
     /**
      * @brief Throws an exception if the referenced GameObject has been
@@ -219,26 +225,20 @@ namespace geEngineSDK {
     /**
      * @brief Constructs a new empty handle.
      */
-    GameObjectHandle() : GameObjectHandleBase() {
+    GameObjectHandle()
+      : GameObjectHandleBase() {
       m_data = ge_shared_ptr_new<GameObjectHandleData>();
     }
 
     /**
      * @brief Copy constructor from another handle of the same type.
      */
-    template<typename T1>
-    GameObjectHandle(const GameObjectHandle<T1>& ptr)
-      : GameObjectHandleBase() {
-      m_data = ptr._getHandleData();
-    }
+    GameObjectHandle(const GameObjectHandle<T>& ptr) = default;
 
     /**
-     * @brief Copy constructor from another handle of the base type.
+     * @brief Move constructor from another handle of the same type.
      */
-    GameObjectHandle(const GameObjectHandleBase& ptr)
-      : GameObjectHandleBase() {
-      m_data = ptr._getHandleData();
-    }
+    GameObjectHandle(GameObjectHandle<T>&& ptr) = default;
 
     /**
      * @brief Invalidates the handle.
@@ -248,6 +248,18 @@ namespace geEngineSDK {
       m_data = ge_shared_ptr_new<GameObjectHandleData>();
       return *this;
     }
+
+    /**
+     * @brief Copy assignment
+     */
+    GameObjectHandle<T>&
+    operator=(const GameObjectHandle<T>& other) = default;
+
+    /**
+     * @brief Move assignment
+     */
+    GameObjectHandle<T>&
+    operator=(GameObjectHandle<T>&& other) = default;
 
     /**
      * @brief Returns a pointer to the referenced GameObject.
@@ -304,6 +316,19 @@ namespace geEngineSDK {
       return (((nullptr != m_data->m_ptr) && (nullptr != m_data->m_ptr->object))
         ? &Bool_struct<T>::_member : 0);
     }
+
+  protected:
+    template<class _Ty1, class _Ty2>
+    friend GameObjectHandle<_Ty1>
+    static_object_cast(const GameObjectHandle<_Ty2>& other);
+
+    template<class _Ty1>
+    friend GameObjectHandle<_Ty1>
+    static_object_cast(const GameObjectHandleBase& other);
+
+    GameObjectHandle(SPtr<GameObjectHandleData> data)
+      : GameObjectHandleBase(std::move(data))
+    {}
   };
 
   /**
@@ -312,7 +337,16 @@ namespace geEngineSDK {
   template<class _Ty1, class _Ty2>
   GameObjectHandle<_Ty1>
   static_object_cast(const GameObjectHandle<_Ty2>& other) {
-    return GameObjectHandle<_Ty1>(other);
+    return GameObjectHandle<_Ty1>(other->_getHandleData());
+  }
+
+  /**
+   * @brief Casts a generic GameObject handle to a specific one .
+   */
+  template<class T>
+  GameObjectHandle<T>
+  static_object_cast(const GameObjectHandleBase& other) {
+    return GameObjectHandle<T>(other._getHandleData());
   }
 
   /**

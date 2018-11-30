@@ -87,8 +87,8 @@ namespace geEngineSDK {
 
     void
     onDeserializationEnded(IReflectable* obj,
-                           const UnorderedMap<String, uint64>& /*params*/) override {
-      StringTable* stringTable = static_cast<StringTable*>(obj);
+                           SerializationContext* /*context*/) override {
+      auto stringTable = static_cast<StringTable*>(obj);
       stringTable->setActiveLanguage(stringTable->m_activeLanguage);
     }
 
@@ -129,7 +129,7 @@ namespace geEngineSDK {
       char* memoryStart = memory;
       memory += sizeof(uint32);
 
-      uint32 numElements = static_cast<uint32>(data.strings.size());
+      auto numElements = static_cast<uint32>(data.strings.size());
       memory = rttiWriteElement(numElements, memory, size);
 
       for (auto& entry : data.strings) {

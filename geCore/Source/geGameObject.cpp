@@ -24,11 +24,6 @@
 #include <geNumericLimits.h>
 
 namespace geEngineSDK {
-  GameObject::GameObject()
-    : m_linkId(NumLimit::MAX_UINT32),
-      m_isDestroyed(false)
-  {}
-
   void
   GameObject::initialize(const SPtr<GameObject>& object, uint64 instanceId) {
     m_instanceData = ge_shared_ptr_new<GameObjectInstanceData>();

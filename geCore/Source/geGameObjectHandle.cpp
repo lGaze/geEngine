@@ -32,20 +32,8 @@
 #include <geException.h>
 
 namespace geEngineSDK {
-  GameObjectHandleBase::GameObjectHandleBase(const SPtr<GameObjectHandleData>& data)
-    : m_data(data)
-  {}
-
   GameObjectHandleBase::GameObjectHandleBase(const SPtr<GameObject> ptr) {
     m_data = ge_shared_ptr_new<GameObjectHandleData>(ptr->m_instanceData);
-  }
-
-  GameObjectHandleBase::GameObjectHandleBase(nullptr_t /*ptr*/) {
-    m_data = ge_shared_ptr_new<GameObjectHandleData>(nullptr);
-  }
-
-  GameObjectHandleBase::GameObjectHandleBase() {
-    m_data = ge_shared_ptr_new<GameObjectHandleData>(nullptr);
   }
 
   bool
@@ -53,11 +41,6 @@ namespace geEngineSDK {
     return  nullptr == m_data->m_ptr ||
             nullptr == m_data->m_ptr->object ||
             (checkQueued && m_data->m_ptr->object->_getIsDestroyed());
-  }
-
-  void
-  GameObjectHandleBase::_resolve(const GameObjectHandleBase& object) {
-    m_data->m_ptr = object.m_data->m_ptr;
   }
 
   void

@@ -250,7 +250,7 @@ namespace geEngineSDK {
      *            for resolving handles pointing to the object.
      */
     static HSceneObject
-    createInternal(const SPtr<SceneObject>& soPtr, uint64 originalId = 0);
+    createInternal(const SPtr<SceneObject>& soPtr);
 
     /**
      * @brief Destroys this object and any of its held components.
@@ -754,7 +754,7 @@ namespace geEngineSDK {
       static_assert((is_base_of<geEngineSDK::Component, T>::value),
                     "Specified type is not a valid Component.");
 
-      for (auto entry : m_components) {
+      for (const auto& entry : m_components) {
         if (entry->getRTTI()->isDerivedFrom(T::getRTTIStatic())) {
           return true;
         }

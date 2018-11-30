@@ -24,11 +24,12 @@
 
 namespace geEngineSDK {
   using std::function;
+  using std::atomic;
 
   /**
    * @brief Possible modes to use when deserializing games objects.
    */
-  namespace GAME_OBJECT_HANDLE_DESERIALIZATION_MODE {
+  namespace GAME_OBJECT_DESERIALIZATION_MODE {
     enum E {
       /**
        * All handles will point to old ID that were restored from the
@@ -44,7 +45,8 @@ namespace geEngineSDK {
 
       /**
        * Handles pointing to GameObjects outside of the currently deserialized
-       * set will attempt to be restored in case those objects are still active.
+       * set will attempt to be restored in case those objects are still
+       * active.
        */
       kRestoreExternal = 0x04,
 
@@ -55,14 +57,14 @@ namespace geEngineSDK {
       kBreakExternal = 0x08,
 
       /**
-       * Handles pointing to GameObjects that cannot be found will not be set to
-       * null.
+       * Handles pointing to GameObjects that cannot be found will not be set
+       * to null.
        */
       kKeepMissing = 0x10
     };
   }
 
-  using GOHDM = GAME_OBJECT_HANDLE_DESERIALIZATION_MODE::E;
+  using GODM = GAME_OBJECT_DESERIALIZATION_MODE::E;
 
   /**
    * @brief Tracks GameObject creation and destructions. Also resolves
@@ -71,15 +73,6 @@ namespace geEngineSDK {
    */
   class GE_CORE_EXPORT GameObjectManager : public Module<GameObjectManager>
   {
-    /**
-     * @brief Contains data for an yet unresolved game object handle.
-     */
-    struct UnresolvedHandle
-    {
-      uint64 originalInstanceId;
-      GameObjectHandleBase handle;
-    };
-
    public:
     GameObjectManager() = default;
     ~GameObjectManager();
@@ -88,13 +81,10 @@ namespace geEngineSDK {
      * @brief Registers a new GameObject and returns the handle to the object.
      * @param[in] object      Constructed GameObject to wrap in the handle and
      *            initialize.
-     * @param[in] originalId  If the object is being created due to
-     *            deserialization you must provide the original object's ID so
-     *            that deserialized handles can map to it properly.
      * @return  Handle to the GameObject.
      */
     GameObjectHandleBase
-    registerObject(const SPtr<GameObject>& object, uint64 originalId = 0);
+    registerObject(const SPtr<GameObject>& object);
 
     /**
      * @brief Unregisters a GameObject. Handles to this object will no longer
@@ -133,6 +123,13 @@ namespace geEngineSDK {
     remapId(uint64 oldId, uint64 newId);
 
     /**
+     * @brief Allocates a new unique game object ID.
+     * @note  Thread safe.
+     */
+    uint64
+    reserveId();
+
+    /**
      * @brief Queues the object to be destroyed at the end of a GameObject
      *        update cycle.
      */
@@ -150,41 +147,43 @@ namespace geEngineSDK {
      */
     Event<void(const HGameObject&)> onDestroyed;
 
-    /*************************************************************************/
-    /**
-     * Deserialization
-     * Note:  GameObjects need a bit of special handling when it comes to
-     *        deserialization, which is what this part of the code is used for.
-     *        It performs two main actions:
-     *        - 1. Resolves all GameObjectHandles on deserialization
-     *        - We can't just resolve them as we go because during
-     *          deserialization not all objects have necessarily been created.
-     *        - 2. Maps serialized IDs to actual in-engine IDs.
-     */
-    /*************************************************************************/
+   private:
+    atomic<uint64> m_nextAvailableID = { 1 } ; // 0 is not a valid ID
+		Map<uint64, GameObjectHandleBase> m_objects;
+		Map<uint64, GameObjectHandleBase> m_queuedForDestroy;
 
-    /**
-     * @brief Needs to be called whenever GameObject deserialization starts.
-     *        Must be followed by endDeserialization() call.
-     */
-    void
-    startDeserialization();
+		mutable Mutex m_mutex;
+  };
 
+  /**
+   * @brief Resolves game object handles and ID during deserialization of a
+   *        game object hierarchy.
+   */
+  class GE_CORE_EXPORT GameObjectDeserializationState
+  {
+   private:
     /**
-     * @brief Needs to be called whenever GameObject deserialization ends.
-     *        Must be preceded by startDeserialization() call.
+     * @brief Contains data for an yet unresolved game object handle.
      */
-    void
-    endDeserialization();
+    struct UnresolvedHandle
+    {
+      uint64 originalInstanceId;
+      GameObjectHandleBase handle;
+    };
 
+   public:
     /**
-     * @brief Returns true if GameObject deserialization is currently in
-     *        progress.
+     * @brief Starts game object deserialization.
+     * @param[in] options One or a combination of
+     *            GameObjectDeserializationModeFlags, controlling how are game
+     *            objects deserialized.
      */
-    bool
-    isGameObjectDeserializationActive() const {
-      return m_isDeserializationActive;
-    }
+    GameObjectDeserializationState(uint32 options = GODM::kUseNewIds |
+                                                    GODM::kBreakExternal)
+      : m_options(options)
+    {}
+
+    ~GameObjectDeserializationState();
 
     /**
      * @brief Queues the specified handle and resolves it when deserialization
@@ -194,6 +193,13 @@ namespace geEngineSDK {
     registerUnresolvedHandle(uint64 originalId, GameObjectHandleBase& object);
 
     /**
+     * @brief Notifies the system about a new deserialized game object and its
+     *        original ID.
+     */
+    void
+    registerObject(uint64 originalId, GameObjectHandleBase& object);
+
+    /**
      * @brief Registers a callback that will be triggered when GameObject
      *        serialization ends.
      */
@@ -201,42 +207,18 @@ namespace geEngineSDK {
     registerOnDeserializationEndCallback(function<void()> callback);
 
     /**
-     * @brief Changes the deserialization mode for any following GameObject
-     *        handle.
-     * @param[in] gameObjectDeserializationMode	Mode that controls how are
-     *            GameObjects handles resolved when being deserialized.
+     * @brief Resolves all registered handles and objects, and triggers end
+     *        callbacks.
      */
     void
-    setDeserializationMode(uint32 gameObjectDeserializationMode);
-
-    /**
-     * @brief Attempts to update the ID of the provided handle by mapping its
-     *        old ID to the newly deserialized object and its new ID. Game
-     *        object deserialization must be active.
-     */
-    void
-    resolveDeserializedHandle(UnresolvedHandle& data, uint32 flags);
-
-    /**
-     * @brief Gets the currently active flags that control how are game object
-     *        handles deserialized.
-     */
-    uint32
-    getDeserializationFlags() const {
-      return m_goDeserializationMode;
-    }
+    resolve();
 
    private:
-    uint64 m_nextAvailableID = 1; //0 is not a valid ID
-    Map<uint64, GameObjectHandleBase> m_objects;
-    Map<uint64, GameObjectHandleBase> m_queuedForDestroy;
-
-    GameObject* m_activeDeserializedObject;
-    bool m_isDeserializationActive = false;
-    Map<uint64, uint64> m_idMapping;
-    Map<uint64, SPtr<GameObjectHandleData>> m_unresolvedHandleData;
+    UnorderedMap<uint64, uint64> m_idMapping;
+    UnorderedMap<uint64, SPtr<GameObjectHandleData>> m_unresolvedHandleData;
+    UnorderedMap<uint64, GameObjectHandleBase> m_deserializedObjects;
     Vector<UnresolvedHandle> m_unresolvedHandles;
     Vector<function<void()>> m_endCallbacks;
-    uint32 m_goDeserializationMode = GOHDM::kUseNewIds | GOHDM::kBreakExternal;
+    uint32 m_options;
   };
 }

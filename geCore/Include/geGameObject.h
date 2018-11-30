@@ -62,7 +62,7 @@ namespace geEngineSDK {
   class GE_CORE_EXPORT GameObject : public IReflectable
   {
    public:
-    GameObject();
+    GameObject() = default;
     virtual ~GameObject() = default;
 
     /**
@@ -170,13 +170,15 @@ namespace geEngineSDK {
 
    protected:
     String m_name;
-    uint32 m_linkId;
+    uint32 m_linkId = NumLimit::MAX_UINT32;
+
+    Any m_rttiData; //RTTI only
 
    private:
     friend class Prefab;
 
     GameObjectInstanceDataPtr m_instanceData;
-    bool m_isDestroyed;
+    bool m_isDestroyed = false;
 
     /*************************************************************************/
     /**
@@ -184,8 +186,11 @@ namespace geEngineSDK {
      */
     /*************************************************************************/
 
+    friend class ComponentRTTI;
+    friend class SceneObjectRTTI;
+
    public:
-    friend class GameObjectRTTI;
+     friend class GameObjectRTTI;
 
     static RTTITypeBase*
     getRTTIStatic();

@@ -75,18 +75,21 @@ namespace geEngineSDK {
 
   HSceneObject
   SceneObject::createInternal(const String& name, uint32 flags) {
-    auto sceneObjectPtr = ge_shared_ptr<SceneObject>(GE_PVT_NEW(SceneObject, name, flags));
+    auto sceneObjectPtr = SPtr<SceneObject>(new (ge_alloc<SceneObject>())
+                                                 SceneObject(name, flags),
+                                            &ge_delete<SceneObject>, StdAlloc<SceneObject>());
 
-    HSceneObject sceneObject = GameObjectManager::instance().registerObject(sceneObjectPtr);
+    HSceneObject sceneObject = static_object_cast<SceneObject>
+      (GameObjectManager::instance().registerObject(sceneObjectPtr));
     sceneObject->m_thisHandle = sceneObject;
 
     return sceneObject;
   }
 
   HSceneObject
-  SceneObject::createInternal(const SPtr<SceneObject>& soPtr, uint64 originalId) {
-    HSceneObject
-      sceneObject = GameObjectManager::instance().registerObject(soPtr, originalId);
+  SceneObject::createInternal(const SPtr<SceneObject>& soPtr) {
+    HSceneObject sceneObject = static_object_cast<SceneObject>
+      (GameObjectManager::instance().registerObject(soPtr));
     sceneObject->m_thisHandle = sceneObject;
     return sceneObject;
   }
@@ -122,7 +125,7 @@ namespace geEngineSDK {
         component->_setIsDestroyed();
 
         if (isInstantiated()) {
-          g_sceneManager()._notifyComponentDestroyed(component);
+          g_sceneManager()._notifyComponentDestroyed(component, immediate);
         }
         component->destroyInternal(component, true);
         m_components.erase(m_components.end() - 1);
@@ -764,9 +767,8 @@ namespace geEngineSDK {
     if (self) {
       return m_activeSelf;
     }
-    else {
-      return m_activeHierarchy;
-    }
+
+    return m_activeHierarchy;
   }
 
   void
@@ -801,12 +803,17 @@ namespace geEngineSDK {
     uint32 bufferSize = 0;
 
     MemorySerializer serializer;
-    uint8* buffer = serializer.encode(this, bufferSize, (void*(*)(size_t))&ge_alloc);
+    uint8* buffer = serializer.encode(this, bufferSize,
+                                      reinterpret_cast<(void*(*)(size_t))>(&ge_alloc));
 
-    GameObjectManager::instance().setDeserializationMode(GOHDM::kUseNewIds |
-                                                         GOHDM::kRestoreExternal);
-    SPtr<SceneObject> cloneObj =
-      static_pointer_cast<SceneObject>(serializer.decode(buffer, bufferSize));
+    CoreSerializationContext serzContext;
+    serzContext.goState = ge_shared_ptr_new<GameObjectDeserializationState>
+                            (GODM::kUseNewIds | GODM::kRestoreExternal);
+
+    auto cloneObj = static_pointer_cast<SceneObject>(serializer.decode(buffer,
+                                                                       bufferSize,
+                                                                       &serzContext));
+
     ge_free(buffer);
 
     if (isInstantiated) {
@@ -843,7 +850,7 @@ namespace geEngineSDK {
       (*iter)->_setIsDestroyed();
 
       if (isInstantiated()) {
-        g_sceneManager()._notifyComponentDestroyed(*iter);
+        g_sceneManager()._notifyComponentDestroyed(*iter, immediate);
       }
 
       (*iter)->destroyInternal(*iter, immediate);
@@ -880,8 +887,13 @@ namespace geEngineSDK {
       return HComponent();
     }
 
-    SPtr<Component> componentPtr = static_pointer_cast<Component>(newObj);
-    HComponent newComponent = GameObjectManager::instance().registerObject(componentPtr);
+    auto componentPtr = static_pointer_cast<Component>(newObj);
+
+    //Clean up the self-reference assigned by the RTTI system
+    componentPtr->m_rttiData = nullptr;
+
+    HComponent newComponent = static_object_cast<Component>
+      (GameObjectManager::instance().registerObject(componentPtr));
     newComponent->m_parent = m_thisHandle;
 
     addAndInitializeComponent(newComponent);
@@ -890,8 +902,8 @@ namespace geEngineSDK {
 
   void
   SceneObject::addComponentInternal(const SPtr<Component> component) {
-    GameObjectHandle<Component>
-      newComponent = GameObjectManager::instance().getObject(component->getInstanceId());
+    HComponent newComponent = static_object_cast<Component>(
+      GameObjectManager::instance().getObject(component->getInstanceId()));
     newComponent->m_parent = m_thisHandle;
     newComponent->m_thisHandle = newComponent;
     m_components.push_back(newComponent);

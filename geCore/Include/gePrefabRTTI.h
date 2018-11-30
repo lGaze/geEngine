@@ -59,8 +59,8 @@ namespace geEngineSDK {
       //dealing with prefabs and keeping the invalid external references could
       //cause it to match invalid objects in case they end up having the same
       //ID.
-      GameObjectManager::instance().setDeserializationMode(GOHDM::kUseNewIds |
-                                                           GOHDM::kBreakExternal);
+      GameObjectManager::instance().setDeserializationMode(GODM::kUseNewIds |
+                                                           GODM::kBreakExternal);
     }
 
     const String&
