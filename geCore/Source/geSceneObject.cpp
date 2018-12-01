@@ -803,8 +803,7 @@ namespace geEngineSDK {
     uint32 bufferSize = 0;
 
     MemorySerializer serializer;
-    uint8* buffer = serializer.encode(this, bufferSize,
-                                      reinterpret_cast<(void*(*)(size_t))>(&ge_alloc));
+    uint8* buffer = serializer.encode(this, bufferSize, (void*(*)(size_t))&ge_alloc);
 
     CoreSerializationContext serzContext;
     serzContext.goState = ge_shared_ptr_new<GameObjectDeserializationState>
@@ -922,9 +921,10 @@ namespace geEngineSDK {
 
   void
   SceneObject::addAndInitializeComponent(const SPtr<Component> component) {
-    GameObjectHandle<Component>
-      newComponent = GameObjectManager::instance().getObject(component->getInstanceId());
+    HComponent newComponent = static_object_cast<Component>(
+      GameObjectManager::instance().getObject(component->getInstanceId()));
     newComponent->m_parent = m_thisHandle;
+
     addAndInitializeComponent(newComponent);
   }
 

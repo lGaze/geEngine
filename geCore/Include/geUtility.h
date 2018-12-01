@@ -70,21 +70,21 @@ namespace geEngineSDK {
      */
     static uint32
     getSceneObjectDepth(const HSceneObject& so);
+  };
 
-    /**
-     * @brief Provides extra information and maintains state during
-     *        serialization of various RTTI types in the core.
-     */
-    struct GE_CORE_EXPORT CoreSerializationContext : SerializationContext
-    {
-      SPtr<GameObjectDeserializationState> goState;
-      bool goDeserializationActive = false;
+  /**
+   * @brief Provides extra information and maintains state during
+   *        serialization of various RTTI types in the core.
+   */
+  struct GE_CORE_EXPORT CoreSerializationContext : SerializationContext
+  {
+    SPtr<GameObjectDeserializationState> goState;
+    bool goDeserializationActive = false;
 
-      static RTTITypeBase*
-      getRTTIStatic();
+    static RTTITypeBase*
+    getRTTIStatic();
 
-      RTTITypeBase*
-      getRTTI() const override;
-    };
+    RTTITypeBase*
+    getRTTI() const override;
   };
 }

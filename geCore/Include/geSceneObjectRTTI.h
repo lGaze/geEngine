@@ -24,21 +24,12 @@
 #include "geComponent.h"
 #include "geGameObjectRTTI.h"
 #include "gePrefabDiff.h"
+#include "geUtility.h"
 
 #include <geRTTIType.h>
 
 namespace geEngineSDK {
   using std::static_pointer_cast;
-
-  /**
-   * @brief Provides temporary storage for data used during SceneObject
-   *        deserialization.
-   */
-  struct SODeserializationData
-  {
-    Vector<SPtr<SceneObject>> children;
-    Vector<SPtr<Component>> components;
-  };
 
   class GE_CORE_EXPORT SceneObjectRTTI
     : public RTTIType<SceneObject, GameObject, SceneObjectRTTI>
@@ -80,22 +71,14 @@ namespace geEngineSDK {
     }
 
     void
-    setChild(SceneObject* obj, uint32 idx, SPtr<SceneObject> param) {
-      SceneObject* so = static_cast<SceneObject*>(obj);
-
-      GODeserializationData& goDeserializationData =
-        any_cast_ref<GODeserializationData>(so->m_rttiData);
-
-      SODeserializationData& soDeserializationData =
-        any_cast_ref<SODeserializationData>(goDeserializationData.moreData);
-
+    setChild(SceneObject* /*obj*/, uint32 idx, SPtr<SceneObject> param) {
       //It's important that child indices remain the same after deserialization
       //as some systems (like SO record / restore) depend on it
-      if (soDeserializationData.children.size() <= idx) {
-        soDeserializationData.children.resize(idx + 1);
+      if (m_children.size() <= idx) {
+        m_children.resize(idx + 1);
       }
 
-      soDeserializationData.children[idx] = param;
+      m_children[idx] = param;
     }
 
     uint32
@@ -113,21 +96,14 @@ namespace geEngineSDK {
     }
 
     void
-    setComponent(SceneObject* obj, uint32 idx, SPtr<Component> param) {
-      SceneObject* so = static_cast<SceneObject*>(obj);
-      GODeserializationData& goDeserializationData =
-        any_cast_ref<GODeserializationData>(so->m_rttiData);
-
-      SODeserializationData& soDeserializationData =
-        any_cast_ref<SODeserializationData>(goDeserializationData.moreData);
-
+    setComponent(SceneObject* /*obj*/, uint32 idx, SPtr<Component> param) {
       //It's important that child indices remain the same after deserialization
       //as some systems (like SO record / restore) depend on it
-      if (soDeserializationData.components.size() <= idx) {
-        soDeserializationData.components.resize(idx + 1);
+      if (m_components.size() <= idx) {
+        m_components.resize(idx + 1);
       }
 
-      soDeserializationData.components[idx] = param;
+      m_components[idx] = param;
     }
 
     uint32
@@ -247,11 +223,11 @@ namespace geEngineSDK {
 
     void
     onDeserializationStarted(IReflectable* obj,
-                             const UnorderedMap<String, uint64>& /*params*/) override {
+                             SerializationContext* context) override {
       //If this is the root scene object we're deserializing, activate game
       //object deserialization so the system can resolve deserialized handles
       //to the newly created objects
-      SceneObject* so = static_cast<SceneObject*>(obj);
+      auto so = static_cast<SceneObject*>(obj);
 
       //It's possible we're just accessing the game object fields, in which
       //case the process below is not needed (it's only required for new scene
@@ -260,30 +236,26 @@ namespace geEngineSDK {
         return;
       }
 
-      //Every GameObject must store GODeserializationData in its RTTI data
-      //field during deserialization
-      GODeserializationData&
-        deserializationData = any_cast_ref<GODeserializationData>(so->m_rttiData);
-
-      //We delay adding children / components and instead store them here
-      deserializationData.moreData = SODeserializationData();
-
-      if (!GameObjectManager::instance().isGameObjectDeserializationActive()) {
-        GameObjectManager::instance().startDeserialization();
-
-        //Mark it as the object that started the GO deserialization so it knows
-        //to end it
-        deserializationData.isDeserializationParent = true;
+      if (nullptr == context ||
+          !rtti_is_of_type<CoreSerializationContext>(context)) {
+        return;
       }
-      else {
-        deserializationData.isDeserializationParent = false;
+
+      auto coreContext = static_cast<CoreSerializationContext*>(context);
+      if (!coreContext->goDeserializationActive) {
+        if (!coreContext->goState) {
+          coreContext->goState = ge_shared_ptr_new<GameObjectDeserializationState>();
+        }
+
+        m_isDeserializationParent = true;
+        coreContext->goDeserializationActive = true;
       }
     }
 
     void
     onDeserializationEnded(IReflectable* obj,
-                           const UnorderedMap<String, uint64>& /*params*/) override {
-      SceneObject* so = static_cast<SceneObject*>(obj);
+                           SerializationContext* context) override {
+      auto so = static_cast<SceneObject*>(obj);
 
       //It's possible we're just accessing the game object fields, in which
       //case the process below is not needed (it's only required for new scene
@@ -292,26 +264,28 @@ namespace geEngineSDK {
         return;
       }
 
-      GODeserializationData&
-        goDeserializationData = any_cast_ref<GODeserializationData>(so->m_rttiData);
+      GE_ASSERT(nullptr != context &&
+                rtti_is_of_type<CoreSerializationContext>(context));
+      auto coreContext = static_cast<CoreSerializationContext*>(context);
+
+      auto& goDeserializationData = any_cast_ref<GODeserializationData>(so->m_rttiData);
 
       //Register the newly created SO with the GameObjectManager and provide it
       //with the original ID so that deserialized handles pointing to this
       //object can be resolved.
       SPtr<SceneObject> soPtr = static_pointer_cast<SceneObject>(goDeserializationData.ptr);
-      SceneObject::createInternal(soPtr, goDeserializationData.originalId);
+      
+      HSceneObject soHandle = SceneObject::createInternal(soPtr);
+      coreContext->goState->registerObject(goDeserializationData.originalId, soHandle);
 
       //We stored all components and children in a temporary structure because
       //they rely on the SceneObject being initialized with the
       //GameObjectManager. Now that it is, we add them.
-      SODeserializationData& soDeserializationData =
-        any_cast_ref<SODeserializationData>(goDeserializationData.moreData);
-
-      for (auto& component : soDeserializationData.components) {
+      for (auto& component : m_components) {
         so->addComponentInternal(component);
       }
 
-      for (auto& child : soDeserializationData.children) {
+      for (auto& child : m_children) {
         if (nullptr != child) {
           child->_setParent(so->m_thisHandle, false);
         }
@@ -320,8 +294,9 @@ namespace geEngineSDK {
       //If this is the deserialization parent, end deserialization (which
       //resolves all game object handles, if we provided valid IDs), and
       //instantiate (i.e. activate) the deserialized hierarchy.
-      if (goDeserializationData.isDeserializationParent) {
-        GameObjectManager::instance().endDeserialization();
+      if (m_isDeserializationParent) {
+        coreContext->goState->resolve();
+        coreContext->goDeserializationActive = false;
 
         bool parentActive = true;
         if (nullptr != so->getParent()) {
@@ -351,11 +326,17 @@ namespace geEngineSDK {
 
     SPtr<IReflectable>
     newRTTIObject() override {
-      auto sceneObject = ge_shared_ptr(GE_PVT_NEW(SceneObject,
-                                                  "",
-                                                  SCENE_OBJECT_FLAGS::kDontInstantiate));
+      auto sceneObject = SPtr<SceneObject>(new (ge_alloc<SceneObject>())
+                                           SceneObject("",
+                                                       SCENE_OBJECT_FLAGS::kDontInstantiate),
+                                           &ge_delete<SceneObject>, StdAlloc<SceneObject>());
       sceneObject->m_rttiData = sceneObject;
       return sceneObject;
     }
+    
+   private:
+    bool m_isDeserializationParent = false;
+    Vector<SPtr<SceneObject>> m_children;
+    Vector<SPtr<Component>> m_components;
   };
 }

@@ -229,7 +229,7 @@ namespace geEngineSDK {
     newRTTIObject() override {
       GE_EXCEPT(InternalErrorException,
                 "Cannot instantiate an abstract class.");
-      return nullptr;
+      //return nullptr; //Unreachable code
     }
   };
 

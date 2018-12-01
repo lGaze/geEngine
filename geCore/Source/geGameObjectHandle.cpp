@@ -32,7 +32,7 @@
 #include <geException.h>
 
 namespace geEngineSDK {
-  GameObjectHandleBase::GameObjectHandleBase(const SPtr<GameObject> ptr) {
+  GameObjectHandleBase::GameObjectHandleBase(const SPtr<GameObject>& ptr) {
     m_data = ge_shared_ptr_new<GameObjectHandleData>(ptr->m_instanceData);
   }
 

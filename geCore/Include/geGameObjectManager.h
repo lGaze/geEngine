@@ -20,6 +20,7 @@
 /*****************************************************************************/
 #include "gePrerequisitesCore.h"
 #include "geGameObject.h"
+
 #include <geModule.h>
 
 namespace geEngineSDK {

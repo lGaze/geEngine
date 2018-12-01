@@ -392,10 +392,8 @@ namespace geEngineSDK {
                 "Ask a programmer to use a bigger data type.");
     }
 
-    UnorderedMap<String, uint64> params;
-    if (loadWithSaveData) {
-      params["keepSourceData"] = 1;
-    }
+    CoreSerializationContext serzContext;
+    serzContext.flags = loadWithSaveData ? SERIALIZATION_FLAGS::kKeepResourceSourceData : 0;
 
     //Read meta-data
     SPtr<SavedResourceData> metaData;
@@ -407,7 +405,7 @@ namespace geEngineSDK {
         BinarySerializer bs;
         metaData = static_pointer_cast<SavedResourceData>(bs.decode(stream,
                                                                     objectSize,
-                                                                    params));
+                                                                    &serzContext));
       }
     }
 
@@ -425,7 +423,7 @@ namespace geEngineSDK {
         BinarySerializer bs;
         loadedData = static_pointer_cast<SavedResourceData>(bs.decode(stream,
                                                                       objectSize,
-                                                                      params));
+                                                                      &serzContext));
       }
     }
 

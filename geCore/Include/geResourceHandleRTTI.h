@@ -25,6 +25,8 @@
 #include <geRTTIType.h>
 
 namespace geEngineSDK {
+  using std::memory_order_relaxed;
+
   class GE_CORE_EXPORT ResourceHandleRTTI
     : public RTTIType<TResourceHandleBase<false>, IReflectable, ResourceHandleRTTI>
   {
@@ -49,7 +51,7 @@ namespace geEngineSDK {
 
     void
     onDeserializationEnded(IReflectable* obj,
-                           const UnorderedMap<String, uint64>& /*params*/) override {
+                           SerializationContext* /*context*/) override {
       auto resourceHandle = static_cast<TResourceHandleBase<false>*>(obj);
 
       if (resourceHandle->m_data && !resourceHandle->m_data->m_uuid.empty()) {
@@ -75,10 +77,11 @@ namespace geEngineSDK {
 
     SPtr<IReflectable>
     newRTTIObject() override {
-      auto obj = ge_shared_ptr<TResourceHandleBase<false>>
-        (ge_new<TResourceHandleBase<false>>());
+      auto obj = ge_shared_ptr<TResourceHandleBase<false>>(
+                   new (ge_alloc<TResourceHandleBase<false>>())
+                     TResourceHandleBase<false>());
       obj->m_data = ge_shared_ptr_new<ResourceHandleData>();
-      ++obj->m_data->m_refCount;
+      obj->m_data->m_refCount.fetch_add(1, memory_order_relaxed);
 
       return obj;
     }
@@ -108,7 +111,7 @@ namespace geEngineSDK {
 
     void
     onDeserializationEnded(IReflectable* obj,
-                           const UnorderedMap<String, uint64>& /*params*/) override {
+                           SerializationContext* /*context*/) override {
       auto resourceHandle = static_cast<TResourceHandleBase<true>*>(obj);
 
       if (resourceHandle->m_data && !resourceHandle->m_data->m_uuid.empty()) {
@@ -131,8 +134,9 @@ namespace geEngineSDK {
 
     SPtr<IReflectable>
     newRTTIObject() override {
-      auto obj = ge_shared_ptr<TResourceHandleBase<true>>
-        (ge_new<TResourceHandleBase<true>>());
+      auto obj = ge_shared_ptr<TResourceHandleBase<true>>(
+                   new (ge_alloc<TResourceHandleBase<true>>())
+                     TResourceHandleBase<true>());
       obj->m_data = ge_shared_ptr_new<ResourceHandleData>();
 
       return obj;

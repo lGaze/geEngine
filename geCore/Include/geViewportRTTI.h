@@ -38,8 +38,8 @@ namespace geEngineSDK {
    public:
     void
     onDeserializationEnded(IReflectable* obj,
-                           const UnorderedMap<String, uint64>& /*params*/) override {
-      Viewport* viewport = static_cast<Viewport*>(obj);
+                           SerializationContext* /*context*/) override {
+      auto viewport = static_cast<Viewport*>(obj);
       viewport->initialize();
     }
 

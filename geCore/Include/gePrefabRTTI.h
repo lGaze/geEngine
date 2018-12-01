@@ -20,6 +20,7 @@
 #include "gePrerequisitesCore.h"
 #include "gePrefab.h"
 #include "geSceneObject.h"
+#include "geUtility.h"
 
 #include <geRTTIType.h>
 
@@ -30,8 +31,8 @@ namespace geEngineSDK {
    private:
     GE_BEGIN_RTTI_MEMBERS
       GE_RTTI_MEMBER_PLAIN(m_hash, 1)
-      GE_RTTI_MEMBER_PLAIN(m_uuid, 3)
-      GE_RTTI_MEMBER_PLAIN(m_isScene, 4)
+      GE_RTTI_MEMBER_PLAIN(m_uuid, 2)
+      GE_RTTI_MEMBER_PLAIN(m_isScene, 3)
     GE_END_RTTI_MEMBERS
 
     SPtr<SceneObject>
@@ -54,13 +55,18 @@ namespace geEngineSDK {
 
     void
     onDeserializationStarted(IReflectable* /*ptr*/,
-                             const UnorderedMap<String, uint64>& /*params*/) override {
+                             SerializationContext* context) override {
+      GE_ASSERT(nullptr != context &&
+                rtti_is_of_type<CoreSerializationContext>(context));
+      auto coreContext = static_cast<CoreSerializationContext*>(context);
+
       //Make sure external IDs are broken because we do some ID matching when
       //dealing with prefabs and keeping the invalid external references could
       //cause it to match invalid objects in case they end up having the same
       //ID.
-      GameObjectManager::instance().setDeserializationMode(GODM::kUseNewIds |
-                                                           GODM::kBreakExternal);
+      GE_ASSERT(!coreContext->goState);
+      coreContext->goState = ge_shared_ptr_new<GameObjectDeserializationState>
+                               (GODM::kUseNewIds | GODM::kBreakExternal);
     }
 
     const String&

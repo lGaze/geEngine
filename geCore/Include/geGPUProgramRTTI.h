@@ -102,16 +102,16 @@ namespace geEngineSDK {
    public:
     void
     onSerializationStarted(IReflectable* obj,
-                           const UnorderedMap<String, uint64>& /*params*/) override {
+                           SerializationContext* /*context*/) override {
       //Need to ensure the core thread object is initialized
-      GPUProgram* gpuProgram = static_cast<GPUProgram*>(obj);
+      auto gpuProgram = static_cast<GPUProgram*>(obj);
       gpuProgram->blockUntilCoreInitialized();
     }
 
     void
     onDeserializationEnded(IReflectable* obj,
-                           const UnorderedMap<String, uint64>& /*params*/) override {
-      GPUProgram* gpuProgram = static_cast<GPUProgram*>(obj);
+                           SerializationContext* /*context*/) override {
+      auto gpuProgram = static_cast<GPUProgram*>(obj);
       gpuProgram->initialize();
     }
 

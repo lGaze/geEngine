@@ -48,7 +48,7 @@ namespace geEngineSDK {
 
     void
     onDeserializationEnded(IReflectable* obj,
-                           const UnorderedMap<String, uint64>& /*params*/) override {
+                           SerializationContext* /*context*/) override {
       auto depthStencilState = static_cast<DepthStencilState*>(obj);
       depthStencilState->initialize();
     }

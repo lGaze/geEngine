@@ -38,7 +38,7 @@ namespace geEngineSDK {
        * If enabled all resources referenced by the root resource will be loaded
        * as well.
        */
-      kLoadDependencies = 1 << 0,
+      kLoadDependencies = 1,
 
       /**
        * If enabled the resource system will keep an internal reference to the
@@ -49,7 +49,7 @@ namespace geEngineSDK {
        * loaded, they will not have internal references created regardless of
        * this parameter.
        */
-      kKeepInternalRef = 1 << 1,
+      kKeepInternalRef = 2,
 
       /**
        * Determines if the loaded resource keeps original data loaded. Sometime
@@ -60,7 +60,7 @@ namespace geEngineSDK {
        * Normally you want to keep this enabled if you plan on saving the
        * resource to disk.
        */
-      kKeepSourceData = 1 << 2,
+      kKeepSourceData = 4,
 
       /**
        * Default set of flags used for resource loading.

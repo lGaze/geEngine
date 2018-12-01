@@ -66,6 +66,19 @@ namespace geEngineSDK {
     };
   }
 
+  /**
+   * @brief Types of events that represent component state changes relevant to
+   *        the scene manager.
+   */
+  namespace COMPONENT_STATE_EVENT {
+    enum E {
+      kCreated,
+      kActivated,
+      kDeactivated,
+      kDestroyed
+    };
+  }
+
   class GE_CORE_EXPORT SceneManager : public Module<SceneManager>
   {
    public:
@@ -234,9 +247,23 @@ namespace geEngineSDK {
      *        The manager triggers necessary callbacks.
      */
     void
-    _notifyComponentDestroyed(const HComponent& component);
+    _notifyComponentDestroyed(const HComponent& component, bool immediate);
 
    protected:
+    /**
+     * @brief Describes a single component state change.
+     */
+    struct ComponentStateChange
+    {
+      ComponentStateChange(HComponent _obj, COMPONENT_STATE_EVENT::E _type)
+        : obj(std::move(_obj)),
+          type(_type)
+      {}
+
+      HComponent obj;
+      COMPONENT_STATE_EVENT::E type;
+    };
+
     friend class SceneObject;
 
     /**
@@ -261,22 +288,25 @@ namespace geEngineSDK {
     onMainRenderTargetResized();
 
     /**
-     * @brief Removes a component from the active component list.
+     * @brief Adds a component to the specified state list. Caller is expected
+     *        to first remove the component from any existing state lists.
      */
     void
-    removeFromActiveList(const HComponent& component);
+    addToStateList(const HComponent& component, uint32 listType);
 
     /**
-     * @brief Removes a component from the inactive component list.
+     * @brief Removes a component from its current scene manager state list
+     *        (if any).
      */
     void
-    removeFromInactiveList(const HComponent& component);
+    removeFromStateList(const HComponent& component);
 
     /**
-     * @brief Removes a component from the uninitialized component list.
+     * @brief Iterates over components that had their state modified and moves
+     *        them to the appropriate state lists.
      */
     void
-    removeFromUninitializedList(const HComponent& component);
+    processStateChanges();
 
     /**
      * @brief Encodes an index and a type into a single 32-bit integer. Top 2
@@ -309,10 +339,18 @@ namespace geEngineSDK {
     Vector<HComponent> m_inactiveComponents;
     Vector<HComponent> m_uninitializedComponents;
 
+    std::array<Vector<HComponent>*, 3> m_componentsPerState = {
+      { &m_activeComponents,
+        &m_inactiveComponents,
+        &m_uninitializedComponents }
+    };
+
     SPtr<RenderTarget> m_mainRT;
     HEvent m_mainRTResizedConn;
 
     COMPONENT_STATE::E m_componentState = COMPONENT_STATE::kRunning;
+    bool m_disableStateChange = false;
+    Vector<ComponentStateChange> m_stateChanges;
   };
 
   /**

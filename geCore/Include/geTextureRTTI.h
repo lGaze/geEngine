@@ -75,10 +75,8 @@ namespace geEngineSDK {
     }
 
     void
-    setPixelData(Texture* obj, uint32 idx, SPtr<PixelData> data) {
-      Vector<SPtr<PixelData>>*
-        pixelData = any_cast<Vector<SPtr<PixelData>>*>(obj->m_rttiData);
-      (*pixelData)[idx] = data;
+    setPixelData(Texture* /*obj*/, uint32 idx, SPtr<PixelData> data) {
+      m_pixelData[idx] = data;
     }
 
     uint32
@@ -88,10 +86,8 @@ namespace geEngineSDK {
     }
 
     void
-    setPixelDataArraySize(Texture* obj, uint32 size) {
-      Vector<SPtr<PixelData>>*
-        pixelData = any_cast<Vector<SPtr<PixelData>>*>(obj->m_rttiData);
-      pixelData->resize(size);
+    setPixelDataArraySize(Texture* /*obj*/, uint32 size) {
+      m_pixelData.resize(size);
     }
 
    public:
@@ -107,20 +103,9 @@ namespace geEngineSDK {
     }
 
     void
-    onDeserializationStarted(IReflectable* obj,
-                             const UnorderedMap<String, uint64>& /*params*/) override {
-      Texture* texture = static_cast<Texture*>(obj);
-      texture->m_rttiData = ge_new<Vector<SPtr<PixelData>>>();
-    }
-
-    void
     onDeserializationEnded(IReflectable* obj,
-                           const UnorderedMap<String, uint64>& /*params*/) override {
-      Texture* texture = static_cast<Texture*>(obj);
-      if (texture->m_rttiData.empty()) {
-        return;
-      }
-
+                           SerializationContext* /*context*/) override {
+      auto texture = static_cast<Texture*>(obj);
       TextureProperties& texProps = texture->m_properties;
 
       //Update pixel format if needed as it's possible the original texture was
@@ -132,11 +117,10 @@ namespace geEngineSDK {
                                                    texProps.getUsage(),
                                                    texProps.isHardwareGammaEnabled());
 
-      auto pixelData = any_cast<Vector<SPtr<PixelData>>*>(texture->m_rttiData);
       if (originalFormat != validFormat) {
         texProps.m_desc.format = validFormat;
 
-        for (auto & i : *pixelData) {
+        for (auto& i : m_pixelData) {
           SPtr<PixelData> newData = PixelData::create(i->getWidth(),
                                                       i->getHeight(),
                                                       i->getDepth(),
@@ -151,14 +135,11 @@ namespace geEngineSDK {
       //better than complicating things and storing the values in m_rttiData.
       texture->initialize();
 
-      for (SIZE_T i = 0; i < pixelData->size(); ++i) {
+      for (SIZE_T i = 0; i < m_pixelData.size(); ++i) {
         uint32 face = Math::floor(i / static_cast<float>(texProps.getNumMipmaps() + 1));
         uint32 mipmap = i % (texProps.getNumMipmaps() + 1);
-        texture->writeData(pixelData->at(i), face, mipmap, false);
+        texture->writeData(m_pixelData[i], face, mipmap, false);
       }
-
-      ge_delete(pixelData);
-      texture->m_rttiData = nullptr;
     }
 
     const String&
@@ -176,5 +157,8 @@ namespace geEngineSDK {
     newRTTIObject() override {
       return TextureManager::instance()._createEmpty();
     }
+
+   private:
+    Vector<SPtr<PixelData>> m_pixelData;
   };
 }

@@ -200,7 +200,7 @@ namespace geEngineSDK {
 
       for (auto& serializedHandle : handleData) {
         if (nullptr != serializedHandle.handle) {
-          *serializedHandle.object = *SerializedObject::create(serializedHandle.handle);
+          *serializedHandle.object = *SerializedObject::create(*serializedHandle.handle);
         }
       }
 

@@ -67,9 +67,8 @@ namespace geEngineSDK {
       //GameObjectManager::registerObject with this ID, so we know how to map
       //deserialized GO handles to live objects, otherwise the handle
       //references will get broken.
-      GameObject* go = static_cast<GameObject*>(obj);
-      GODeserializationData&
-        deserializationData = any_cast_ref<GODeserializationData>(go->m_rttiData);
+      auto go = static_cast<GameObject*>(obj);
+      auto& deserializationData = any_cast_ref<GODeserializationData>(go->m_rttiData);
 
       deserializationData.originalId = instanceId;
     }
@@ -115,7 +114,7 @@ namespace geEngineSDK {
 
     void
     onDeserializationStarted(IReflectable* obj,
-                             SerializationContext* context) override {
+                             SerializationContext* /*context*/) override {
       auto gameObject = static_cast<GameObject*>(obj);
 
       //It's possible we're just accessing the game object fields, in which

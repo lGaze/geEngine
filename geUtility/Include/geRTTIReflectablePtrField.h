@@ -200,7 +200,7 @@ namespace geEngineSDK {
       m_arraySizeGetter = getSize;
       m_arraySizeSetter = setSize;
 
-      init(std::move(name)
+      init(std::move(name),
            uniqueId,
            true,
            SERIALIZABLE_FIELD_TYPE::kReflectablePtr,

@@ -165,7 +165,7 @@ namespace geEngineSDK {
     friend class SceneObject;
     friend class SceneObjectRTTI;
 
-    Component(const HSceneObject& parent);
+    Component(HSceneObject parent);
     virtual ~Component() = default;
 
     /**
@@ -275,7 +275,7 @@ namespace geEngineSDK {
      */
     void
     destroyInternal(GameObjectHandleBase& handle,
-                    bool immediate = false) override;
+                    bool immediate) override;
 
    private:
     Component(const Component& other) = default;

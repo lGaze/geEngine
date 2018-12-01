@@ -57,7 +57,9 @@ namespace geEngineSDK {
         //it with the original ID so that deserialized handles pointing to this
         //object can be resolved.
         auto compPtr = static_pointer_cast<Component>(deserializationData.ptr);
-        coreContext->goState->registerObject(compPtr, deserializationData.originalId);
+
+        auto handle = GameObjectManager::instance().registerObject(compPtr);
+        coreContext->goState->registerObject(deserializationData.originalId, handle);
       }
 
       comp->m_rttiData = nullptr;

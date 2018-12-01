@@ -62,11 +62,15 @@ namespace geEngineSDK {
 
     void
     onDeserializationStarted(IReflectable* obj,
-                             const UnorderedMap<String, uint64>& params) override {
-      Resource* resource = static_cast<Resource*>(obj);
-      auto iterFind = params.find("keepSourceData");
-      resource->m_keepSourceData = iterFind != params.end() &&
-                                   iterFind->second > 0;
+                             SerializationContext* context) override {
+      auto resource = static_cast<Resource*>(obj);
+      if (context) {
+        resource->m_keepSourceData = (context->flags &
+                                      SERIALIZATION_FLAGS::kKeepResourceSourceData) != 0;
+      }
+      else {
+        resource->m_keepSourceData = false;
+      }
     }
 
     const String&

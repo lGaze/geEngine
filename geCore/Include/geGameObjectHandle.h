@@ -74,7 +74,9 @@ namespace geEngineSDK {
   class GE_CORE_EXPORT GameObjectHandleBase : public IReflectable
   {
    public:
-    GameObjectHandleBase();
+    GameObjectHandleBase()
+      : m_data(ge_shared_ptr_new<GameObjectHandleData>(nullptr))
+    {}
 
     /**
      * @brief Returns true if the object the handle is pointing to has been
@@ -149,7 +151,8 @@ namespace geEngineSDK {
      *        uninitialized.
      */
     void
-    _resolve(const GameObjectHandleBase& object);
+    _resolve(const GameObjectHandleBase& object) {
+      m_data->m_ptr = object.m_data->m_ptr; }
 
     /**
      * @brief Changes the GameObject instance the handle is pointing to.
@@ -166,7 +169,7 @@ namespace geEngineSDK {
     operator==(const GameObjectHandle<_Ty1>& _Left,
                const GameObjectHandle<_Ty2>& _Right);
 
-    GameObjectHandleBase(const SPtr<GameObject> ptr);
+    GameObjectHandleBase(const SPtr<GameObject>& ptr);
     GameObjectHandleBase(const SPtr<GameObjectHandleData>& data)
       : m_data(std::move(data))
     {}

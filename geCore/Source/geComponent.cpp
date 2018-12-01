@@ -47,7 +47,8 @@
 #include "geComponentRTTI.h"
 
 namespace geEngineSDK {
-  Component::Component(const HSceneObject& parent) : m_parent(parent) {
+  Component::Component(HSceneObject parent)
+    : m_parent(std::move(parent)) {
     setName("Component");
   }
 

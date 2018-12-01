@@ -82,7 +82,7 @@ namespace geEngineSDK {
 
     CoreSerializationContext serzContext;
     serzContext.goState = ge_shared_ptr_new<GameObjectDeserializationState>
-                            (GODM_UseNewIds | GODM_RestoreExternal);
+                            (GODM::kUseNewIds | GODM::kRestoreExternal);
     serzContext.goDeserializationActive = true;
 
     applyDiff(m_root, object, &serzContext);
