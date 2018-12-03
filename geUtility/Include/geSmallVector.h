@@ -26,13 +26,21 @@
 namespace geEngineSDK {
   using std::copy;
   using std::move;
+  using std::equal;
+  using std::distance;
+  using std::exchange;
   using std::reverse_iterator;
   using std::initializer_list;
+  using std::uninitialized_copy;
+  using std::uninitialized_fill_n;
+  using std::make_move_iterator;
+  using std::lexicographical_compare;
+  using std::aligned_storage_t;
   
   template<class Type, uint32 N>
   class SmallVector final
   {
-  public:
+   public:
     typedef Type ValueType;
     typedef Type* Iterator;
     typedef const Type* ConstIterator;
@@ -62,17 +70,18 @@ namespace geEngineSDK {
     }
 
     ~SmallVector() {
-      for (auto& entry : *this)
+      for (auto& entry : *this) {
         entry.~Type();
+      }
 
       if (!isSmall()) {
-        ge_free(mElements);
+        ge_free(m_elements);
       }
     }
 
     SmallVector<ValueType, N>&
     operator=(const SmallVector<ValueType, N>& other) {
-      if (this == &other) {
+      if (&other == this) {
         return *this;
       }
 
@@ -89,340 +98,459 @@ namespace geEngineSDK {
           newEnd = begin();
         }
 
-        for (; newEnd != end(); ++newEnd)
+        for (; newEnd != end(); ++newEnd) {
           (*newEnd).~Type();
+        }
 
       }
       // Otherwise we need to partially copy (up to our size), and do uninitialized copy for rest. And an optional
       // grow if our capacity isn't enough (in which case we do uninitialized copy for all).
       else {
-        if (otherSize > mCapacity) {
+        if (otherSize > m_capacity) {
           clear();
           mySize = 0;
 
           grow(otherSize);
         }
-        else if (mySize > 0)
-          std::copy(other.begin(), other.begin() + mySize, begin());
+        else if (0 < mySize) {
+          copy(other.begin(), other.begin() + mySize, begin());
+        }
 
-        std::uninitialized_copy(other.begin() + mySize, other.end(), begin() + mySize);
+        uninitialized_copy(other.begin() + mySize, other.end(), begin() + mySize);
       }
 
-      mSize = otherSize;
+      m_size = otherSize;
       return *this;
     }
 
-    SmallVector<ValueType, N>& operator= (SmallVector<ValueType, N>&& other) {
-      if (this == &other)
+    SmallVector<ValueType, N>&
+    operator=(SmallVector<ValueType, N>&& other) {
+      if (&other == this) {
         return *this;
+      }
 
       // If the other buffer isn't small, we can just steal its buffer
       if (!other.isSmall()) {
-        for (auto& entry : *this)
+        for (auto& entry : *this) {
           entry.~Type();
+        }
 
-        if (!isSmall())
-          ge_free(mElements);
+        if (!isSmall()) {
+          ge_free(m_elements);
+        }
 
-        mElements = other.mElements;
-        other.mElements = (Type*)other.mStorage;
-        mSize = std::exchange(other.mSize, 0);
-        mCapacity = std::exchange(other.mCapacity, N);
+        m_elements = other.m_elements;
+        other.m_elements = reinterpret_cast<Type*>(other.m_storage);
+        m_size = exchange(other.m_size, 0);
+        m_capacity = exchange(other.m_capacity, N);
       }
-      // Otherwise we do essentially the same thing as in non-move assigment, except for also clearing the other
-      // vector
+      
+      //Otherwise we do essentially the same thing as in non-move assignment,
+      //except for also clearing the other vector
       else {
         uint32 mySize = size();
         const uint32 otherSize = other.size();
 
-        // Use assignment copy if we have more elements than the other array, and destroy any excess elements
+        //Use assignment copy if we have more elements than the other array,
+        //and destroy any excess elements
         if (mySize > otherSize) {
           Iterator newEnd;
-          if (otherSize > 0)
-            newEnd = std::move(other.begin(), other.end(), begin());
-          else
+          if (otherSize > 0) {
+            newEnd = move(other.begin(), other.end(), begin());
+          }
+          else {
             newEnd = begin();
+          }
 
-          for (; newEnd != end(); ++newEnd)
+          for (; newEnd != end(); ++newEnd) {
             (*newEnd).~Type();
+          }
         }
         else {
-          if (otherSize > mCapacity) {
+          if (otherSize > m_capacity) {
             clear();
             mySize = 0;
 
             grow(otherSize);
           }
-          else if (mySize > 0)
-            std::move(other.begin(), other.begin() + mySize, begin());
+          else if (mySize > 0) {
+            move(other.begin(), other.begin() + mySize, begin());
+          }
 
-          std::uninitialized_copy(
-            std::make_move_iterator(other.begin() + mySize),
-            std::make_move_iterator(other.end()),
-            begin() + mySize);
+          uninitialized_copy(make_move_iterator(other.begin() + mySize),
+                             make_move_iterator(other.end()),
+                             begin() + mySize);
         }
 
-        mSize = otherSize;
+        m_size = otherSize;
         other.clear();
       }
 
       return *this;
     }
 
-    SmallVector<ValueType, N>& operator=(std::initializer_list<Type> list) {
+    SmallVector<ValueType, N>&
+    operator=(initializer_list<Type> list) {
       uint32 mySize = size();
-      const uint32 otherSize = (uint32)list.size();
+      const uint32 otherSize = static_cast<uint32>(list.size());
 
-      // Use assignment copy if we have more elements than the list, and destroy any excess elements
+      //Use assignment copy if we have more elements than the list, and destroy
+      //any excess elements
       if (mySize > otherSize) {
         Iterator newEnd;
-        if (otherSize > 0)
-          newEnd = std::copy(list.begin(), list.end(), begin());
-        else
+        if (otherSize > 0) {
+          newEnd = copy(list.begin(), list.end(), begin());
+        }
+        else {
           newEnd = begin();
+        }
 
-        for (; newEnd != end(); ++newEnd)
+        for (; newEnd != end(); ++newEnd) {
           (*newEnd).~Type();
+        }
 
       }
-      // Otherwise we need to partially copy (up to our size), and do uninitialized copy for rest. And an optional
-      // grow if our capacity isn't enough (in which case we do uninitialized copy for all).
+      //Otherwise we need to partially copy (up to our size), and do
+      //uninitialized copy for rest. And an optional grow if our capacity isn't
+      //enough (in which case we do uninitialized copy for all).
       else {
-        if (otherSize > mCapacity) {
+        if (otherSize > m_capacity) {
           clear();
           mySize = 0;
 
           grow(otherSize);
         }
-        else if (mySize > 0)
-          std::copy(list.begin(), list.begin() + mySize, begin());
+        else if (0 < mySize) {
+          copy(list.begin(), list.begin() + mySize, begin());
+        }
 
-        std::uninitialized_copy(list.begin() + mySize, list.end(), begin() + mySize);
+        uninitialized_copy(list.begin() + mySize, list.end(), begin() + mySize);
       }
 
-      mSize = otherSize;
+      m_size = otherSize;
       return *this;;
     }
 
-    bool operator== (const SmallVector<ValueType, N>& other) {
-      if (this->size() != other.size()) return false;
-      return std::equal(this->begin(), this->end(), other.begin());
+    bool
+    operator==(const SmallVector<ValueType, N>& other) {
+      if (this->size() != other.size()) {
+        return false;
+      }
+      
+      return equal(this->begin(), this->end(), other.begin());
     }
 
-    bool operator!= (const SmallVector<ValueType, N>& other) {
-      return !(*this == other);
+    bool
+    operator!=(const SmallVector<ValueType, N>& other) {
+      return !(other == *this);
     }
 
-    bool operator< (const SmallVector<ValueType, N>& other) const {
-      return std::lexicographical_compare(begin(), end(), other.begin(), other.end());
+    bool
+    operator<(const SmallVector<ValueType, N>& other) const {
+      return lexicographical_compare(begin(), end(), other.begin(), other.end());
     }
 
-    bool operator> (const SmallVector<ValueType, N>& other) const {
+    bool
+    operator>(const SmallVector<ValueType, N>& other) const {
       return other < *this;
     }
 
-    bool operator<= (const SmallVector<ValueType, N>& other) const {
+    bool
+    operator<=(const SmallVector<ValueType, N>& other) const {
       return !(other < *this);
     }
 
-    bool operator>= (const SmallVector<ValueType, N>& other) const {
+    bool
+    operator>=(const SmallVector<ValueType, N>& other) const {
       return !(*this < other);
     }
 
-    Type& operator[] (uint32 index) {
-      GE_ASSERT(index < mSize && "Array index out-of-range.");
-
-      return mElements[index];
+    Type&
+    operator[](uint32 index) {
+      GE_ASSERT(index < m_size && "Array index out-of-range.");
+      return m_elements[index];
     }
 
-    const Type& operator[] (uint32 index) const {
-      GE_ASSERT(index < mSize && "Array index out-of-range.");
-
-      return mElements[index];
+    const Type&
+    operator[](uint32 index) const {
+      GE_ASSERT(index < m_size && "Array index out-of-range.");
+      return m_elements[index];
     }
 
-    bool empty() const { return mSize == 0; }
+    bool
+    empty() const {
+      return 0 == m_size;
+    }
 
-    Iterator begin() { return mElements; }
-    Iterator end() { return mElements + mSize; }
+    Iterator
+    begin() {
+      return m_elements;
+    }
 
-    ConstIterator begin() const { return mElements; }
-    ConstIterator end() const { return mElements + mSize; }
+    Iterator
+    end() {
+      return m_elements + m_size;
+    }
 
-    ConstIterator cbegin() const { return mElements; }
-    ConstIterator cend() const { return mElements + mSize; }
+    ConstIterator
+    begin() const {
+      return m_elements;
+    }
 
-    ReverseIterator rbegin() { return ReverseIterator(end()); }
-    ReverseIterator rend() { return ReverseIterator(begin()); }
+    ConstIterator
+    end() const {
+      return m_elements + m_size;
+    }
 
-    ConstReverseIterator rbegin() const { return ReverseIterator(end()); }
-    ConstReverseIterator rend() const { return ReverseIterator(begin()); }
+    ConstIterator
+    cbegin() const {
+      return m_elements;
+    }
 
-    ConstReverseIterator crbegin() const { return ReverseIterator(end()); }
-    ConstReverseIterator crend() const { return ReverseIterator(begin()); }
+    ConstIterator cend() const {
+      return m_elements + m_size;
+    }
 
-    uint32 size() const { return mSize; }
-    uint32 capacity() const { return mCapacity; }
+    ReverseIterator
+    rbegin() {
+      return ReverseIterator(end());
+    }
+    ReverseIterator
+    rend() {
+      return ReverseIterator(begin());
+    }
 
-    Type* data() { return mElements; }
-    const Type* data() const { return mElements; }
+    ConstReverseIterator
+    rbegin() const {
+      return ReverseIterator(end());
+    }
+    ConstReverseIterator
+    rend() const {
+      return ReverseIterator(begin());
+    }
 
-    Type& front() {
+    ConstReverseIterator
+    crbegin() const {
+      return ReverseIterator(end());
+    }
+
+    ConstReverseIterator
+    crend() const {
+      return ReverseIterator(begin());
+    }
+
+    uint32
+    size() const {
+      return m_size;
+    }
+
+    uint32
+    capacity() const {
+      return m_capacity;
+    }
+
+    Type*
+    data() {
+      return m_elements;
+    }
+
+    const Type*
+    data() const {
+      return m_elements;
+    }
+
+    Type&
+    front() {
       GE_ASSERT(!empty());
-      return *mElements[0];
+      return *m_elements[0];
     }
 
-    Type& back() {
+    Type&
+    back() {
       GE_ASSERT(!empty());
-      return *mElements[mSize - 1];
+      return *m_elements[m_size - 1];
     }
 
-    const Type& front() const {
+    const Type&
+    front() const {
       GE_ASSERT(!empty());
-      return mElements[0];
+      return m_elements[0];
     }
 
-    const Type& back() const {
+    const Type&
+    back() const {
       GE_ASSERT(!empty());
-      return mElements[mSize - 1];
+      return m_elements[m_size - 1];
     }
 
-    void add(const Type& element) {
-      if (mSize == mCapacity)
-        grow(mCapacity << 1);
+    void
+    add(const Type& element) {
+      if (m_size == m_capacity) {
+        grow(m_capacity << 1);
+      }
 
-      new (&mElements[mSize++]) Type(element);
+      new (&m_elements[m_size++]) Type(element);
     }
 
-    void add(Type&& element) {
-      if (mSize == mCapacity)
-        grow(mCapacity << 1);
+    void
+    add(Type&& element) {
+      if (m_size == m_capacity) {
+        grow(m_capacity << 1);
+      }
 
-      new (&mElements[mSize++]) Type(std::move(element));
+      new (&m_elements[m_size++]) Type(move(element));
     }
 
-    void append(ConstIterator start, ConstIterator end) {
-      const uint32 count = (uint32)std::distance(start, end);
+    void
+    append(ConstIterator start, ConstIterator end) {
+      const uint32 count = static_cast<uint32>(distance(start, end));
 
-      if ((size() + count) > capacity())
+      if ((size() + count) > capacity()) {
         this->grow(size() + count);
+      }
 
-      std::uninitialized_copy(start, end, this->end());
-      mSize += count;
+      uninitialized_copy(start, end, this->end());
+      m_size += count;
     }
 
-    void append(uint32 count, const Type& element) {
-      if ((size() + count) > capacity())
+    void
+    append(uint32 count, const Type& element) {
+      if ((size() + count) > capacity()) {
         this->grow(size() + count);
+      }
 
-      std::uninitialized_fill_n(end(), count, element);
-      mSize += count;
+      uninitialized_fill_n(end(), count, element);
+      m_size += count;
     }
 
-    void append(std::initializer_list<Type> list) {
+    void
+    append(initializer_list<Type> list) {
       append(list.begin(), list.end());
     }
 
-    void pop() {
-      GE_ASSERT(mSize > 0 && "Popping an empty array.");
-      mSize--;
-      mElements[mSize].~Type();
+    void
+    pop() {
+      GE_ASSERT(0 < m_size && "Popping an empty array.");
+      --m_size;
+      m_elements[m_size].~Type();
     }
 
-    Iterator erase(ConstIterator iter) {
-      GE_ASSERT(iter >= begin() && "Iterator to erase is out of bounds.");
+    Iterator
+    erase(ConstIterator iter) {
+      GE_ASSERT(begin() <= iter  && "Iterator to erase is out of bounds.");
       GE_ASSERT(iter < end() && "Erasing at past-the-end iterator.");
 
       Iterator toErase = const_cast<Iterator>(iter);
-      std::move(toErase + 1, end(), toErase);
+      move(toErase + 1, end(), toErase);
       pop();
 
       return toErase;
     }
 
-    void remove(uint32 index) {
+    void
+    remove(uint32 index) {
       erase(begin() + index);
     }
 
-    bool contains(const Type& element) {
-      for (uint32 i = 0; i < mSize; i++) {
-        if (mElements[i] == element)
+    bool
+    contains(const Type& element) {
+      for (uint32 i = 0; i < m_size; ++i) {
+        if (element == m_elements[i]) {
           return true;
+        }
       }
 
       return false;
     }
 
-    void removeValue(const Type& element) {
-      for (uint32 i = 0; i < mSize; i++) {
-        if (mElements[i] == element) {
+    void
+    removeValue(const Type& element) {
+      for (uint32 i = 0; i < m_size; ++i) {
+        if (m_elements[i] == element) {
           remove(i);
           break;
         }
       }
     }
 
-    void clear() {
-      for (uint32 i = 0; i < mSize; ++i)
-        mElements[i].~Type();
+    void
+    clear() {
+      for (uint32 i = 0; i < m_size; ++i) {
+        m_elements[i].~Type();
+      }
 
-      mSize = 0;
+      m_size = 0;
     }
 
-    void reserve(uint32 capacity) {
-      if (capacity > mCapacity)
-        grow(capacity);
+    void
+    reserve(uint32 _capacity) {
+      if (_capacity > m_capacity) {
+        grow(_capacity);
+      }
     }
 
-    void resize(uint32 size, const Type& value = Type()) {
-      if (size > mCapacity)
+    void
+    resize(uint32 size, const Type& value = Type()) {
+      if (size > m_capacity) {
         grow(size);
+      }
 
-      if (size > mSize) {
-        for (uint32 i = mSize; i < size; i++)
-          new (&mElements[i]) Type(value);
+      if (size > m_size) {
+        for (uint32 i = m_size; i < size; ++i) {
+          new (&m_elements[i]) Type(value);
+        }
       }
       else {
-        for (uint32 i = size; i < mSize; i++)
-          mElements[i].~Type();
+        for (uint32 i = size; i < m_size; ++i) {
+          m_elements[i].~Type();
+        }
       }
 
-      mSize = size;
+      m_size = size;
     }
 
-  private:
-    /** Returns true if the vector is still using its static memory and hasn't made any dynamic allocations. */
-    bool isSmall() const { return mElements == (Type*)mStorage; }
+   private:
+    /**
+     * @brief Returns true if the vector is still using its static memory and
+     *        hasn't made any dynamic allocations.
+     */
+    bool
+    isSmall() const {
+      return m_elements == reinterpret_cast<Type*>(m_storage);
+    }
 
-    void grow(uint32 capacity) {
-      GE_ASSERT(capacity > N);
+    void
+    grow(uint32 _capacity) {
+      GE_ASSERT(_capacity > N);
 
-      // Allocate memory with the new capacity (caller guarantees never to call this with capacity <= N, so we don't
-      // need to worry about the static buffer)
-      Type* buffer = ge_allocN<Type>(capacity);
+      //Allocate memory with the new capacity (caller guarantees never to call
+      //this with capacity <= N, so we don't need to worry about the static
+      //buffer)
+      Type* buffer = ge_allocN<Type>(_capacity);
 
-      // Move any existing elements
-      std::uninitialized_copy(
-        std::make_move_iterator(begin()),
-        std::make_move_iterator(end()),
-        buffer);
+      //Move any existing elements
+      uninitialized_copy(make_move_iterator(begin()),
+                         make_move_iterator(end()),
+                         buffer);
 
-      // Destoy existing elements in old memory
-      for (auto& entry : *this)
+      //Destroy existing elements in old memory
+      for (auto& entry : *this) {
         entry.~Type();
+      }
 
-      // If the current buffer is dynamically allocated, free it
-      if (!isSmall())
-        ge_free(mElements);
+      //If the current buffer is dynamically allocated, free it
+      if (!isSmall()) {
+        ge_free(m_elements);
+      }
 
-      mElements = buffer;
-      mCapacity = capacity;
+      m_elements = buffer;
+      m_capacity = _capacity;
     }
 
-    std::aligned_storage_t<sizeof(Type), alignof(Type)> mStorage[N];
-    Type* mElements = (Type*)mStorage;
+    aligned_storage_t<sizeof(Type), alignof(Type)> m_storage[N];
+    Type* m_elements = reinterpret_cast<Type*>(m_storage);
 
-    uint32 mSize = 0;
-    uint32 mCapacity = N;
+    uint32 m_size = 0;
+    uint32 m_capacity = N;
   };
 }
