@@ -56,9 +56,33 @@
 #if GE_COMPILER == GE_COMPILER_CLANG
   /** @ref scriptBindingMacro */
 # define GE_SCRIPT_EXPORT(...) __attribute__((annotate("se," #__VA_ARGS__)))
+
+  /**
+   * @brief When applied to a parameter, makes it a variable argument parameter
+   *        in the scripting interface (if supported by the scripting language.
+   */
+# define GE_PARAMS __attribute__((annotate("params")))
+
+   /**
+    * @brief When applied to a parameter or a field of ResourceHandle type,
+    *       makes that element be exported as a raw resource in script code.
+    */
+# define GE_NORREF __attribute__((annotate("norref")))
 #else
   /** @ref scriptBindingMacro */
 # define GE_SCRIPT_EXPORT(...)
+
+  /**
+   * @brief When applied to a parameter, makes it a variable argument parameter
+   *        in the scripting interface (if supported by the scripting language.
+   */
+# define GE_PARAMS
+
+   /**
+    * @brief When applied to a parameter or a field of ResourceHandle type,
+    *       makes that element be exported as a raw resource in script code.
+    */
+# define GE_NORREF
 #endif
 
 /*****************************************************************************/

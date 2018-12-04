@@ -227,7 +227,7 @@ namespace geEngineSDK {
 
     geCoreThread::RenderWindow* coreWindow = getCore().get();
     RenderWindowProperties& syncProps = coreWindow->getSyncedProperties();
-    RenderWindowProperties& props = const_cast<RenderWindowProperties&>(getProperties());
+    auto& props = const_cast<RenderWindowProperties&>(getProperties());
 
     switch (type)
     {
@@ -268,6 +268,8 @@ namespace geEngineSDK {
           syncProps.m_hasFocus = true;
         }
 
+        props.m_hasFocus = true;
+
         geCoreThread::RenderWindowManager::instance().notifySyncDataDirty(coreWindow);
         RenderWindowManager::instance().notifyFocusReceived(coreWindow);
         break;
@@ -278,6 +280,8 @@ namespace geEngineSDK {
           ScopedSpinLock lock(coreWindow->m_lock);
           syncProps.m_hasFocus = false;
         }
+
+        props.m_hasFocus = false;
 
         geCoreThread::RenderWindowManager::instance().notifySyncDataDirty(coreWindow);
         RenderWindowManager::instance().notifyFocusLost(coreWindow);
@@ -290,6 +294,8 @@ namespace geEngineSDK {
           syncProps.m_isMaximized = false;
         }
 
+        props.m_isMaximized = false;
+
         geCoreThread::RenderWindowManager::instance().notifySyncDataDirty(coreWindow);
         break;
       }
@@ -300,6 +306,8 @@ namespace geEngineSDK {
           syncProps.m_isMaximized = true;
         }
 
+        props.m_isMaximized = true;
+
         geCoreThread::RenderWindowManager::instance().notifySyncDataDirty(coreWindow);
         break;
       }
@@ -309,6 +317,8 @@ namespace geEngineSDK {
           ScopedSpinLock lock(coreWindow->m_lock);
           syncProps.m_isMaximized = false;
         }
+
+        props.m_isMaximized = false;
 
         geCoreThread::RenderWindowManager::instance().notifySyncDataDirty(coreWindow);
         break;
@@ -341,7 +351,7 @@ namespace geEngineSDK {
     RenderWindow::setHidden(bool hidden) {
       THROW_IF_NOT_CORE_THREAD;
 
-      RenderWindowProperties& props = const_cast<RenderWindowProperties&>(getProperties());
+      auto& props = const_cast<RenderWindowProperties&>(getProperties());
 
       props.m_isHidden = hidden;
       {
@@ -362,7 +372,7 @@ namespace geEngineSDK {
       THROW_IF_NOT_CORE_THREAD;
 
       RenderWindowProperties& syncProps = getSyncedProperties();
-      RenderWindowProperties& props = const_cast<RenderWindowProperties&>(getProperties());
+      auto& props = const_cast<RenderWindowProperties&>(getProperties());
 
       switch (type)
       {
@@ -403,6 +413,8 @@ namespace geEngineSDK {
             syncProps.m_hasFocus = true;
           }
 
+          props.m_hasFocus = true;
+
           geEngineSDK::RenderWindowManager::instance().notifySyncDataDirty(this);
           geEngineSDK::RenderWindowManager::instance().notifyFocusReceived(this);
           break;
@@ -413,6 +425,8 @@ namespace geEngineSDK {
             ScopedSpinLock lock(m_lock);
             syncProps.m_hasFocus = false;
           }
+
+          props.m_hasFocus = false;
 
           geEngineSDK::RenderWindowManager::instance().notifySyncDataDirty(this);
           geEngineSDK::RenderWindowManager::instance().notifyFocusLost(this);
@@ -425,6 +439,8 @@ namespace geEngineSDK {
             syncProps.m_isMaximized = false;
           }
 
+          props.m_isMaximized = false;
+
           geEngineSDK::RenderWindowManager::instance().notifySyncDataDirty(this);
           break;
         }
@@ -435,6 +451,8 @@ namespace geEngineSDK {
             syncProps.m_isMaximized = true;
           }
 
+          props.m_isMaximized = true;
+
           geEngineSDK::RenderWindowManager::instance().notifySyncDataDirty(this);
           break;
         }
@@ -444,6 +462,8 @@ namespace geEngineSDK {
             ScopedSpinLock lock(m_lock);
             syncProps.m_isMaximized = false;
           }
+
+          props.m_isMaximized = false;
 
           geEngineSDK::RenderWindowManager::instance().notifySyncDataDirty(this);
           break;

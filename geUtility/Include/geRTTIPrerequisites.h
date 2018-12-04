@@ -335,7 +335,7 @@ namespace geEngineSDK {
       char* memoryStart = memory;
       memory += sizeof(uint32);
 
-      uint32 numElements = static_cast<uint32>(data.size());
+      auto numElements = static_cast<uint32>(data.size());
       memcpy(memory, &numElements, sizeof(uint32));
       memory += sizeof(uint32);
       size += sizeof(uint32);

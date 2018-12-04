@@ -75,6 +75,77 @@ namespace geEngineSDK {
       return next;
     }
 
+#if GE_COMPILER == GE_COMPILER_MSVC
+# pragma intrinsic(_BitScanReverse,_BitScanForward)
+#endif
+    /**
+     * @brief Finds the most-significant non-zero bit in the provided value and
+     *        returns the index of that bit.
+     */
+    static uint32
+    mostSignificantBit(uint32 val) {
+#if GE_COMPILER == GE_COMPILER_MSVC
+      unsigned long index;
+      _BitScanReverse(&index, val);
+      return index;
+#elif GE_COMPILER == GE_COMPILER_GNUC || GE_COMPILER == GE_COMPILER_CLANG
+      return 31 - __builtin_clz(val);
+#else
+      static_assert(false, "Not implemented");
+#endif
+    }
+
+    /**
+     * @brief Finds the least-significant non-zero bit in the provided value
+     *        and returns the index of that bit.
+     */
+    static uint32
+    leastSignificantBit(uint32 val) {
+#if GE_COMPILER == GE_COMPILER_MSVC
+      unsigned long index;
+      _BitScanForward(&index, val);
+      return index;
+#elif GE_COMPILER == GE_COMPILER_GNUC || GE_COMPILER == GE_COMPILER_CLANG
+      return __builtin_ctz(val);
+#else
+      static_assert(false, "Not implemented");
+#endif
+    }
+
+    /**
+     * @brief Finds the most-significant non-zero bit in the provided value and
+     *        returns the index of that bit.
+     */
+    static uint32
+    mostSignificantBit(uint64 val) {
+#if GE_COMPILER == GE_COMPILER_MSVC
+      unsigned long index;
+      _BitScanReverse64(&index, val);
+      return index;
+#elif GE_COMPILER == GE_COMPILER_GNUC || GE_COMPILER == GE_COMPILER_CLANG
+      return 31 - __builtin_clzll(val);
+#else
+      static_assert(false, "Not implemented");
+#endif
+    }
+
+    /**
+     * @brief Finds the least-significant non-zero bit in the provided value
+     *        and returns the index of that bit.
+     */
+    static uint32
+    leastSignificantBit(uint64 val) {
+#if GE_COMPILER == GE_COMPILER_MSVC
+      unsigned long index;
+      _BitScanForward64(&index, val);
+      return index;
+#elif GE_COMPILER == GE_COMPILER_GNUC || GE_COMPILER == GE_COMPILER_CLANG
+      return __builtin_ctzll(val);
+#else
+      static_assert(false, "Not implemented");
+#endif
+    }
+
     /**
      * @brief Determines whether the number is power-of-two or not.
      */
@@ -363,7 +434,7 @@ namespace geEngineSDK {
     }
 
     /**
-     * @brief Converts a half in UINT16 format to a float in UINT32 format.
+     * @brief Converts a half in UINT16 format to a float in uint32 format.
      */
     static uint32
     halfToFloatI(uint16 y) {

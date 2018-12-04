@@ -69,8 +69,8 @@ namespace geEngineSDK {
       monitorInfo.cbSize = sizeof(MONITORINFO);
       GetMonitorInfo(hMonitor, &monitorInfo);
 
-      int32 width = static_cast<int32>(desc.width);
-      int32 height = static_cast<int32>(desc.height);
+      auto width = static_cast<int32>(desc.width);
+      auto height = static_cast<int32>(desc.height);
 
       if (-1 == left || -1 == top) {  //No specified top left
         //Center the window in the middle of the monitor
@@ -234,7 +234,7 @@ namespace geEngineSDK {
 
       HDC hdcScreen = GetDC(nullptr);
       HDC hdcMem = CreateCompatibleDC(hdcScreen);
-      HBITMAP hOldBitmap = static_cast<HBITMAP>(SelectObject(hdcMem, backgroundBitmap));
+      auto hOldBitmap = static_cast<HBITMAP>(SelectObject(hdcMem, backgroundBitmap));
 
       BLENDFUNCTION blend = {0};
       blend.BlendOp = AC_SRC_OVER;
@@ -310,6 +310,8 @@ namespace geEngineSDK {
       for (auto& entry : windowsToBringToFront) {
         BringWindowToTop(entry);
       }
+
+      SetFocus(m_windowData->hWnd);
     }
 
     if (desc.hidden) {

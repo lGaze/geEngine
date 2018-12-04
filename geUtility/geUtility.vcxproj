@@ -217,6 +217,7 @@
     <ClInclude Include="Include\geBinaryCloner.h" />
     <ClInclude Include="Include\geBinaryDiff.h" />
     <ClInclude Include="Include\geBinarySerializer.h" />
+    <ClInclude Include="Include\geBitfield.h" />
     <ClInclude Include="Include\geBitmapWriter.h" />
     <ClInclude Include="Include\geBitwise.h" />
     <ClInclude Include="Include\geBox.h" />
@@ -234,6 +235,7 @@
     <ClInclude Include="Include\geDataStream.h" />
     <ClInclude Include="Include\geDebug.h" />
     <ClInclude Include="Include\geDegree.h" />
+    <ClInclude Include="Include\geDynArray.h" />
     <ClInclude Include="Include\geDynLib.h" />
     <ClInclude Include="Include\geDynLibManager.h" />
     <ClInclude Include="Include\geEnumClassHash.h" />
@@ -255,6 +257,7 @@
     <ClInclude Include="Include\geIReflectable.h" />
     <ClInclude Include="Include\geIReflectableRTTI.h" />
     <ClInclude Include="Include\geLog.h" />
+    <ClInclude Include="Include\geLookupTable.h" />
     <ClInclude Include="Include\geMacroUtil.h" />
     <ClInclude Include="Include\geMath.h" />
     <ClInclude Include="Include\geMatrix4.h" />
@@ -266,6 +269,7 @@
     <ClInclude Include="Include\gePoolAlloc.h" />
     <ClInclude Include="Include\geRandom.h" />
     <ClInclude Include="Include\geSIMD.h" />
+    <ClInclude Include="Include\geSmallVector.h" />
     <ClInclude Include="Include\geStackAlloc.h" />
     <ClInclude Include="Include\geMessageHandler.h" />
     <ClInclude Include="Include\geMessageHandlerFwd.h" />
@@ -348,6 +352,7 @@
     <ClCompile Include="Source\geFrameAlloc.cpp" />
     <ClCompile Include="Source\geIReflectable.cpp" />
     <ClCompile Include="Source\geLog.cpp" />
+    <ClCompile Include="Source\geLookupTable.cpp" />
     <ClCompile Include="Source\geMath.cpp" />
     <ClCompile Include="Source\geMatrix4.cpp" />
     <ClCompile Include="Source\geMemoryAllocator.cpp" />
