@@ -112,21 +112,22 @@ namespace geEngineSDK {
 #endif
     }
 
+#if GE_ARCH_TYPE == GE_ARCHITECTURE_x86_64
     /**
      * @brief Finds the most-significant non-zero bit in the provided value and
      *        returns the index of that bit.
      */
     static uint32
     mostSignificantBit(uint64 val) {
-#if GE_COMPILER == GE_COMPILER_MSVC
+# if GE_COMPILER == GE_COMPILER_MSVC
       unsigned long index;
-      _BitScanReverse64(&index, val);
+      _BitScanReverse(&index, static_cast<unsigned long>(val));
       return index;
-#elif GE_COMPILER == GE_COMPILER_GNUC || GE_COMPILER == GE_COMPILER_CLANG
+# elif GE_COMPILER == GE_COMPILER_GNUC || GE_COMPILER == GE_COMPILER_CLANG
       return 31 - __builtin_clzll(val);
-#else
+# else
       static_assert(false, "Not implemented");
-#endif
+# endif
     }
 
     /**
@@ -135,16 +136,17 @@ namespace geEngineSDK {
      */
     static uint32
     leastSignificantBit(uint64 val) {
-#if GE_COMPILER == GE_COMPILER_MSVC
+# if GE_COMPILER == GE_COMPILER_MSVC
       unsigned long index;
-      _BitScanForward64(&index, val);
+      _BitScanForward64(&index, static_cast<unsigned long>(val));
       return index;
-#elif GE_COMPILER == GE_COMPILER_GNUC || GE_COMPILER == GE_COMPILER_CLANG
+# elif GE_COMPILER == GE_COMPILER_GNUC || GE_COMPILER == GE_COMPILER_CLANG
       return __builtin_ctzll(val);
-#else
+# else
       static_assert(false, "Not implemented");
-#endif
+# endif
     }
+#endif
 
     /**
      * @brief Determines whether the number is power-of-two or not.

@@ -89,7 +89,7 @@ TEST(geOctree, Construct_Octree) {
   manualElems[1].box = AABox(Vector3(200.0f, 100.0f, 100.f), Vector3(250.0f, 150.0f, 150.0f));
   manualElems[2].box = AABox(Vector3(90.0f, 90.0f, 90.f), Vector3(105.0f, 105.0f, 110.0f));
 
-  for (const auto& manualElem : manualElems) {
+  for (const auto & manualElem : manualElems) {
     auto elemIdx = static_cast<uint32>(octreeData.elements.size());
     octreeData.elements.push_back(manualElem);
     octree.addElement(elemIdx);

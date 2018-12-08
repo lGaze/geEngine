@@ -382,6 +382,7 @@ TEST(geUtility, Tetrahedron_Utilities) {
   pointList.emplace_back( 0.0f, 5.0f, 0.0f);
 
   TetrahedronVolume newVolume = Triangulation::tetrahedralize(pointList);
+  
   EXPECT_TRUE(newVolume.tetrahedra.size() == 1);
   EXPECT_TRUE(newVolume.outerFaces.size() == 4);
 }

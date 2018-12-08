@@ -155,7 +155,7 @@ namespace geEngineSDK {
     ReferenceType
     operator*() const {
       GE_ASSERT(static_cast<bool>(*this));
-      return ReferenceType(m_owner.mData[m_dwordIndex], m_mask);
+      return ReferenceType(m_owner.m_data[m_dwordIndex], m_mask);
     }
 
    private:

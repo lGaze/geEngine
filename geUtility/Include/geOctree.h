@@ -7,7 +7,10 @@
  *
  * Spatial partitioning tree for 3D space.
  *
- * @bug     No known bugs.
+ * @bug     StaticVector<HNode, Options::maxDepth * 8> m_nodeStack;
+ *          The allocator is crashing on Release configurations if we use this
+ *          definition for the nodeStack.
+ *          The cause it's still unknown.
  */
 /*****************************************************************************/
 #pragma once
@@ -458,7 +461,8 @@ namespace geEngineSDK {
       NodeIterator(const Octree& tree)
         : m_currentNode(HNode(&tree.m_root, tree.m_rootBounds)),
           m_stackAlloc(),
-          m_nodeStack(&m_stackAlloc) {
+          //m_nodeStack(&m_stackAlloc) {
+          m_nodeStack() {
         m_nodeStack.push_back(m_currentNode);
       }
 
@@ -468,7 +472,8 @@ namespace geEngineSDK {
       NodeIterator(const Node* node, const NodeBounds& bounds)
         : m_currentNode(HNode(node, bounds)),
           m_stackAlloc(),
-          m_nodeStack(&m_stackAlloc) {
+          //m_nodeStack(&m_stackAlloc) {
+          m_nodeStack() {
         m_nodeStack.push_back(m_currentNode);
       }
 
@@ -517,7 +522,8 @@ namespace geEngineSDK {
      private:
       HNode m_currentNode;
       StaticAlloc<Options::maxDepth * 8 * sizeof(HNode), FreeAlloc> m_stackAlloc;
-      StaticVector<HNode, Options::maxDepth * 8> m_nodeStack;
+      Vector<HNode> m_nodeStack;
+      //StaticVector<HNode, Options::maxDepth * 8> m_nodeStack;
     };
 
     /**
@@ -704,7 +710,7 @@ namespace geEngineSDK {
      */
     void
     removeElement(const OctreeElementId& elemId) {
-      Node* node = reinterpret_cast<Node*>(elemId.m_node);
+      auto* node = reinterpret_cast<Node*>(elemId.m_node);
 
       popElement(node, elemId.m_elementIdx);
 
@@ -857,9 +863,9 @@ namespace geEngineSDK {
 
       uint32 freeIdx = elements.count % Options::maxElementsPerNode;
       if (freeIdx == 0) { //New group needed
-        ElementGroup* elementGroup = reinterpret_cast<ElementGroup*>
+        auto elementGroup = reinterpret_cast<ElementGroup*>
           (m_elemAlloc.construct<ElementGroup>());
-        ElementBoundGroup* boundGroup = reinterpret_cast<ElementBoundGroup*>
+        auto boundGroup = reinterpret_cast<ElementBoundGroup*>
           (m_elemBoundsAlloc.construct<ElementBoundGroup>());
 
         elementGroup->next = elements.values;

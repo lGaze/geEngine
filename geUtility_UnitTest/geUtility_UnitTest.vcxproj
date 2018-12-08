@@ -197,6 +197,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\geBitfield_unitTest.cpp" />
     <ClCompile Include="Source\geOctree_unitTest.cpp" />
     <ClCompile Include="Source\main.cpp" />
   </ItemGroup>

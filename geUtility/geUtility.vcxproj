@@ -96,7 +96,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>GE_UTILITY_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_UTILITY_EXPORTS;_DEBUG</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>./Include;./Include/Externals/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -124,7 +124,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>GE_UTILITY_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_UTILITY_EXPORTS;_DEBUG</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>./Include;./Include/Externals/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -154,7 +154,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>GE_UTILITY_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_UTILITY_EXPORTS;NDEBUG</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>./Include;./Include/Externals/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -184,7 +184,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>GE_UTILITY_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_UTILITY_EXPORTS;NDEBUG</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>./Include;./Include/Externals/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -264,6 +264,7 @@
     <ClInclude Include="Include\geMemAllocProfiler.h" />
     <ClInclude Include="Include\geMemoryAllocator.h" />
     <ClInclude Include="Include\geMemorySerializer.h" />
+    <ClInclude Include="Include\geMinHeap.h" />
     <ClInclude Include="Include\geNumericLimits.h" />
     <ClInclude Include="Include\geOctree.h" />
     <ClInclude Include="Include\gePoolAlloc.h" />

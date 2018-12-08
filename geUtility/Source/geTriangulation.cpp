@@ -52,7 +52,7 @@ namespace geEngineSDK {
     ::tetrahedralize(&options, &input, &output);
 
     //Copy results to the return object
-    SIZE_T numTetrahedra = static_cast<SIZE_T>(output.numberoftetrahedra);
+    auto numTetrahedra = static_cast<SIZE_T>(output.numberoftetrahedra);
     volume.tetrahedra.resize(numTetrahedra);
 
     for (SIZE_T i = 0; i < numTetrahedra; ++i) {
@@ -66,7 +66,7 @@ namespace geEngineSDK {
     }
 
     //Generate boundary faces
-    uint32 numFaces = static_cast<uint32>(output.numberoftrifaces);
+    auto numFaces = static_cast<uint32>(output.numberoftrifaces);
     for (uint32 i = 0; i < numFaces; ++i) {
       int32 tetIdx = -1;
       if (-1 == output.adjtetlist[i * 2]) {
@@ -94,8 +94,7 @@ namespace geEngineSDK {
       for (uint32 j = 0; j < 4; ++j) {
         int32 vert = volume.tetrahedra[i].vertices[j];
 
-        for (uint32 k = 0; k < 4; ++k) {
-          int32 neighborIdx = neighbors[k];
+        for (int32 neighborIdx : neighbors) {
           if (neighborIdx == -1) {
             continue;
           }

@@ -291,7 +291,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>
       </SDLCheck>
-      <PreprocessorDefinitions>GE_CORE_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_CORE_EXPORTS;_DEBUG</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>./Include/;$(SolutionDir)geUtility/Include/;$(DEVLIBS)nvtt/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
@@ -316,7 +316,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>
       </SDLCheck>
-      <PreprocessorDefinitions>GE_CORE_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_CORE_EXPORTS;_DEBUG</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>./Include/;$(SolutionDir)geUtility/Include/;$(DEVLIBS)nvtt/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
@@ -343,7 +343,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>
       </SDLCheck>
-      <PreprocessorDefinitions>GE_CORE_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_CORE_EXPORTS;NDEBUG</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>./Include/;$(SolutionDir)geUtility/Include/;$(DEVLIBS)nvtt/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -372,7 +372,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>
       </SDLCheck>
-      <PreprocessorDefinitions>GE_CORE_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_CORE_EXPORTS;NDEBUG</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>./Include/;$(SolutionDir)geUtility/Include/;$(DEVLIBS)nvtt/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>

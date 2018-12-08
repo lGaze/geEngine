@@ -21,5 +21,8 @@
     <ClCompile Include="Source\geOctree_unitTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\geBitfield_unitTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

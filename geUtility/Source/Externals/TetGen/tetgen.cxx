@@ -1253,7 +1253,7 @@ bool tetgenio::load_off(char* filebasename)
   char infilename[FILENAMESIZE];
   char buffer[INPUTLINESIZE];
   char *bufferp;
-  double *coord;
+  REAL *coord;
   int nverts = 0, iverts = 0;
   int nfaces = 0, ifaces = 0;
   int nedges = 0;
@@ -1416,7 +1416,7 @@ bool tetgenio::load_ply(char* filebasename)
   char infilename[FILENAMESIZE];
   char buffer[INPUTLINESIZE];
   char *bufferp, *str;
-  double *coord;
+  REAL *coord;
   int endheader = 0, format = 0;
   int nverts = 0, iverts = 0;
   int nfaces = 0, ifaces = 0;
@@ -1764,7 +1764,7 @@ bool tetgenio::load_medit(char* filebasename, int istetmesh)
   char infilename[FILENAMESIZE];
   char buffer[INPUTLINESIZE];
   char *bufferp, *str;
-  double *coord;
+  REAL *coord;
   int *tmpfmlist;
   int dimension = 0;
   int nverts = 0;
@@ -2126,7 +2126,7 @@ bool tetgenio::load_vtk(char* filebasename)
   char line[INPUTLINESIZE];
   char mode[128], id[256], fmt[64];
   char *bufferp;
-  double *coord;
+  REAL *coord;
   float _x, _y, _z;
   int nverts = 0;
   int nfaces = 0;

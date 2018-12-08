@@ -93,7 +93,7 @@
       <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>./Include/;$(SolutionDir)geUtility/Include/;$(SolutionDir)geCore/Include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>GE_GRAPHICS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_GRAPHICS_EXPORTS;_DEBUG</PreprocessorDefinitions>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
@@ -115,7 +115,7 @@
       <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>./Include/;$(SolutionDir)geUtility/Include/;$(SolutionDir)geCore/Include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>GE_GRAPHICS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_GRAPHICS_EXPORTS;_DEBUG</PreprocessorDefinitions>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
@@ -139,7 +139,7 @@
       <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>./Include/;$(SolutionDir)geUtility/Include/;$(SolutionDir)geCore/Include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>GE_GRAPHICS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_GRAPHICS_EXPORTS;NDEBUG</PreprocessorDefinitions>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
@@ -165,7 +165,7 @@
       <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>./Include/;$(SolutionDir)geUtility/Include/;$(SolutionDir)geCore/Include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>GE_GRAPHICS_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_GRAPHICS_EXPORTS;NDEBUG</PreprocessorDefinitions>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
