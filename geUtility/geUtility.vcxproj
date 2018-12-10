@@ -228,6 +228,7 @@
     <ClInclude Include="Include\geColor.h" />
     <ClInclude Include="Include\geColorGradient.h" />
     <ClInclude Include="Include\geColorGradientRTTI.h" />
+    <ClInclude Include="Include\geComplex.h" />
     <ClInclude Include="Include\geCompression.h" />
     <ClInclude Include="Include\geConvexHull2D.h" />
     <ClInclude Include="Include\geCrashHandler.h" />

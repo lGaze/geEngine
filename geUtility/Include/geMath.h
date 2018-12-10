@@ -211,6 +211,21 @@ namespace geEngineSDK {
       return std::tan(Value.valueRadians());
     }
 
+    static FORCEINLINE float
+    cosh(float Value) {
+      return std::coshf(Value);
+    }
+
+    static FORCEINLINE float
+    sinh(float Value) {
+      return std::sinh(Value);
+    }
+
+    static FORCEINLINE float
+      tanh(float Value) {
+      return std::tanhf(Value);
+    }
+
     static Radian
     acos(float Value);
 

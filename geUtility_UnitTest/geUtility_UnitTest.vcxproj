@@ -198,6 +198,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\geBitfield_unitTest.cpp" />
+    <ClCompile Include="Source\geComplex_unitTest.cpp" />
     <ClCompile Include="Source\geDynArray_unitTest.cpp" />
     <ClCompile Include="Source\geMinHeap_unitTest.cpp" />
     <ClCompile Include="Source\geOctree_unitTest.cpp" />
