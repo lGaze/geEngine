@@ -1,6 +1,3 @@
-#include <vld.h>
-#include <DirectXMath.h>
-
 #define GTEST_HAS_TR1_TUPLE 0
 #define GTEST_USE_OWN_TR1_TUPLE 0
 #include <gtest/gtest.h>
@@ -81,6 +78,6 @@ TEST(geBitfield, BitField) {
   EXPECT_TRUE(bitfield.size() == curCount);
 
   //Find
-  EXPECT_EQ(bitfield.find(true), 0);
-  EXPECT_EQ(bitfield.find(false), 5);
+  EXPECT_EQ(bitfield.find(true), 0U);
+  EXPECT_EQ(bitfield.find(false), 5U);
 }

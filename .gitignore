@@ -13,3 +13,7 @@ geUtility/My Amplifier Results - geUtility/
 geUtility_UnitTest/My Inspector Results - geUtility_UnitTest/
 Docs/generated/
 Docs/html/
+*.exe
+*.ilk
+*.pdb
+*.dll
