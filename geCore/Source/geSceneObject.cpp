@@ -77,10 +77,11 @@ namespace geEngineSDK {
   SceneObject::createInternal(const String& name, uint32 flags) {
     auto sceneObjectPtr = SPtr<SceneObject>(new (ge_alloc<SceneObject>())
                                                  SceneObject(name, flags),
-                                            &ge_delete<SceneObject>, StdAlloc<SceneObject>());
+                                            &ge_delete<SceneObject>,
+                                            StdAlloc<SceneObject>());
 
-    HSceneObject sceneObject = static_object_cast<SceneObject>
-      (GameObjectManager::instance().registerObject(sceneObjectPtr));
+    HSceneObject sceneObject = static_object_cast<SceneObject>(
+      GameObjectManager::instance().registerObject(sceneObjectPtr));
     sceneObject->m_thisHandle = sceneObject;
 
     return sceneObject;
@@ -88,8 +89,8 @@ namespace geEngineSDK {
 
   HSceneObject
   SceneObject::createInternal(const SPtr<SceneObject>& soPtr) {
-    HSceneObject sceneObject = static_object_cast<SceneObject>
-      (GameObjectManager::instance().registerObject(soPtr));
+    HSceneObject sceneObject = static_object_cast<SceneObject>(
+      GameObjectManager::instance().registerObject(soPtr));
     sceneObject->m_thisHandle = sceneObject;
     return sceneObject;
   }
@@ -891,8 +892,8 @@ namespace geEngineSDK {
     //Clean up the self-reference assigned by the RTTI system
     componentPtr->m_rttiData = nullptr;
 
-    HComponent newComponent = static_object_cast<Component>
-      (GameObjectManager::instance().registerObject(componentPtr));
+    HComponent newComponent = static_object_cast<Component>(
+      GameObjectManager::instance().registerObject(componentPtr));
     newComponent->m_parent = m_thisHandle;
 
     addAndInitializeComponent(newComponent);
@@ -900,7 +901,7 @@ namespace geEngineSDK {
   }
 
   void
-  SceneObject::addComponentInternal(const SPtr<Component> component) {
+  SceneObject::addComponentInternal(const SPtr<Component>& component) {
     HComponent newComponent = static_object_cast<Component>(
       GameObjectManager::instance().getObject(component->getInstanceId()));
     newComponent->m_parent = m_thisHandle;
@@ -920,7 +921,7 @@ namespace geEngineSDK {
   }
 
   void
-  SceneObject::addAndInitializeComponent(const SPtr<Component> component) {
+  SceneObject::addAndInitializeComponent(const SPtr<Component>& component) {
     HComponent newComponent = static_object_cast<Component>(
       GameObjectManager::instance().getObject(component->getInstanceId()));
     newComponent->m_parent = m_thisHandle;

@@ -327,17 +327,18 @@ namespace geEngineSDK {
       FrameSet<CoreObject*> dirtyDependants;
       for (auto& objectData : m_dirtyObjects) {
         auto iterFind = m_dependants.find(objectData.first);
-        if (iterFind != m_dependants.end()) {
+        if (m_dependants.end() != iterFind) {
           const Vector<CoreObject*>& dependants = iterFind->second;
           for (auto& dependant : dependants) {
-            if (!dependant->isCoreDirty()) {
+            const bool wasDirty = dependant->isCoreDirty();
+            
+            //Let the dependant objects know their dependency changed
+            CoreObject* dependency = objectData.second.object;
+            dependant->onDependencyDirty(dependency, dependency->getCoreDirtyFlags());
+
+            if (!wasDirty && dependant->isCoreDirty()) {
               dirtyDependants.insert(dependant);
             }
-            
-            //NOTE: This tells the object it was marked dirty due to a
-            //dependency, but it doesn't tell it due to which one. Eventually
-            //it might be nice to have that information as well.
-            dependant->m_coreDirtyFlags |= 0x80000000;
           }
         }
       }

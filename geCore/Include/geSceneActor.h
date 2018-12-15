@@ -40,6 +40,9 @@ namespace geEngineSDK {
     };
   }
 
+  using ActorDirtyFlags = Flags<ACTOR_DIRTY_FLAG::E>;
+  GE_FLAGS_OPERATORS(ACTOR_DIRTY_FLAG::E)
+
   class GE_CORE_EXPORT SceneActor
   {
    public:
@@ -116,6 +119,29 @@ namespace geEngineSDK {
     virtual void
     _updateState(const SceneObject& so, bool force = false);
 
+    /**
+     * @brief Enumerates all the fields in the type and executes the specified
+     *        processor action for each field.
+     */
+    template<class P>
+    void
+    rttiEnumFields(P p, ActorDirtyFlags flags = ACTOR_DIRTY_FLAG::kEverything) {
+      if (flags.isSetAny(ACTOR_DIRTY_FLAG::kTransform |
+                         ACTOR_DIRTY_FLAG::kEverything)) {
+        p(m_transform);
+      }
+
+      if (flags.isSetAny(ACTOR_DIRTY_FLAG::kActive |
+                         ACTOR_DIRTY_FLAG::kEverything)) {
+        p(m_active);
+      }
+
+      if (flags.isSetAny(ACTOR_DIRTY_FLAG::kMobility |
+                         ACTOR_DIRTY_FLAG::kEverything)) {
+        p(m_mobility);
+      }
+    }
+
    protected:
     /**
      * @brief Marks the simulation thread object as dirty and notifies the
@@ -127,28 +153,6 @@ namespace geEngineSDK {
       GE_UNREFERENCED_PARAMETER(flag);
     }
 
-    /**
-     * @brief Writes the contents of this object into the provided data buffer.
-     *        Buffer must have enough size of hold getSyncActorDataSize()
-     *        bytes. Returns the address after the last written byte.
-     */
-    char*
-    syncActorTo(char* data);
-
-    /**
-     * @brief Reads the contents of this object from the provided data buffer.
-     *        The buffer is expected to be populated by the sim thread version
-     *        of this object by calling syncActorTo(). Returns the address
-     *        after the last read byte.
-     */
-    char*
-    syncActorFrom(char* data);
-
-    /**
-     * @brief Returns the size of the buffer required to store all data in this object, in bytes.
-     */
-    uint32
-    getActorSyncDataSize() const;
    protected:
     friend class SceneManager;
 

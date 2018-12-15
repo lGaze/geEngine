@@ -78,12 +78,11 @@
 
 namespace geEngineSDK {
   using std::bind;
+  using std::move;
 
-  constexpr uint32 CoreApplication::MAX_FIXED_UPDATES_PER_FRAME;
-
-  CoreApplication::CoreApplication(const START_UP_DESC& desc)
+  CoreApplication::CoreApplication(START_UP_DESC desc)
     : m_primaryWindow(nullptr),
-      m_startUpDesc(desc),
+      m_startUpDesc(std::move(desc)),
       m_rendererPlugin(nullptr),
       m_isFrameRenderingFinished(true),
       m_simThreadId(GE_THREAD_CURRENT_ID),
@@ -205,6 +204,8 @@ namespace geEngineSDK {
         m_lastFrameTime = currentTime;
       }
 
+      g_profilerCPU().beginThread("Sim");
+
       Platform::_update();
       DeferredCallManager::instance()._update();
       g_time()._update();
@@ -222,47 +223,23 @@ namespace geEngineSDK {
 
       //Trigger fixed updates if required
       {
-        uint64 currentTime = g_time().getTimePrecise();
+        uint64 step;
+        const uint32 numIterations = g_time()._getFixedUpdateStep(step);
 
-        //Skip fixed update first frame (time delta is zero, and no input
-        //received yet)
-        if (m_firstFrame) {
-          m_lastFixedUpdateTime = currentTime;
-          m_firstFrame = false;
-        }
+        const float stepSeconds = step / 1000000.0f;
 
-        uint64 nextFrameTime = m_lastFixedUpdateTime + m_fixedStep;
-        if (nextFrameTime <= currentTime) {
-          int64 simulationAmount = static_cast<int64>
-            (Math::max(currentTime - m_lastFixedUpdateTime, m_fixedStep));
+        for (uint32 i = 0; i < numIterations; ++i) {
+          fixedUpdate();
+          PROFILE_CALL(g_sceneManager()._fixedUpdate(), "Scene fixed update");
+          //PROFILE_CALL(g_physics().fixedUpdate(stepSeconds), "Physics simulation");
 
-          uint32 numIterations = static_cast<uint32>
-            (Math::divideAndRoundUp(simulationAmount, static_cast<int64>(m_fixedStep)));
-
-          //If too many iterations are required, increase time step. This
-          //should only happen in extreme situations (or when debugging).
-          int64 step = static_cast<int64>(m_fixedStep);
-          if (numIterations > static_cast<int32>(MAX_FIXED_UPDATES_PER_FRAME)) {
-            step = Math::divideAndRoundUp(simulationAmount,
-                                          static_cast<int64>(MAX_FIXED_UPDATES_PER_FRAME));
-          }
-
-          //In case we're running really slow multiple updates might be needed
-          while (simulationAmount >= step) {
-            //float stepSeconds = step / 1000000.0f;
-
-            PROFILE_CALL(g_sceneManager()._fixedUpdate(), "Scene fixed update");
-            //g_physics().fixedUpdate(stepSeconds);
-
-            simulationAmount -= step;
-            m_lastFixedUpdateTime += step;
-          }
+          g_time()._advanceFixedUpdate(step);
         }
       }
 
       PROFILE_CALL(g_sceneManager()._update(), "Scene update");
 
-      //Update plugins
+      //Update plug ins
       for (auto& pluginUpdateFunc : m_pluginUpdateFunctions) {
         pluginUpdateFunc.second();
       }
@@ -333,6 +310,9 @@ namespace geEngineSDK {
   CoreApplication::postUpdate() {}
 
   void
+  CoreApplication::fixedUpdate() {}
+
+  void
   CoreApplication::stopMainLoop() {
     //No sync primitives needed, in that rare case of a race condition we might
     //run the loop one extra iteration which is acceptable
@@ -346,7 +326,12 @@ namespace geEngineSDK {
 
   void
   CoreApplication::setFPSLimit(uint32 limit) {
-    m_frameStep = (uint64)1000000 / limit;
+    if (limit > 0) {
+      m_frameStep = (uint64)1000000 / limit;
+    }
+    else {
+      m_frameStep = 0;
+    }
   }
 
   void
@@ -408,8 +393,9 @@ namespace geEngineSDK {
       updatePluginFunc lpf = reinterpret_cast<updatePluginFunc>
                                (loadedLibrary->getSymbol("updatePlugin"));
 
-      if (nullptr != lpf)
+      if (nullptr != lpf) {
         m_pluginUpdateFunctions[loadedLibrary] = lpf;
+      }
     }
 
     return retVal;

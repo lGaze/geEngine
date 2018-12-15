@@ -498,6 +498,7 @@ namespace geEngineSDK {
       kID_CCamera = 30000,
       kID_Camera = 30003,
       kID_CRenderable = 30001,
+      kID_SpriteTexture = 30002,
       kID_Renderable = 30004,
       kID_Light = 30011,
       kID_CLight = 30012,

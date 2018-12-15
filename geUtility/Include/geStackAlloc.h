@@ -25,6 +25,9 @@
 #include "geMacroUtil.h"
 
 namespace geEngineSDK {
+  using std::exchange;
+  using std::forward;
+
   /**
   * @brief  Describes a memory stack of a certain block capacity.
   *         See "MemoryStack" for more information.
@@ -307,7 +310,7 @@ namespace geEngineSDK {
   T*
   ge_stack_new(SIZE_T count = 0) {
     T* data = ge_stack_alloc<T>(count);
-    for (uint32 i = 0; i<count; ++i) {
+    for (uint32 i = 0; i < count; ++i) {
       new (reinterpret_cast<void*>(&data[i])) T;
     }
 
@@ -355,6 +358,11 @@ namespace geEngineSDK {
     MemStack::deallocLast(reinterpret_cast<uint8*>(data));
   }
 
+  inline void
+  ge_stack_delete(void* data, SIZE_T /*count*/) {
+    MemStack::deallocLast(reinterpret_cast<uint8*>(data));
+  }
+
   /**
    * @copydoc MemoryStackInternal::dealloc()
    */
@@ -364,7 +372,127 @@ namespace geEngineSDK {
   }
 
   /**
-   * @brief Allows use of a stack allocator by using normal new/delete/free/dealloc operators.
+   * @brief An object used to transparently clean up a stack allocation when
+   *        it's no longer in scope. Make sure to take great care not to free
+   *        non-managed stack allocations out of order or to free the stack
+   *        allocation managed by this object!
+   */
+  template<typename T>
+  struct StackMemory
+  {
+    /**
+     * @brief Provide implicit conversion to the allocated buffer so that users
+     *        of this code can "pretend" this object is a pointer to the stack
+     *        buffer that they wanted.
+     */
+    constexpr operator T*
+    () const & _NOEXCEPT {
+      return m_ptr;
+    }
+
+    /**
+     * @brief This ensures that the result of ge_managed_stack_alloc() doesn't
+     *        get passed to a function call as a temporary, or immediately
+     *        assigned as a T*. Instead, the user of this class is forced to
+     *        deal with this class as itself, when handling the return value
+     *        of ge_managed_stack_alloc() preventing an immediate
+     *        (and erroneous) call to ge_stack_free().
+     */
+    constexpr operator T*
+    () const && _NOEXCEPT = delete;
+
+    explicit constexpr StackMemory(T* p, SIZE_T count = 1)
+      : m_ptr(p),
+        m_count(count)
+    {}
+
+    /**
+     * @brief Needed until c++17
+     */
+    StackMemory(StackMemory && other)
+      : m_ptr(exchange(other.m_ptr, nullptr)),
+        m_count(exchange(other.m_count, 0))
+    {}
+
+    StackMemory(StackMemory const&) = delete;
+
+    StackMemory&
+    operator=(StackMemory &&) = delete;
+
+    StackMemory&
+    operator=(StackMemory const&) = delete;
+
+    /**
+     * @brief Frees the stack allocation.
+     */
+    ~StackMemory() {
+      if (nullptr != m_ptr) {
+        if (1 <= m_count) {
+          ge_stack_delete(m_ptr, static_cast<uint32>(m_count));
+        }
+        else {
+          ge_stack_free(m_ptr);
+        }
+      }
+    }
+
+   private:
+    T* m_ptr = nullptr;
+    SIZE_T m_count = 0;
+  };
+
+  /**
+   * @brief Same as ge_stack_alloc() except the returned object takes care of
+   *        automatically cleaning up when it goes out of scope.
+   */
+  inline StackMemory<void>
+  ge_managed_stack_alloc(uint32 amount) {
+    return StackMemory<void>(ge_stack_alloc(amount));
+  }
+
+  /**
+   * @brief Same as ge_stack_alloc() except the returned object takes care of
+   *        automatically cleaning up when it goes out of scope.
+   */
+  template<class T>
+  StackMemory<T>
+  ge_managed_stack_alloc() {
+    return StackMemory<T>(ge_stack_alloc<T>());
+  }
+
+  /**
+   * @brief Same as bs_stack_alloc() except the returned object takes care of
+   *        automatically cleaning up when it goes out of scope.
+   */
+  template<class T>
+  StackMemory<T>
+  ge_managed_stack_alloc(uint32 amount) {
+    return StackMemory<T>(ge_stack_alloc<T>(amount));
+  }
+
+  /**
+   * @brief Same as bs_stack_new() except the returned object takes care of
+   *        automatically cleaning up when it goes out of scope.
+   */
+  template<class T>
+  StackMemory<T>
+  ge_managed_stack_new(SIZE_T count = 1) {
+    return StackMemory<T>(ge_stack_new<T>(count), count);
+  }
+
+  /**
+   * @brief Same as bs_stack_new() except the returned object takes care of
+   *        automatically cleaning up when it goes out of scope.
+   */
+  template<class T, class... Args>
+  StackMemory<T>
+  ge_managed_stack_new(Args && ... args, SIZE_T count = 1) {
+    return StackMemory<T>(ge_stack_new<T>(forward<Args>(args)..., count), count);
+  }
+
+  /**
+   * @brief Allows use of a stack allocator by using normal
+   *        new/delete/free/dealloc operators.
    * @see   MemStack
    */
   class StackAlloc

@@ -68,9 +68,9 @@ namespace geEngineSDK {
      */
     static SPtr<Task>
     create(const String& name,
-      function<void()> taskWorker,
-      TASKPRIORITY::E priority = TASKPRIORITY::kNormal,
-      SPtr<Task> dependency = nullptr);
+           function<void()> taskWorker,
+           TASKPRIORITY::E priority = TASKPRIORITY::kNormal,
+           SPtr<Task> dependency = nullptr);
 
     /**
      * @brief Returns true if the task has completed.
@@ -103,7 +103,7 @@ namespace geEngineSDK {
 
     String m_name;
     TASKPRIORITY::E m_priority;
-    uint32 m_taskId;
+    uint32 m_taskId = 0;
     function<void()> m_taskWorker;
     SPtr<Task> m_taskDependency;
     
@@ -113,9 +113,77 @@ namespace geEngineSDK {
      * 2 - Completed
      * 3 - Canceled
      */
-    atomic<uint32> m_state;
+    atomic<uint32> m_state{0};
 
-    TaskScheduler* m_parent;
+    TaskScheduler* m_parent = nullptr;
+  };
+
+  /**
+   * @brief Represents a group of tasks that may be queued in the TaskScheduler
+   *        to be processed in parallel.
+   * @note  Thread safe.
+   */
+  class GE_UTILITY_EXPORT TaskGroup
+  {
+    struct PrivatelyConstruct {};
+
+   public:
+    TaskGroup(const PrivatelyConstruct& dummy,
+              String name,
+              function<void(uint32)> taskWorker,
+              uint32 count,
+              TASKPRIORITY::E priority,
+              SPtr<Task> dependency);
+
+    /**
+     * @brief Creates a new task group. Task group should be provided to
+     *        TaskScheduler in order for it to start.
+     * @param[in] name        Name you can use to more easily identify the
+     *                        tasks in the group.
+     * @param[in] taskWorker  Worker method that will get called for each item
+     *                        in the group. Each call will receive a sequential
+     *                        index of the item in the group.
+     * @param[in] count       Number of items in the task group. Each item will
+     *                        be processed in a worker thread.
+     * @param[in] priority    (optional) Higher priority means the tasks will
+     *                        be executed sooner.
+     * @param[in] dependency  (optional) Task dependency if one exists. If
+     *                        provided the task will not be executed until its
+     *                        dependency is complete.
+     */
+    static SPtr<TaskGroup>
+    create(String name,
+           function<void(uint32)> taskWorker,
+           uint32 count,
+           TASKPRIORITY::E priority = TASKPRIORITY::kNormal,
+           SPtr<Task> dependency = nullptr);
+
+    /**
+     * @brief Returns true if all the tasks in the group have completed.
+     */
+    bool
+    isComplete() const;
+
+    /**
+     * @brief Blocks the current thread until all tasks in the group have
+     *        completed.
+     * @note	While waiting adds a new worker thread, so that the blocking
+     *        threads core can be utilized.
+     */
+    void
+    wait();
+
+   private:
+    friend class TaskScheduler;
+
+    String m_name;
+    uint32 m_count;
+    TASKPRIORITY::E m_priority;
+    function<void(uint32)> m_taskWorker;
+    SPtr<Task> m_taskDependency;
+    atomic<uint32> m_numRemainingTasks{ m_count };
+
+    TaskScheduler* m_parent = nullptr;
   };
 
   /**
@@ -143,6 +211,12 @@ namespace geEngineSDK {
     addTask(SPtr<Task> task);
 
     /**
+     * @brief Queues a new task group.
+     */
+    void
+    addTaskGroup(const SPtr<TaskGroup>& taskGroup);
+
+    /**
      * @brief Adds a new worker thread which will be used for executing queued tasks.
      */
     void
@@ -165,6 +239,7 @@ namespace geEngineSDK {
 
    protected:
     friend class Task;
+    friend class TaskGroup;
 
     /**
      * @brief Main task scheduler method that dispatches tasks to other threads.
@@ -183,6 +258,13 @@ namespace geEngineSDK {
      */
     void
     waitUntilComplete(const Task* task);
+
+    /**
+     * @brief Blocks the calling thread until all the tasks in the provided task
+     *        group have completed.
+     */
+    void
+    waitUntilComplete(const TaskGroup* taskGroup);
 
     /**
      * @brief Method used for sorting tasks.

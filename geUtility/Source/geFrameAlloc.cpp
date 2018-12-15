@@ -126,7 +126,7 @@ namespace geEngineSDK {
 #if GE_DEBUG_MODE
     m_totalAllocBytes += amount;
 
-    SIZE_T* storedSize = reinterpret_cast<SIZE_T*>(data + alignOffset);
+    auto storedSize = reinterpret_cast<SIZE_T*>(data + alignOffset);
     *storedSize = amount;
 
     return data + sizeof(SIZE_T) + alignOffset;
@@ -137,10 +137,14 @@ namespace geEngineSDK {
 
   void
   FrameAlloc::free(uint8* data) {
+    //Dealloc is only used for debug and can be removed if needed.
+    //All the actual deallocation happens in clear()
 #if GE_DEBUG_MODE
-    data -= sizeof(SIZE_T);
-    SIZE_T* storedSize = reinterpret_cast<SIZE_T*>(data);
-    m_totalAllocBytes -= *storedSize;
+    if (data) {
+      data -= sizeof(SIZE_T);
+      auto storedSize = reinterpret_cast<SIZE_T*>(data);
+      m_totalAllocBytes -= *storedSize;
+    }
 #else
     GE_UNREFERENCED_PARAMETER(data);
 #endif
@@ -157,15 +161,16 @@ namespace geEngineSDK {
   FrameAlloc::clear() {
     if (nullptr != m_lastFrame) {
       GE_ASSERT(m_blocks.size() > 0 && 0 < m_nextBlockIdx);
-      //HACK: Test if this casting is working correctly on PS4
-      free(static_cast<uint8*>(m_lastFrame));
 
-      auto framePtr = static_cast<uint8*>(m_lastFrame);
-      m_lastFrame = *static_cast<void**>(m_lastFrame);
+      free(reinterpret_cast<uint8*>(m_lastFrame));
+
+      auto framePtr = reinterpret_cast<uint8*>(m_lastFrame);
+      m_lastFrame = *reinterpret_cast<void**>(m_lastFrame);
 
 #if GE_DEBUG_MODE
       framePtr -= sizeof(SIZE_T);
 #endif
+
       uint32 startBlockIdx = m_nextBlockIdx - 1;
       uint32 numFreedBlocks = 0;
       for (int32 i = startBlockIdx; i >= 0; --i) {
@@ -182,7 +187,7 @@ namespace geEngineSDK {
 
             //Reset block counter if we're gonna reallocate this one
             if (1 < numFreedBlocks) {
-              m_nextBlockIdx = i;
+              m_nextBlockIdx = static_cast<uint32>(i);
             }
           }
 
@@ -190,14 +195,14 @@ namespace geEngineSDK {
         }
         else {
           curBlock->m_freePtr = 0;
-          m_nextBlockIdx = i;
+          m_nextBlockIdx = static_cast<uint32>(i);
           ++numFreedBlocks;
         }
       }
 
       if (1 < numFreedBlocks) {
         SIZE_T totalBytes = 0;
-        for (uint32 i = 0; i<numFreedBlocks; ++i) {
+        for (uint32 i = 0; i < numFreedBlocks; ++i) {
           MemBlock* curBlock = m_blocks[m_nextBlockIdx];
           totalBytes += curBlock->m_size;
 
@@ -289,7 +294,7 @@ namespace geEngineSDK {
   void
   FrameAlloc::deallocBlock(MemBlock* block) {
     block->~MemBlock();
-    ge_free_aligned(block);
+    ge_free_aligned16(block);
   }
 
   void

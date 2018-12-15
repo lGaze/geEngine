@@ -399,6 +399,25 @@ namespace geEngineSDK {
     }
 
     /**
+     * @brief Returns a floating point remainder for (@p val / @p length).
+     */
+    static float
+    repeat(float val, float length) {
+      return val - floor(val / length) * length;
+    }
+
+    /**
+     * @brief Wraps the value in range [0, length) and reverses the direction
+     *        every @p length increment. This results in @p val incrementing
+     *        until @p length, then decrementing back to 0, and so on.
+     */
+    static float
+    pingPong(float val, float length) {
+      val = repeat(val, length * 2.0f);
+      return length - abs(val - length);
+    }
+
+    /**
      * @brief Returns the Absolute of a value
      */
     template<class T>

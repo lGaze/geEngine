@@ -25,6 +25,9 @@
 #include <geModule.h>
 
 namespace geEngineSDK {
+  using std::move;
+  using std::array;
+
   class LightProbeVolume;
 
   /**
@@ -256,7 +259,7 @@ namespace geEngineSDK {
     struct ComponentStateChange
     {
       ComponentStateChange(HComponent _obj, COMPONENT_STATE_EVENT::E _type)
-        : obj(std::move(_obj)),
+        : obj(move(_obj)),
           type(_type)
       {}
 
@@ -339,7 +342,7 @@ namespace geEngineSDK {
     Vector<HComponent> m_inactiveComponents;
     Vector<HComponent> m_uninitializedComponents;
 
-    std::array<Vector<HComponent>*, 3> m_componentsPerState = {
+    array<Vector<HComponent>*, 3> m_componentsPerState = {
       { &m_activeComponents,
         &m_inactiveComponents,
         &m_uninitializedComponents }

@@ -126,7 +126,7 @@ namespace geEngineSDK {
     const ANSICHAR*
     c_str() const {
       if (nullptr == m_data) {
-        return nullptr;
+        return "";
       }
 
       return m_data->m_chars;

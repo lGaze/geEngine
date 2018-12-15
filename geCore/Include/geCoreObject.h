@@ -344,6 +344,20 @@ namespace geEngineSDK {
     virtual void
     getCoreDependencies(Vector<CoreObject*>& /*dependencies*/) {}
 
+    /**
+     * @brief Gets called on an object when one of the dependencies
+     *        (as returned from getCoreDependencies()) is marked as dirty.
+     *        It gives the dependant object a chance to determine should it
+     *        mark itself as dirty due to the dependency change. Dirty flags of
+     *        the dependency object can be examined for more information on
+     *        what part of the dependency was modified.
+     */
+    virtual void
+    onDependencyDirty(CoreObject* /*dependency*/, uint32 /*dirtyFlags*/) {
+      //By default any changes on a dependency mark the parent dirty as well
+      m_coreDirtyFlags |= DIRTY_DEPENDENCY_MASK;
+    }
+
    protected:
     SPtr<geCoreThread::CoreObject> m_coreSpecific;
   };

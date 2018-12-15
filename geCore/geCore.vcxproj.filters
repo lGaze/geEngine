@@ -382,6 +382,12 @@
     <ClInclude Include="Include\geCpuid.h">
       <Filter>Source Files\Profiling</Filter>
     </ClInclude>
+    <ClInclude Include="Include\geSpriteTexture.h">
+      <Filter>Source Files\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\geSpriteTextureRTTI.h">
+      <Filter>Source Files\RTTI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\geHString.cpp">
@@ -614,6 +620,9 @@
     </ClCompile>
     <ClCompile Include="Source\geMeshManager.cpp">
       <Filter>Source Files\RenderAPI\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\geSpriteTexture.cpp">
+      <Filter>Source Files\Image</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -67,44 +67,4 @@ namespace geEngineSDK {
       setMobility(so.getMobility());
     }
   }
-
-  char*
-  SceneActor::syncActorTo(char* data) {
-    data = rttiWriteElement(m_transform.getTranslation(), data);
-    data = rttiWriteElement(m_transform.getRotation(), data);
-    data = rttiWriteElement(m_transform.getScale3D(), data);
-    data = rttiWriteElement(m_active, data);
-    data = rttiWriteElement(m_mobility, data);
-    return data;
-  }
-
-  char*
-  SceneActor::syncActorFrom(char* data) {
-    Vector3 position;
-    Quaternion rotation;
-    Vector3 scale;
-
-    data = rttiReadElement(position, data);
-    data = rttiReadElement(rotation, data);
-    data = rttiReadElement(scale, data);
-    data = rttiReadElement(m_active, data);
-    data = rttiReadElement(m_mobility, data);
-
-    m_transform.setTranslation(position);
-    m_transform.setRotation(rotation);
-    m_transform.setScale3D(scale);
-
-    return data;
-  }
-
-  uint32
-  SceneActor::getActorSyncDataSize() const {
-    uint32 size =
-      rttiGetElementSize(m_transform.getTranslation()) +
-      rttiGetElementSize(m_transform.getRotation()) +
-      rttiGetElementSize(m_transform.getScale3D()) +
-      rttiGetElementSize(m_active) +
-      rttiGetElementSize(m_mobility);
-    return size;
-  }
 }

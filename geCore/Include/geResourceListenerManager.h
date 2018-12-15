@@ -32,12 +32,14 @@ namespace geEngineSDK {
 
     /**
      * @brief Register a new listener to notify for events.
+     * @note  Thread safe
      */
     void
     registerListener(IResourceListener* listener);
 
     /**
      * @brief Unregister a listener so it will no longer receive notifications.
+     * @note  Thread safe
      */
     void
     unregisterListener(IResourceListener* listener);
@@ -45,6 +47,7 @@ namespace geEngineSDK {
     /**
      * @brief Marks the listener as dirty which forces the manager to updates
      *        its internal list of resources for the listener.
+     * @note  Thread safe
      */
     void
     markListenerDirty(IResourceListener* listener);
@@ -65,6 +68,12 @@ namespace geEngineSDK {
     notifyListeners(const UUID& resourceUUID);
 
    private:
+    /**
+     * @brief Refreshes the listener mapping for any listeners marked as dirty.
+     */
+    void
+    updateListeners();
+
     /**
      * @brief Triggered by the resources system when a resource has finished
      *        loading.
@@ -116,6 +125,7 @@ namespace geEngineSDK {
     Map<UUID, HResource> m_modifiedResources;
 
     Vector<HResource> m_tempResourceBuffer;
+    Vector<IResourceListener*> m_tempListenerBuffer;
 
     RecursiveMutex m_mutex;
 

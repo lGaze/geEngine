@@ -41,9 +41,9 @@ namespace geEngineSDK {
     void
     setSeed(uint32 seed) {
       m_seed[0] = seed;
-      m_seed[1] = seed * 345412429 + 1; // Arbitrary random numbers
-      m_seed[2] = seed * 586442352 + 1;
-      m_seed[3] = seed * 962459976 + 1;
+      m_seed[1] = seed * 0x1496934D + 1; // Arbitrary random numbers
+      m_seed[2] = seed * 0x22F46670 + 1;
+      m_seed[3] = seed * 0x395DF948 + 1;
     }
 
     /**

@@ -195,7 +195,7 @@ namespace geEngineSDK {
     static RTTITypeBase*
     getRTTIStatic();
 
-    virtual RTTITypeBase*
+    RTTITypeBase*
     getRTTI() const override;
   };
 }

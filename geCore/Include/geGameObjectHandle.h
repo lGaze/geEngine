@@ -27,6 +27,7 @@
 /*****************************************************************************/
 
 namespace geEngineSDK {
+  using std::move;
   using std::nullptr_t;
   using std::static_pointer_cast;
 
@@ -53,8 +54,8 @@ namespace geEngineSDK {
   {
     GameObjectHandleData() = default;
 
-    GameObjectHandleData(const SPtr<GameObjectInstanceData>& ptr)
-      : m_ptr(std::move(ptr))
+    GameObjectHandleData(SPtr<GameObjectInstanceData> ptr)
+      : m_ptr(move(ptr))
     {}
 
     SPtr<GameObjectInstanceData> m_ptr;
@@ -141,7 +142,7 @@ namespace geEngineSDK {
     /**
      * @brief Returns internal handle data.
      */
-    SPtr<GameObjectHandleData>
+    const SPtr<GameObjectHandleData>&
     _getHandleData() const {
       return m_data;
     }
@@ -170,8 +171,8 @@ namespace geEngineSDK {
                const GameObjectHandle<_Ty2>& _Right);
 
     GameObjectHandleBase(const SPtr<GameObject>& ptr);
-    GameObjectHandleBase(const SPtr<GameObjectHandleData>& data)
-      : m_data(std::move(data))
+    GameObjectHandleBase(SPtr<GameObjectHandleData> data)
+      : m_data(move(data))
     {}
 
     GameObjectHandleBase(nullptr_t /*ptr*/)
@@ -212,7 +213,7 @@ namespace geEngineSDK {
     static RTTITypeBase*
     getRTTIStatic();
 
-    virtual RTTITypeBase*
+    RTTITypeBase*
     getRTTI() const override;
   };
 
@@ -330,7 +331,7 @@ namespace geEngineSDK {
     static_object_cast(const GameObjectHandleBase& other);
 
     GameObjectHandle(SPtr<GameObjectHandleData> data)
-      : GameObjectHandleBase(std::move(data))
+      : GameObjectHandleBase(move(data))
     {}
   };
 

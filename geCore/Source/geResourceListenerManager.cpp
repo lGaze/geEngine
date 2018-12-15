@@ -21,11 +21,13 @@
 #include "geResourceListenerManager.h"
 #include "geResources.h"
 #include "geIResourceListener.h"
+#include "geCoreThread.h"
 
 namespace geEngineSDK {
   using namespace std::placeholders;
   using std::bind;
   using std::find;
+  using std::move;
 
   ResourceListenerManager::ResourceListenerManager() {
     m_resourceLoadedConn = g_resources().onResourceLoaded.connect(
@@ -35,7 +37,7 @@ namespace geEngineSDK {
   }
 
   ResourceListenerManager::~ResourceListenerManager() {
-    GE_ASSERT(m_resourceToListenerMap.size() == 0 &&
+    GE_ASSERT(m_resourceToListenerMap.empty() &&
               "Not all resource listeners had their resources unregistered "
               "properly.");
 
@@ -61,23 +63,24 @@ namespace geEngineSDK {
       m_activeListeners.erase(listener);
     }
 # endif
-    m_dirtyListeners.erase(listener);
+    {
+      RecursiveLock lock(m_mutex);
+      m_dirtyListeners.erase(listener);
+    }
+
     clearDependencies(listener);
   }
 
   void
   ResourceListenerManager::markListenerDirty(IResourceListener* listener) {
+    RecursiveLock lock(m_mutex);
     m_dirtyListeners.insert(listener);
   }
 
   void
   ResourceListenerManager::update() {
-    for (auto& listener : m_dirtyListeners) {
-      clearDependencies(listener);
-      addDependencies(listener);
-    }
+    updateListeners();
 
-    m_dirtyListeners.clear();
     {
       RecursiveLock lock(m_mutex);
 
@@ -95,19 +98,57 @@ namespace geEngineSDK {
   }
 
   void
-  ResourceListenerManager::notifyListeners(const UUID& resourceUUID) {
-    RecursiveLock lock(m_mutex);
+  ResourceListenerManager::updateListeners() {
+    {
+      RecursiveLock lock(m_mutex);
 
-    auto iterFindLoaded = m_loadedResources.find(resourceUUID);
-    if (iterFindLoaded != m_loadedResources.end()) {
-      sendResourceLoaded(iterFindLoaded->second);
-      m_loadedResources.erase(iterFindLoaded);
+      for (auto& listener : m_dirtyListeners) {
+        m_tempListenerBuffer.push_back(listener);
+      }
+
+      m_dirtyListeners.clear();
     }
 
-    auto iterFindModified = m_modifiedResources.find(resourceUUID);
-    if (iterFindModified != m_modifiedResources.end()) {
-      sendResourceModified(iterFindModified->second);
-      m_modifiedResources.erase(iterFindModified);
+    for (auto& listener : m_tempListenerBuffer) {
+      clearDependencies(listener);
+      addDependencies(listener);
+    }
+
+    m_tempListenerBuffer.clear();
+  }
+
+  void
+  ResourceListenerManager::notifyListeners(const UUID& resourceUUID) {
+    updateListeners();
+    
+    HResource loadedResource;
+    {
+      RecursiveLock lock(m_mutex);
+
+      const auto iterFind = m_loadedResources.find(resourceUUID);
+      if (m_loadedResources.end() != iterFind) {
+        loadedResource = move(iterFind->second);
+        m_loadedResources.erase(iterFind);
+      }
+    }
+
+    if (loadedResource) {
+      sendResourceLoaded(loadedResource);
+    }
+
+    HResource modifiedResource;
+    {
+      RecursiveLock lock(m_mutex);
+
+      const auto iterFind = m_modifiedResources.find(resourceUUID);
+      if (iterFind != m_modifiedResources.end()) {
+        modifiedResource = move(iterFind->second);
+        m_modifiedResources.erase(iterFind);
+      }
+    }
+
+    if (modifiedResource) {
+      sendResourceModified(modifiedResource);
     }
   }
 
@@ -125,7 +166,7 @@ namespace geEngineSDK {
 
   void
   ResourceListenerManager::sendResourceLoaded(const HResource& resource) {
-    uint64 handleId = (uint64)resource.getHandleData().get();
+    auto handleId = reinterpret_cast<uint64>(resource.getHandleData().get());
 
     auto iterFind = m_resourceToListenerMap.find(handleId);
     if (iterFind == m_resourceToListenerMap.end()) {
@@ -144,7 +185,7 @@ namespace geEngineSDK {
 
   void
   ResourceListenerManager::sendResourceModified(const HResource& resource) {
-    uint64 handleId = (uint64)resource.getHandleData().get();
+    auto handleId = (uint64)resource.getHandleData().get();
 
     auto iterFind = m_resourceToListenerMap.find(handleId);
     if (iterFind == m_resourceToListenerMap.end()) {

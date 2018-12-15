@@ -276,7 +276,7 @@ namespace geEngineSDK {
   template<class T, class Alloc>
   inline T*
   ge_newN(SIZE_T count) {
-    T* ptr = reinterpret_cast<T*>(MemoryAllocator<Alloc>::allocate(sizeof(T) * count));
+    auto ptr = reinterpret_cast<T*>(MemoryAllocator<Alloc>::allocate(sizeof(T) * count));
 
     for (SIZE_T i = 0; i < count; ++i) {
       new (&ptr[i]) T;

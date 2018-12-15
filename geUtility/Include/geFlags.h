@@ -43,6 +43,22 @@ namespace geEngineSDK {
     }
 
     /**
+     * @brief Checks whether any of the provided bits are set
+     */
+    bool
+    isSetAny(Enum value) const {
+      return (m_bits & static_cast<Storage>(value)) != 0;
+    }
+
+    /**
+     * @brief Checks whether any of the provided bits are set
+     */
+    bool
+    isSetAny(const Flags<Enum, Storage>& value) const {
+      return (m_bits & value.m_bits) != 0;
+    }
+
+    /**
      * @brief Activates all of the provided bits.
      */
     Flags<Enum, Storage>&

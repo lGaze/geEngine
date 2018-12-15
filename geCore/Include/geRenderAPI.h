@@ -96,7 +96,7 @@ namespace geEngineSDK {
     setViewport(const Box2D& area);
 
     /**
-     * @see geCoreThread::RenderAPI::setViewport()
+     * @see geCoreThread::RenderAPI::setStencilRef()
      * @note This is an @ref asyncMethod "asynchronous method".
      */
     static void

@@ -109,6 +109,8 @@
     <ClInclude Include="Include\geSceneManager.h" />
     <ClInclude Include="Include\geSceneObject.h" />
     <ClInclude Include="Include\geSceneObjectRTTI.h" />
+    <ClInclude Include="Include\geSpriteTexture.h" />
+    <ClInclude Include="Include\geSpriteTextureRTTI.h" />
     <ClInclude Include="Include\geStringTable.h" />
     <ClInclude Include="Include\geStringTableManager.h" />
     <ClInclude Include="Include\geStringTableRTTI.h" />
@@ -194,6 +196,7 @@
     <ClCompile Include="Source\geSceneActor.cpp" />
     <ClCompile Include="Source\geSceneManager.cpp" />
     <ClCompile Include="Source\geSceneObject.cpp" />
+    <ClCompile Include="Source\geSpriteTexture.cpp" />
     <ClCompile Include="Source\geStringTable.cpp" />
     <ClCompile Include="Source\geStringTableManager.cpp" />
     <ClCompile Include="Source\geTexture.cpp" />

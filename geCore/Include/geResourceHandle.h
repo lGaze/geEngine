@@ -55,8 +55,6 @@ namespace geEngineSDK {
   class GE_CORE_EXPORT ResourceHandleBase : public IReflectable
   {
    public:
-    virtual ~ResourceHandleBase() = default;
-
     /**
      * @brief Checks if the resource is loaded. Until resource is loaded this
      *        handle is invalid and you may not get the internal resource from
@@ -175,9 +173,6 @@ namespace geEngineSDK {
   template<>
   class GE_CORE_EXPORT TResourceHandleBase<true> : public ResourceHandleBase
   {
-   public:
-    virtual ~TResourceHandleBase() = default;
-
    protected:
     void
     addRef() {};
@@ -206,9 +201,6 @@ namespace geEngineSDK {
   template<>
   class GE_CORE_EXPORT TResourceHandleBase<false> : public ResourceHandleBase
   {
-   public:
-    virtual ~TResourceHandleBase() = default;
-
    protected:
     void
     addRef() {
@@ -256,12 +248,17 @@ namespace geEngineSDK {
     /**
      * @brief Copy constructor.
      */
-    TResourceHandle(const TResourceHandle<T, WeakHandle>& ptr) {
-      this->m_data = ptr.getHandleData();
+    TResourceHandle(const TResourceHandle& other) {
+      this->m_data = other.getHandleData();
       this->addRef();
     }
 
-    virtual ~TResourceHandle() {
+    /**
+     * @brief Move constructor.
+     */
+    TResourceHandle(TResourceHandle&& other) = default;
+
+    ~TResourceHandle() {
       this->releaseRef();
     }
 
@@ -309,6 +306,21 @@ namespace geEngineSDK {
     TResourceHandle<T, WeakHandle>&
     operator=(const TResourceHandle<T, WeakHandle>& rhs) {
       setHandleData(rhs.getHandleData());
+      return *this;
+    }
+
+    /**
+     * @brief Move assignment.
+     */
+    TResourceHandle&
+    operator=(TResourceHandle&& other) {
+      if (this == &other) {
+        return *this;
+      }
+
+      this->releaseRef();
+      this->m_data = std::exchange(other.m_data, nullptr);
+
       return *this;
     }
 

@@ -69,7 +69,7 @@ namespace geEngineSDK {
     /**
      * @brief Returns the SceneObject this Component is assigned to.
      */
-    HSceneObject
+    const HSceneObject&
     sceneObject() const {
       return m_parent;
     }
@@ -77,7 +77,7 @@ namespace geEngineSDK {
     /**
      * @copydoc sceneObject
      */
-    HSceneObject
+    const HSceneObject&
     so() const {
       return sceneObject();
     }
@@ -85,7 +85,7 @@ namespace geEngineSDK {
     /**
      * @brief Returns a handle to this object.
      */
-    HComponent
+    const HComponent&
     getHandle() const {
       return m_thisHandle;
     }
@@ -284,7 +284,7 @@ namespace geEngineSDK {
     HComponent m_thisHandle;
     TransformChangedFlags m_notifyFlags = TransformChangedFlags::kNone;
     ComponentFlags m_flags;
-    uint32 m_sceneManagerId = NumLimit::MAX_UINT32;
+    uint32 m_sceneManagerId = 0;
 
    private:
     HSceneObject m_parent;

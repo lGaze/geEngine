@@ -1308,17 +1308,17 @@ namespace geEngineSDK {
     /**
      * @brief Rotation of this transformation, as a quaternion.
      */
-    Quaternion m_rotation;
+    Quaternion m_rotation = Quaternion::IDENTITY;
 
     /**
      * @briefTranslation of this transformation, as a vector.
      */
-    Vector3	m_translation;
+    Vector3	m_translation = Vector3::ZERO;
 
     /**
      * @brief3D scale (always applied in local space) as a vector.
      */
-    Vector3	m_scale3D;
+    Vector3	m_scale3D = Vector3::UNIT;
 
     /*************************************************************************/
     /**

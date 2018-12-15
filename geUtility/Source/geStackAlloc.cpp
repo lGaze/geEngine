@@ -34,7 +34,7 @@ namespace geEngineSDK {
 
   void
   MemStack::endThread() {
-    if (threadMemStack != nullptr) {
+    if (nullptr != threadMemStack) {
       ge_delete(threadMemStack);
       threadMemStack = nullptr;
     }

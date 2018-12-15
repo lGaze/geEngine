@@ -24,6 +24,7 @@
 namespace geEngineSDK {
   using std::bind;
   using std::find;
+  using std::move;
 
   Task::Task(const PrivatelyConstruct&,
              const String& name,
@@ -33,8 +34,8 @@ namespace geEngineSDK {
     : m_name(name),
       m_priority(priority),
       m_taskId(0),
-      m_taskWorker(std::move(taskWorker)),
-      m_taskDependency(std::move(dependency)),
+      m_taskWorker(move(taskWorker)),
+      m_taskDependency(move(dependency)),
       m_state(0),
       m_parent(nullptr) {}
 
@@ -45,9 +46,9 @@ namespace geEngineSDK {
                SPtr<Task> dependency) {
     return ge_shared_ptr_new<Task>(PrivatelyConstruct(),
                                    name,
-                                   std::move(taskWorker),
+                                   move(taskWorker),
                                    priority,
-                                   std::move(dependency));
+                                   move(dependency));
   }
 
   bool
@@ -70,6 +71,44 @@ namespace geEngineSDK {
   void
   Task::cancel() {
     m_state = 3;
+  }
+
+  TaskGroup::TaskGroup(const PrivatelyConstruct& /*dummy*/,
+                       String name,
+                       function<void(uint32)> taskWorker,
+                       uint32 count,
+                       TASKPRIORITY::E priority,
+                       SPtr<Task> dependency)
+    : m_name(move(name)),
+      m_count(count),
+      m_priority(priority),
+      m_taskWorker(move(taskWorker)),
+      m_taskDependency(move(dependency))
+  {}
+
+  SPtr<TaskGroup>
+  TaskGroup::create(String name,
+                    function<void(uint32)> taskWorker,
+                    uint32 count,
+                    TASKPRIORITY::E priority,
+                    SPtr<Task> dependency) {
+    return ge_shared_ptr_new<TaskGroup>(PrivatelyConstruct(),
+                                        move(name),
+                                        move(taskWorker),
+                                        count, priority,
+                                        move(dependency));
+  }
+
+  bool
+  TaskGroup::isComplete() const {
+    return 0 == m_numRemainingTasks;
+  }
+
+  void
+  TaskGroup::wait() {
+    if (nullptr != m_parent) {
+      m_parent->waitUntilComplete(this);
+    }
   }
 
   TaskScheduler::TaskScheduler()
@@ -110,8 +149,9 @@ namespace geEngineSDK {
   TaskScheduler::addTask(SPtr<Task> task) {
     Lock lock(m_readyMutex);
 
-    GE_ASSERT(task->m_state != 1 &&
-              "Task is already executing, it cannot be executed again until it finishes.");
+    GE_ASSERT(1 != task->m_state &&
+              "Task is already executing, it cannot be executed again until "
+              "it finishes.");
 
     task->m_parent = this;
     task->m_taskId = m_nextTaskId++;
@@ -119,6 +159,35 @@ namespace geEngineSDK {
 
     m_checkTasks = true;
     m_taskQueue.insert(std::move(task));
+
+    //Wake main scheduler thread
+    m_taskReadyCond.notify_one();
+  }
+
+  void
+  TaskScheduler::addTaskGroup(const SPtr<TaskGroup>& taskGroup) {
+    Lock lock(m_readyMutex);
+
+    for (uint32 i = 0; i < taskGroup->m_count; ++i) {
+      const auto worker = [i, taskGroup]
+      {
+        taskGroup->m_taskWorker(i);
+        --taskGroup->m_numRemainingTasks;
+      };
+
+      SPtr<Task> task = Task::create(taskGroup->m_name,
+                                     worker,
+                                     taskGroup->m_priority,
+                                     taskGroup->m_taskDependency);
+      task->m_parent = this;
+      task->m_taskId = m_nextTaskId++;
+      task->m_state.store(0); //Reset state in case the task is getting re-queued
+
+      m_checkTasks = true;
+      m_taskQueue.insert(move(task));
+    }
+
+    taskGroup->m_parent = this;
 
     //Wake main scheduler thread
     m_taskReadyCond.notify_one();
@@ -231,6 +300,17 @@ namespace geEngineSDK {
         m_taskCompleteCond.wait(lock);
         removeWorker();
       }
+    }
+  }
+
+  void
+  TaskScheduler::waitUntilComplete(const TaskGroup* taskGroup) {
+    Lock lock(m_completeMutex);
+
+    while (0 < taskGroup->m_numRemainingTasks) {
+      addWorker();
+      m_taskCompleteCond.wait(lock);
+      removeWorker();
     }
   }
 

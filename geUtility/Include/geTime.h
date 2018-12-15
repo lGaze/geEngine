@@ -59,6 +59,30 @@ namespace geEngineSDK {
     }
 
     /**
+     * @brief Returns the step (in seconds) between fixed frame updates.
+     */
+    float
+    getFixedFrameDelta() const {
+      return static_cast<float>(m_fixedStep * MICROSEC_TO_SEC);
+    }
+
+    /**
+     * @brief Returns the time (in seconds) the latest frame has started.
+     */
+    float
+    getLastFrameTime() const {
+      return static_cast<float>(m_lastFrameTime * MICROSEC_TO_SEC);
+    }
+
+    /**
+     * @brief Returns the time (in seconds) the latest fixed update has started.
+     */
+    float
+    getLastFixedUpdateTime() const {
+      return static_cast<float>(m_lastFixedUpdateTime * MICROSEC_TO_SEC);
+    }
+
+    /**
      * @brief Returns the sequential index of the current frame. First frame is 0.
      * @return  The current frame.
      * @note  Thread safe, but only counts sim thread frames.
@@ -96,6 +120,32 @@ namespace geEngineSDK {
     _update();
 
     /**
+     * @brief Calculates the number of fixed update iterations required and
+     *        their step size. Values depend on the current time and previous
+     *        calls to _advanceFixedUpdate().;
+     * @param[out]  step  Duration of the fixed step in microseconds. In most
+     *              cases this is the same duration as the	fixed time delta,
+     *              but in the cases where frame is taking a very long time the
+     *              step might be increased to avoid a large number of fixed
+     *              updates per frame.
+     * @return      Returns the number of fixed frame updates to execute
+     *              (each of @p step duration). In most cases this will be
+     *              either 1 or 0, or a larger amount of frames are taking a
+     *              long time to execute (longer than a multiple of fixed
+     *              frame step).
+     */
+    uint32
+    _getFixedUpdateStep(uint64& step);
+
+    /**
+     * @brief Advances the fixed update timers by @p step microseconds.
+     *        Should be called once for each iteration as returned by
+     *        _getFixedUpdateStep(), per frame.
+     */
+    void
+    _advanceFixedUpdate(uint64 step);
+
+    /**
      * @brief Multiply with time in microseconds to get a time in seconds.
      */
     static const double MICROSEC_TO_SEC;
@@ -103,9 +153,16 @@ namespace geEngineSDK {
     float m_frameDelta = 0.0f;      /**< Frame delta in seconds */
     float m_timeSinceStart = 0.0f;  /**< Time since start in seconds */
     uint64 m_timeSinceStartMs = 0u;
+    bool m_firstFrame = true;
+
     uint64 m_appStartTime = 0u;     /**< Time the application started, in microseconds */
     uint64 m_lastFrameTime = 0u;    /**< Time since last runOneFrame call, In microseconds */
     atomic<uint32> m_currentFrame{0UL};
+
+    uint64 m_fixedStep = 16666; //60 times a second in microseconds
+    uint64 m_lastFixedUpdateTime = 0;
+    bool m_firstFixedFrame = true;
+
     Timer* m_timer;
   };
 

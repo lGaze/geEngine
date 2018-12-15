@@ -40,16 +40,17 @@ namespace geEngineSDK {
 
   namespace LIST_TYPE {
     enum E {
-      kActiveList = 0,
-      kInactiveList = 1,
-      kUninitializedList = 2
+      kNoList = 0,
+      kActiveList = 1,
+      kInactiveList = 2,
+      kUninitializedList = 3
     };
   }
 
   struct ScopeToggle
   {
-    ScopeToggle(bool& val)
-      : val(val) {
+    ScopeToggle(bool& _val)
+      : val(_val) {
       val = true;
     }
 
@@ -208,9 +209,8 @@ namespace geEngineSDK {
   }
 
   void
-  SceneManager::setMainRenderTarget(const SPtr<RenderTarget>& /*rt*/) {
-    /* TODO: Remove commentary when the renderer is ready
-    if (m_mainRT == rt) {
+  SceneManager::setMainRenderTarget(const SPtr<RenderTarget>& rt) {
+    if (rt == m_mainRT) {
       return;
     }
 
@@ -225,9 +225,10 @@ namespace geEngineSDK {
     float aspect = 1.0f;
     if (nullptr != rt) {
       auto& rtProps = rt->getProperties();
-      aspect = rtProps.width / static_cast<float>(rtProps.height);
+      aspect = rtProps.m_width / static_cast<float>(rtProps.m_height);
     }
 
+    /* TODO: Activate when cameras are on
     for (auto& entry : m_mainCameras) {
       entry->getViewport()->setTarget(rt);
       entry->setAspectRatio(aspect);
@@ -574,10 +575,11 @@ namespace geEngineSDK {
 
   void
   SceneManager::onMainRenderTargetResized() {
-    /* TODO: Remove commentary when the renderer is ready
     auto& rtProps = m_mainRT->getProperties();
-    float aspect = rtProps.width / static_cast<float>(rtProps.height);
+    float aspect = rtProps.m_width / static_cast<float>(rtProps.m_height);
+    GE_UNREFERENCED_PARAMETER(aspect);  //Remove when cameras are on
 
+    /* TODO: Activate when cameras are on
     for (auto& entry : m_mainCameras) {
       entry->setAspectRatio(aspect);
     }

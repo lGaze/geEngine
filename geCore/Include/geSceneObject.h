@@ -685,12 +685,12 @@ namespace geEngineSDK {
                          &ge_delete<T>,
                          StdAlloc<T>());
 
-      GameObjectHandle<T>
-        newComponent = GameObjectManager::instance().registerObject(gameObject);
+      const HComponent newComponent = static_object_cast<Component>(
+        GameObjectManager::instance().registerObject(gameObject));
 
       addAndInitializeComponent(newComponent);
 
-      return newComponent;
+      return static_object_cast<T>(newComponent);
     }
 
     /**
@@ -734,7 +734,7 @@ namespace geEngineSDK {
       Vector<GameObjectHandle<T>> output;
       for (auto entry : m_components) {
         if (entry->getRTTI()->isDerivedFrom(T::getRTTIStatic())) {
-          output.push_back(entry);
+          output.push_back(static_object_cast<T>(entry));
         }
       }
 
@@ -821,7 +821,7 @@ namespace geEngineSDK {
      * @brief Adds the component to the internal component array.
      */
     void
-    addComponentInternal(const SPtr<Component> component);
+    addComponentInternal(const SPtr<Component>& component);
 
     /**
      * @brief Adds the component to the internal component array, and
@@ -835,7 +835,7 @@ namespace geEngineSDK {
      *        initializes it.
      */
     void
-    addAndInitializeComponent(const SPtr<Component> component);
+    addAndInitializeComponent(const SPtr<Component>& component);
 
     Vector<HComponent> m_components;
 

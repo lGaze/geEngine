@@ -24,6 +24,7 @@
 namespace geEngineSDK {
   using std::false_type;
   using std::forward;
+  using std::align;
 
   /**
    * @brief A memory allocator that allocates elements of the same size.
@@ -154,7 +155,7 @@ namespace geEngineSDK {
         if (data >= curBlock->m_data &&
             data < (curBlock->m_data + blockDataSize)) {
           curBlock->dealloc(data);
-          m_totalNumElems--;
+          --m_totalNumElems;
 
           if (0 == curBlock->m_freeElems && curBlock->m_nextBlock) {
             //Free the block, but only if there is some extra free space in other blocks
@@ -231,10 +232,10 @@ namespace geEngineSDK {
                                                         paddedBlockDataSize));
 
         void* blockData = data + sizeof(MemBlock);
-        blockData = std::align(Alignment,
-                               blockDataSize,
-                               blockData,
-                               paddedBlockDataSize);
+        blockData = align(Alignment,
+                          blockDataSize,
+                          blockData,
+                          paddedBlockDataSize);
 
         newBlock = new (data) MemBlock(reinterpret_cast<uint8*>(blockData));
         ++m_numBlocks;

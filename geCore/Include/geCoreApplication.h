@@ -80,7 +80,7 @@ namespace geEngineSDK {
   class GE_CORE_EXPORT CoreApplication : public Module<CoreApplication>
   {
    public:
-    CoreApplication(const START_UP_DESC& desc);
+    CoreApplication(START_UP_DESC desc);
     virtual ~CoreApplication();
 
     /**
@@ -106,15 +106,6 @@ namespace geEngineSDK {
      */
     void
     setFPSLimit(uint32 limit);
-
-    /**
-     * @brief Returns the step (in seconds) between fixed frame updates. This
-     *        value should be used as frame delta within fixed update calls.
-     */
-    float
-    getFixedUpdateStep() const {
-      return m_fixedStep / 1000000.0f;
-    }
 
     /**
      * @brief Issues a request for the application to close. Application may
@@ -192,6 +183,13 @@ namespace geEngineSDK {
     postUpdate();
 
     /**
+     * @brief Called during the fixed update of the main loop.
+     *        Called after preUpdate and before postUpdate.
+     */
+    virtual void
+    fixedUpdate();
+
+    /**
      * @brief Initializes the renderer specified during construction.
      *        Called during initialization.
      */
@@ -236,10 +234,6 @@ namespace geEngineSDK {
     uint64 m_frameStep = 16666;  //60 Times a second in microseconds
     uint64 m_lastFrameTime = 0;  //Microseconds
 
-    //Fixed update
-    uint64 m_fixedStep = 16666;  //60 Times a second in microseconds
-    uint64 m_lastFixedUpdateTime = 0;
-    bool m_firstFrame = true;
     DynLib* m_rendererPlugin;
 
     Map<DynLib*, updatePluginFunc> m_pluginUpdateFunctions;
@@ -250,12 +244,6 @@ namespace geEngineSDK {
     ThreadId m_simThreadId;
 
     volatile bool m_runMainLoop;
-
-    /**
-     * @brief Determines how many fixed updates per frame are allowed.
-     *        Only relevant when framerate is low.
-     */
-    static constexpr uint32 MAX_FIXED_UPDATES_PER_FRAME = 4;
   };
 
   /**
