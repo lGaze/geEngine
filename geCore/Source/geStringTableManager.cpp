@@ -1,6 +1,6 @@
 /*****************************************************************************/
 /**
- * @file    geStringTableManager.h
+ * @file    geStringTableManager.cpp
  * @author  Samuel Prince (samuel.prince.quezada@gmail.com)
  * @date    2017/11/01
  * @brief   Manages string tables used for localizing text.
