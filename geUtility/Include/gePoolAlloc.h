@@ -183,8 +183,8 @@ namespace geEngineSDK {
     template<class T, class... Args>
     T*
     construct(Args &&...args) {
-      T* data = reinterpret_cast<T*>(alloc());
-      new ((void*)data) T(std::forward<Args>(args)...);
+      auto data = reinterpret_cast<T*>(alloc());
+      new ((void*)data) T(forward<Args>(args)...);
       return data;
     }
 
@@ -279,7 +279,7 @@ namespace geEngineSDK {
     static PoolAlloc<sizeof(T), ElemsPerBlock, Alignment, Lock> m;
   };
 
-  template<class T, int ElemsPerBlock, int Alignment, bool Lock>
+  template<class T, int32 ElemsPerBlock, int32 Alignment, bool Lock>
   PoolAlloc<sizeof(T), ElemsPerBlock, Alignment, Lock>
     StaticPoolAlloc<T, ElemsPerBlock, Alignment, Lock>::m;
 

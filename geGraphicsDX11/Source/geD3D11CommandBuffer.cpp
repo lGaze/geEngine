@@ -32,7 +32,7 @@ namespace geEngineSDK {
                                            uint32 queueIdx,
                                            bool secondary)
       : CommandBuffer(type, deviceIdx, queueIdx, secondary),
-        mActiveDrawOp(DOT_TRIANGLE_LIST) {
+        m_activeDrawOp(DOT_TRIANGLE_LIST) {
       if (0 != deviceIdx) {
         GE_EXCEPT(InvalidParametersException,
                   "Only a single device supported on DX11.");
@@ -41,7 +41,7 @@ namespace geEngineSDK {
 
     void
     D3D11CommandBuffer::queueCommand(const function<void()> command) {
-      mCommands.push_back(command);
+      m_commands.push_back(command);
     }
 
     void
@@ -57,8 +57,8 @@ namespace geEngineSDK {
         return;
       }
 #endif
-      for (auto& entry : secondaryBuffer->mCommands) {
-        mCommands.push_back(entry);
+      for (auto& entry : secondaryBuffer->m_commands) {
+        m_commands.push_back(entry);
       }
     }
 
@@ -70,14 +70,14 @@ namespace geEngineSDK {
         return;
       }
 #endif
-      for (auto& entry : mCommands) {
+      for (auto& entry : m_commands) {
         entry();
       }
     }
 
     void
     D3D11CommandBuffer::clear() {
-      mCommands.clear();
+      m_commands.clear();
     }
   }
 }

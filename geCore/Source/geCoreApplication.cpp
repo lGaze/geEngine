@@ -57,7 +57,7 @@
 
 #include "geProfilerCPU.h"
 #include "geProfilingManager.h"
-//#include "Profiling/geProfilerGPU.h"
+#include "geProfilerGPU.h"
 #include "geRenderStats.h"
 
 //#include "Material/geMaterialManager.h"
@@ -94,6 +94,8 @@ namespace geEngineSDK {
   CoreApplication::~CoreApplication() {
     m_primaryWindow->destroy();
     m_primaryWindow = nullptr;
+
+    ProfilerGPU::shutDown();
 
     SceneManager::shutDown();
 
@@ -168,6 +170,8 @@ namespace geEngineSDK {
 
     SceneManager::startUp();
     startUpRenderer();
+
+    ProfilerGPU::startUp();
 
     for (auto& importerName : m_startUpDesc.importers) {
       loadPlugin(importerName);
@@ -353,7 +357,7 @@ namespace geEngineSDK {
 
   void
   CoreApplication::endCoreProfiling() {
-    //ProfilerGPU::instance()._update();
+    ProfilerGPU::instance()._update();
     g_profilerCPU().endThread();
     g_profiler()._updateCore();
   }

@@ -60,8 +60,7 @@ namespace geEngineSDK {
       GE_ASSERT(!isLocked() && "Can't lock buffer, it is already locked!");
       void* ret = map(offset, length, options, deviceIdx, queueIdx);
       m_isLocked = true;
-      m_lockStart = offset;
-      m_lockSize = length;
+
       return ret;
     }
 
@@ -186,6 +185,15 @@ namespace geEngineSDK {
       return m_isLocked;
     }
 
+    /**
+     * @brief Returns a mask signifying on which devices has been this buffer
+     *        created on.
+     */
+    GPU_DEVICE_FLAGS::E
+    getDeviceMask() const {
+      return m_deviceMask;
+    }
+
    protected:
     friend class HardwareBufferManager;
 
@@ -193,7 +201,11 @@ namespace geEngineSDK {
      * @brief Constructs a new buffer.
      * @param[in] size  Size of the buffer, in bytes.
      */
-    HardwareBuffer(uint32 size) : m_size(size) {}
+    HardwareBuffer(uint32 size, GPU_BUFFER_USAGE::E usage, GPU_DEVICE_FLAGS::E deviceMask)
+      : m_size(size),
+        m_usage(usage),
+        m_deviceMask(deviceMask)
+    {}
 
     /**
      * @copydoc lock
@@ -220,8 +232,8 @@ namespace geEngineSDK {
 
    protected:
     uint32 m_size;
+    GPU_BUFFER_USAGE::E m_usage;
+    GPU_DEVICE_FLAGS::E m_deviceMask;
     bool m_isLocked = false;
-    uint32 m_lockStart;
-    uint32 m_lockSize;
   };
 }

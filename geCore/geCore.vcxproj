@@ -31,6 +31,7 @@
     <ClInclude Include="Include\geCoreObject.h" />
     <ClInclude Include="Include\geCoreObjectCore.h" />
     <ClInclude Include="Include\geCoreObjectManager.h" />
+    <ClInclude Include="Include\geCoreObjectSync.h" />
     <ClInclude Include="Include\geCoreThread.h" />
     <ClInclude Include="Include\geCoreThreadQueue.h" />
     <ClInclude Include="Include\geCpuid.h" />
@@ -77,6 +78,7 @@
     <ClInclude Include="Include\gePrefabUtility.h" />
     <ClInclude Include="Include\gePrerequisitesCore.h" />
     <ClInclude Include="Include\geProfilerCPU.h" />
+    <ClInclude Include="Include\geProfilerGPU.h" />
     <ClInclude Include="Include\geProfilingManager.h" />
     <ClInclude Include="Include\geQueryManager.h" />
     <ClInclude Include="Include\geRasterizerState.h" />
@@ -174,6 +176,7 @@
     <ClCompile Include="Source\gePrefabDiff.cpp" />
     <ClCompile Include="Source\gePrefabUtility.cpp" />
     <ClCompile Include="Source\geProfilerCPU.cpp" />
+    <ClCompile Include="Source\geProfilerGPU.cpp" />
     <ClCompile Include="Source\geProfilingManager.cpp" />
     <ClCompile Include="Source\geQueryManager.cpp" />
     <ClCompile Include="Source\geRasterizerState.cpp" />

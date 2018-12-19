@@ -322,21 +322,21 @@ namespace geEngineSDK {
 
     ConstReverseIterator
     rbegin() const {
-      return ReverseIterator(end());
+      return ConstReverseIterator(end());
     }
     ConstReverseIterator
     rend() const {
-      return ReverseIterator(begin());
+      return ConstReverseIterator(begin());
     }
 
     ConstReverseIterator
     crbegin() const {
-      return ReverseIterator(end());
+      return ConstReverseIterator(end());
     }
 
     ConstReverseIterator
     crend() const {
-      return ReverseIterator(begin());
+      return ConstReverseIterator(begin());
     }
 
     uint32
@@ -362,13 +362,13 @@ namespace geEngineSDK {
     Type&
     front() {
       GE_ASSERT(!empty());
-      return *m_elements[0];
+      return m_elements[0];
     }
 
     Type&
     back() {
       GE_ASSERT(!empty());
-      return *m_elements[m_size - 1];
+      return m_elements[m_size - 1];
     }
 
     const Type&

@@ -22,6 +22,8 @@
 #include <geModule.h>
 
 namespace geEngineSDK {
+  using std::chrono::high_resolution_clock;
+
   class CPUProfilerReport;
 
   /**
@@ -78,7 +80,7 @@ namespace geEngineSDK {
       double m_time;
      private:
       double m_startTime;
-      std::chrono::high_resolution_clock m_hrClock;
+      high_resolution_clock m_hrClock;
 
       /**
        * @brief Returns time elapsed since CPU was started in milliseconds.

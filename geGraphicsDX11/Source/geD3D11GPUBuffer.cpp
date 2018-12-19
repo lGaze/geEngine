@@ -24,46 +24,41 @@
 #include "geD3D11Device.h"
 #include "geD3D11Mappings.h"
 
+#include <gePoolAlloc.h>
 #include <geRenderStats.h>
 #include <geException.h>
 
 namespace geEngineSDK {
+  using std::move;
   using std::static_pointer_cast;
 
   namespace geCoreThread {
+    static void
+    deleteBuffer(HardwareBuffer* buffer) {
+      ge_pool_delete(static_cast<D3D11HardwareBuffer*>(buffer));
+    }
+
     D3D11GPUBuffer::D3D11GPUBuffer(const GPU_BUFFER_DESC& desc,
                                    GPU_DEVICE_FLAGS::E deviceMask)
-      : GPUBuffer(desc, deviceMask),
-        m_buffer(nullptr) {
-      if (GPU_BUFFER_TYPE::kSTANDARD != desc.type) {
-        GE_ASSERT(GPU_BUFFER_FORMAT::kUNKNOWN == desc.format &&
-                  "Format must be set to GPU_BUFFER_FORMAT::kUNKNOWN "
-                  "when using non-standard buffers");
-      }
-      else {
-        GE_ASSERT(0 == desc.elementSize &&
-                  "No element size can be provided for standard buffer. "
-                  "Size is determined from format.");
-      }
-
+      : GPUBuffer(desc, deviceMask) {
       GE_ASSERT((GPU_DEVICE_FLAGS::kDEFAULT == deviceMask ||
                  GPU_DEVICE_FLAGS::kPRIMARY == deviceMask) &&
                 "Multiple GPUs not supported natively on DirectX 11.");
     }
 
+    D3D11GPUBuffer::D3D11GPUBuffer(const GPU_BUFFER_DESC& desc,
+                                   SPtr<HardwareBuffer> underlyingBuffer)
+      : GPUBuffer(desc, move(underlyingBuffer))
+    {}
+
     D3D11GPUBuffer::~D3D11GPUBuffer() {
-      ge_delete(m_buffer);
       clearBufferViews();
-      GE_INC_RENDER_STAT_CAT(ResDestroyed,
-                             RENDER_STAT_RESOURCE_TYPE::kGPUBuffer);
     }
 
     void
     D3D11GPUBuffer::initialize() {
-      BUFFER_TYPE::E bufferType;
-      auto rs = static_cast<D3D11RenderAPI*>(D3D11RenderAPI::instancePtr());
-
       const GPUBufferProperties& props = getProperties();
+      m_bufferDeleter = &deleteBuffer;
 
       switch (props.getType())
       {

@@ -67,8 +67,8 @@ namespace geEngineSDK {
                          uint32 queueIdx,
                          bool secondary);
 
-      Vector<function<void()>> mCommands;
-      DrawOperationType mActiveDrawOp;
+      Vector<function<void()>> m_commands;
+      DrawOperationType m_activeDrawOp;
     };
   }
 }

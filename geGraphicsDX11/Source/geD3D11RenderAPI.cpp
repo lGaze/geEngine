@@ -786,7 +786,7 @@ namespace geEngineSDK {
         SPtr<D3D11CommandBuffer> cb = std::static_pointer_cast<D3D11CommandBuffer>(commandBuffer);
         cb->queueCommand(execute);
 
-        cb->mActiveDrawOp = op;
+        cb->m_activeDrawOp = op;
       }
     }
 
@@ -823,7 +823,7 @@ namespace geEngineSDK {
         SPtr<D3D11CommandBuffer> cb = std::static_pointer_cast<D3D11CommandBuffer>(commandBuffer);
         cb->queueCommand(execute);
 
-        primCount = vertexCountToPrimCount(cb->mActiveDrawOp, vertexCount);
+        primCount = vertexCountToPrimCount(cb->m_activeDrawOp, vertexCount);
       }
 
       GE_INC_RENDER_STAT(NumDrawCalls);
@@ -865,7 +865,7 @@ namespace geEngineSDK {
         SPtr<D3D11CommandBuffer> cb = std::static_pointer_cast<D3D11CommandBuffer>(commandBuffer);
         cb->queueCommand(execute);
 
-        primCount = vertexCountToPrimCount(cb->mActiveDrawOp, indexCount);
+        primCount = vertexCountToPrimCount(cb->m_activeDrawOp, indexCount);
       }
 
       GE_INC_RENDER_STAT(NumDrawCalls);

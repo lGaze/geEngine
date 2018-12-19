@@ -26,7 +26,7 @@
 #include "geSpriteTextureRTTI.h"
 #include "geTexture.h"
 #include "geResources.h"
-#include "geBuiltinResources.h"
+//#include "geBuiltinResources.h" //TODO: Check if we change this to the core
 #include "geCoreObjectSync.h"
 
 #include <geBox2D.h>
@@ -105,7 +105,9 @@ namespace geEngineSDK {
 
   const HSpriteTexture&
   SpriteTexture::dummy() {
-    return BuiltinResources::instance().getDummySpriteTexture();
+    //return BuiltinResources::instance().getDummySpriteTexture();
+    static HSpriteTexture dummyDeleteTexture;
+    return dummyDeleteTexture;
   }
 
   bool

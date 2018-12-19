@@ -55,19 +55,6 @@ namespace geEngineSDK {
      * @brief Usage that tells the hardware how will be buffer be used.
      */
     GPU_BUFFER_USAGE::E usage = GPU_BUFFER_USAGE::kSTATIC;
-
-    /**
-     * @brief When true allows the GPU to write to the resource.
-     *        Must be enabled if buffer type is kAPPENDCONSUME.
-     */
-    bool randomGPUWrite = false;
-
-    /**
-     * @brief When true binds a counter that can be used from a GPU program on
-     *        the buffer. Can only be used in combination with kSTRUCTURED
-     *        and randomGPUWrite must be enabled.
-     */
-    bool useCounter = false;
   };
 
   /**
@@ -108,24 +95,6 @@ namespace geEngineSDK {
     }
 
     /**
-     * @brief Return whether the buffer supports random reads and writes within
-     *        the GPU programs.
-     */
-    bool
-    getRandomGPUWrite() const {
-      return m_desc.randomGPUWrite;
-    }
-
-    /**
-     * @brief Returns whether the buffer supports counter use within GPU
-     *        programs.
-     */
-    bool
-    getUseCounter() const {
-      return m_desc.useCounter;
-    }
-
-    /**
      * @brief Returns number of elements in the buffer.
      */
     uint32
@@ -141,7 +110,7 @@ namespace geEngineSDK {
       return m_desc.elementSize;
     }
 
-    protected:
+   protected:
     friend class GPUBuffer;
 
     GPU_BUFFER_DESC m_desc;
@@ -234,16 +203,109 @@ namespace geEngineSDK {
       }
 
       /**
+       * @copydoc HardwareBuffer::readData
+       */
+      void
+      readData(uint32 offset,
+               uint32 length,
+               void* dest,
+               uint32 deviceIdx = 0,
+               uint32 queueIdx = 0) override;
+
+      /**
+       * @copydoc HardwareBuffer::writeData
+       */
+      void
+      writeData(uint32 offset,
+                uint32 length,
+                const void* source,
+                BUFFER_WRITE_TYPE::E writeFlags = BUFFER_WRITE_TYPE::kNORMAL,
+                uint32 queueIdx = 0) override;
+
+      /**
+       * @copydoc HardwareBuffer::copyData
+       */
+      void
+      copyData(HardwareBuffer& srcBuffer,
+               uint32 srcOffset,
+               uint32 dstOffset,
+               uint32 length,
+               bool discardWholeBuffer = false,
+               const SPtr<CommandBuffer>& commandBuffer = nullptr) override;
+
+      /**
+       * @brief Returns a view of this buffer with specified format/type.
+       * @param[in] type          Type of buffer to view the contents as. Only
+       *            supported values are GBT_STANDARD and GBT_STRUCTURED.
+       * @param[in] format        Format of the data in the buffer. Size of the
+       *            underlying buffer must be divisible by the	size of an
+       *            individual element of this format. Must be BF_UNKNOWN if
+       *            buffer type is GBT_STRUCTURED.
+       * @param[in] elementSize   Size of the individual element in the buffer.
+       *            Size of the underlying buffer must be divisible by this
+       *            size. Must be 0 if buffer type is GBT_STANDARD (element
+       *            size gets deduced from format).
+       * @return    New view of the buffer, using the provided format and type.
+       */
+      SPtr<GPUBuffer>
+      getView(GPU_BUFFER_TYPE::E type,
+              GPU_BUFFER_FORMAT::E format,
+              uint32 elementSize = 0);
+
+      /**
        * @copydoc HardwareBufferManager::createGPUBuffer
        */
       static SPtr<GPUBuffer>
       create(const GPU_BUFFER_DESC& desc,
              GPU_DEVICE_FLAGS::E deviceMask = GPU_DEVICE_FLAGS::kDEFAULT);
 
+      /**
+       * @brief Creates a view of an existing hardware buffer. No internal
+       *        buffer will be allocated and the provided buffer will be used
+       *        for all internal operations instead. Information provided in
+       *        @p desc (such as element size and count) must match the
+       *        provided @p underlyingBuffer.
+       */
+      static SPtr<GPUBuffer>
+      create(const GPU_BUFFER_DESC& desc, SPtr<HardwareBuffer> underlyingBuffer);
+
      protected:
-      GPUBuffer(const GPU_BUFFER_DESC& desc, uint32 deviceMask);
+      friend class HardwareBufferManager;
+
+      GPUBuffer(const GPU_BUFFER_DESC& desc, GPU_DEVICE_FLAGS::E deviceMask);
+      
+      GPUBuffer(const GPU_BUFFER_DESC& desc, SPtr<HardwareBuffer> underlyingBuffer);
+
+      /**
+       * @copydoc HardwareBuffer::map
+       */
+      void*
+      map(uint32 offset,
+          uint32 length,
+          GPU_LOCK_OPTIONS::E options,
+          uint32 deviceIdx = 0,
+          uint32 queueIdx = 0) override;
+
+      /**
+       * @copydoc HardwareBuffer::unmap
+       */
+      void
+      unmap() override;
+
+      /**
+       * @copydoc CoreObject::initialize
+       */
+      void
+      initialize() override;
 
       GPUBufferProperties m_properties;
+
+      HardwareBuffer* m_buffer = nullptr;
+      SPtr<HardwareBuffer> m_sharedBuffer;
+      bool m_isExternalBuffer = false;
+
+      using Deleter = void(*)(HardwareBuffer*);
+      Deleter m_bufferDeleter = nullptr;
     };
   }
 }
