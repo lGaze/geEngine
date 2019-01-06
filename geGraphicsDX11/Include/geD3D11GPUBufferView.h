@@ -69,8 +69,7 @@ namespace geEngineSDK {
        *        how will its contents be represented by the view.
        */
       void
-      initialize(const SPtr<D3D11GPUBuffer>& buffer,
-                 GPU_BUFFER_VIEW_DESC& desc);
+      initialize(D3D11GPUBuffer* buffer, GPU_BUFFER_VIEW_DESC& desc);
 
       /**
        * @brief Returns a descriptor structure used for creating the view.
@@ -83,7 +82,7 @@ namespace geEngineSDK {
       /**
        * @brief Returns the buffer this view was created for.
        */
-      SPtr<D3D11GPUBuffer>
+      D3D11GPUBuffer*
       getBuffer() const {
         return m_buffer;
       }
@@ -199,7 +198,7 @@ namespace geEngineSDK {
       ID3D11UnorderedAccessView* m_uav;
 
       GPU_BUFFER_VIEW_DESC m_desc;
-      SPtr<D3D11GPUBuffer> m_buffer;
+      D3D11GPUBuffer* m_buffer;
     };
   }
 }

@@ -24,7 +24,6 @@
 #include "geD3D11Device.h"
 #include "geD3D11Mappings.h"
 
-#include <gePoolAlloc.h>
 #include <geRenderStats.h>
 #include <geException.h>
 
@@ -60,40 +59,43 @@ namespace geEngineSDK {
       const GPUBufferProperties& props = getProperties();
       m_bufferDeleter = &deleteBuffer;
 
-      switch (props.getType())
-      {
-        case GPU_BUFFER_TYPE::kSTANDARD:
-          bufferType = BUFFER_TYPE::kSTANDARD;
-          break;
-        case GPU_BUFFER_TYPE::kSTRUCTURED:
-          bufferType = BUFFER_TYPE::kSTRUCTURED;
-          break;
-        case GPU_BUFFER_TYPE::kINDIRECTARGUMENT:
-          bufferType = BUFFER_TYPE::kINDIRECTARGUMENT;
-          break;
-        default:
-          GE_EXCEPT(InvalidParametersException,
-                    "Unsupported buffer type " + toString(props.getType()));
+      if (!m_buffer) {
+        BUFFER_TYPE::E bufferType;
+        auto rapi = static_cast<D3D11RenderAPI*>(D3D11RenderAPI::instancePtr());
+
+        switch (props.getType())
+        {
+          case GPU_BUFFER_TYPE::kSTANDARD:
+            bufferType = BUFFER_TYPE::kSTANDARD;
+            break;
+          case GPU_BUFFER_TYPE::kSTRUCTURED:
+            bufferType = BUFFER_TYPE::kSTRUCTURED;
+            break;
+          case GPU_BUFFER_TYPE::kINDIRECTARGUMENT:
+            bufferType = BUFFER_TYPE::kINDIRECTARGUMENT;
+            break;
+          default:
+            GE_EXCEPT(InvalidParametersException,
+              "Unsupported buffer type " + toString(props.getType()));
+        }
+
+        m_buffer = ge_pool_new<D3D11HardwareBuffer>(bufferType,
+                                                    props.getUsage(),
+                                                    props.getElementCount(),
+                                                    props.getElementSize(),
+                                                    rapi->getPrimaryDevice(),
+                                                    false,
+                                                    false);
       }
 
-      m_buffer = ge_new<D3D11HardwareBuffer>(bufferType, props.getUsage(),
-                                             props.getElementCount(),
-                                             props.getElementSize(),
-                                             rs->getPrimaryDevice(),
-                                             false,
-                                             false,
-                                             props.getRandomGPUWrite(),
-                                             props.getUseCounter());
-
-      auto thisPtr = static_pointer_cast<D3D11GPUBuffer>(getThisPtr());
       uint32 usage = GPU_VIEW_USAGE::kDEFAULT;
-      if (props.getRandomGPUWrite()) {
+      if ((props.getUsage() & GPU_BUFFER_USAGE::kLOADSTORE) == GPU_BUFFER_USAGE::kLOADSTORE) {
         usage |= GPU_VIEW_USAGE::kRANDOMWRITE;
       }
 
       //Keep a single view of the entire buffer, we don't support views of
       //sub-sets (yet)
-      m_bufferView = requestView(thisPtr,
+      m_bufferView = requestView(this,
                                  0,
                                  props.getElementCount(),
                                  static_cast<GPU_VIEW_USAGE::E>(usage));
@@ -104,77 +106,13 @@ namespace geEngineSDK {
       GPUBuffer::initialize();
     }
 
-    void*
-    D3D11GPUBuffer::lock(uint32 offset,
-                         uint32 length,
-                         GPU_LOCK_OPTIONS::E options,
-                         uint32 /*deviceIdx*/,
-                         uint32 /*queueIdx*/) {
-#if GE_PROFILING_ENABLED
-      if (GPU_LOCK_OPTIONS::kREAD_ONLY == options ||
-          GPU_LOCK_OPTIONS::kREAD_WRITE == options) {
-        GE_INC_RENDER_STAT_CAT(ResRead, RENDER_STAT_RESOURCE_TYPE::kGPUBuffer);
-      }
-
-      if (GPU_LOCK_OPTIONS::kREAD_WRITE == options||
-          GPU_LOCK_OPTIONS::kWRITE_ONLY == options||
-          GPU_LOCK_OPTIONS::kWRITE_ONLY_DISCARD == options ||
-          GPU_LOCK_OPTIONS::kWRITE_ONLY_NO_OVERWRITE == options) {
-        GE_INC_RENDER_STAT_CAT(ResWrite,
-                               RENDER_STAT_RESOURCE_TYPE::kGPUBuffer);
-      }
-#endif
-      return m_buffer->lock(offset, length, options);
-    }
-
-    void
-    D3D11GPUBuffer::unlock() {
-      m_buffer->unlock();
-    }
-
-    void
-    D3D11GPUBuffer::readData(uint32 offset,
-                             uint32 length,
-                             void* dest,
-                             uint32 /*deviceIdx*/,
-                             uint32 /*queueIdx*/) {
-      GE_INC_RENDER_STAT_CAT(ResRead, RENDER_STAT_RESOURCE_TYPE::kGPUBuffer);
-      m_buffer->readData(offset, length, dest);
-    }
-
-    void
-    D3D11GPUBuffer::writeData(uint32 offset,
-                              uint32 length,
-                              const void* source,
-                              BUFFER_WRITE_TYPE::E writeFlags,
-                              uint32 /*queueIdx*/) {
-      GE_INC_RENDER_STAT_CAT(ResWrite, RENDER_STAT_RESOURCE_TYPE::kGPUBuffer);
-      m_buffer->writeData(offset, length, source, writeFlags);
-    }
-
-    void
-    D3D11GPUBuffer::copyData(HardwareBuffer& srcBuffer,
-                             uint32 srcOffset,
-                             uint32 dstOffset,
-                             uint32 length,
-                             bool discardWholeBuffer,
-                             const SPtr<CommandBuffer>& commandBuffer) {
-      auto d3d11SrcBuffer = static_cast<D3D11GPUBuffer*>(&srcBuffer);
-      m_buffer->copyData(*d3d11SrcBuffer->m_buffer,
-                         srcOffset,
-                         dstOffset,
-                         length,
-                         discardWholeBuffer,
-                         commandBuffer);
-    }
-
     ID3D11Buffer*
     D3D11GPUBuffer::getDX11Buffer() const {
-      return m_buffer->getD3DBuffer();
+      return static_cast<D3D11HardwareBuffer*>(m_buffer)->getD3DBuffer();
     }
 
     GPUBufferView*
-    D3D11GPUBuffer::requestView(const SPtr<D3D11GPUBuffer>& buffer,
+    D3D11GPUBuffer::requestView(D3D11GPUBuffer* buffer,
                                 uint32 firstElement,
                                 uint32 numElements,
                                 GPU_VIEW_USAGE::E usage) {
@@ -186,7 +124,7 @@ namespace geEngineSDK {
       key.numElements = numElements;
       key.usage = usage;
       key.format = props.getFormat();
-      key.useCounter = props.getUseCounter();
+      key.useCounter = false;
 
       auto iterFind = buffer->m_bufferViews.find(key);
       if (buffer->m_bufferViews.end() == iterFind) {
@@ -203,7 +141,7 @@ namespace geEngineSDK {
 
     void
     D3D11GPUBuffer::releaseView(GPUBufferView* view) {
-      SPtr<D3D11GPUBuffer> buffer = view->getBuffer();
+      D3D11GPUBuffer* buffer = view->getBuffer();
 
       auto iterFind = buffer->m_bufferViews.find(view->getDesc());
       if (buffer->m_bufferViews.end() == iterFind) {

@@ -405,6 +405,12 @@ namespace geEngineSDK {
        * (e.g. every frame). Mutually exclusive with GBU_STATIC.
        */
       kDYNAMIC = 0x02,
+
+      /**
+       * Signifies that the buffer can be used for arbitrary load/store
+       * operations on the GPU. Implies GBU_STATIC.
+       */
+      kLOADSTORE = kSTATIC | 0x04
     };
   }
 

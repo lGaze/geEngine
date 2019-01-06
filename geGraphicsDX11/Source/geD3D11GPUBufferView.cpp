@@ -66,22 +66,20 @@ namespace geEngineSDK {
     }
 
     void
-    GPUBufferView::initialize(const SPtr<D3D11GPUBuffer>& buffer,
+    GPUBufferView::initialize(D3D11GPUBuffer* buffer,
                               GPU_BUFFER_VIEW_DESC& desc) {
       m_buffer = buffer;
       m_desc = desc;
 
-      auto d3d11GPUBuffer = static_cast<D3D11GPUBuffer*>(buffer.get());
-
       if ((desc.usage & GPU_VIEW_USAGE::kDEFAULT) != 0) {
-        m_srv = createSRV(d3d11GPUBuffer,
+        m_srv = createSRV(buffer,
                           desc.firstElement,
                           desc.elementWidth,
                           desc.numElements);
       }
 
       if ((desc.usage & GPU_VIEW_USAGE::kRANDOMWRITE) != 0) {
-        m_uav = createUAV(d3d11GPUBuffer,
+        m_uav = createUAV(buffer,
                           desc.firstElement,
                           desc.numElements,
                           desc.useCounter);
