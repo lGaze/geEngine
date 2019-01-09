@@ -20,6 +20,7 @@
 #include "gePrerequisitesD3D11.h"
 
 #include <geHardwareBuffer.h>
+#include <gePoolAlloc.h>
 
 namespace geEngineSDK {
   namespace geCoreThread {
@@ -29,52 +30,40 @@ namespace geEngineSDK {
         /**
          * Contains geometry vertices and their properties.
          */
-        kVERTEX = 0x1,
+        kVERTEX = 1 << 0,
 
         /**
          * Contains triangle to vertex mapping.
          */
-        kINDEX = 0x2,
+        kINDEX = 1 << 1,
 
         /**
          * Contains GPU program parameters.
          */
-        kCONSTANT = 0x4,
+        kCONSTANT = 1 << 2,
 
         /**
-         * Special value signifying a buffer is of generic type.
-         * Not an actual buffer.
+         * Generic buffer that contains primitive types.
          */
-        kGROUP_GENERIC = 0x8,
+        kSTANDARD = 1 << 3,
 
         /**
          * Generic buffer that holds one or more user-defined structures laid
          * out sequentially.
          */
-        kSTRUCTURED = kGROUP_GENERIC | 0x10,
+        kSTRUCTURED = 1 << 4,
 
         /**
          * Generic buffer that holds raw block of bytes with no defined
          * structure.
          */
-        kRAW = kGROUP_GENERIC | 0x20,
+        kRAW = 1 << 5,
 
         /**
          * Generic buffer that is used for holding parameters used for indirect
          * rendering.
          */
-        kINDIRECTARGUMENT = kGROUP_GENERIC | 0x40,
-
-        /**
-         * Generic buffer that allows the GPU program to use append/consume
-         * functionality.
-         */
-        kAPPENDCONSUME = kGROUP_GENERIC | 0x80,
-
-        /**
-         * Generic buffer that contains primitive types.
-         */
-        kSTANDARD = kGROUP_GENERIC | 0x100
+        kINDIRECTARGUMENT = 1 << 6
       };
     }
 
@@ -87,9 +76,7 @@ namespace geEngineSDK {
                           uint32 elementSize,
                           D3D11Device& device,
                           bool systemMemory = false,
-                          bool streamOut = false,
-                          bool randomGPUWrite = false,
-                          bool useCounter = false);
+                          bool streamOut = false);
 
       ~D3D11HardwareBuffer();
 
@@ -150,20 +137,20 @@ namespace geEngineSDK {
       unmap() override;
 
       BUFFER_TYPE::E m_bufferType;
-      bool m_randomGPUWrite;
-      bool m_useCounter;
       uint32 m_elementCount;
       uint32 m_elementSize;
       GPU_BUFFER_USAGE::E m_usage;
 
-      ID3D11Buffer* m_d3dBuffer;
+      ID3D11Buffer* m_d3dBuffer = nullptr;
 
-      bool m_useTempStagingBuffer;
-      D3D11HardwareBuffer* m_pTempStagingBuffer;
+      bool m_useTempStagingBuffer = false;
+      D3D11HardwareBuffer* m_pTempStagingBuffer = nullptr;
       bool m_stagingUploadNeeded;
 
       D3D11Device& m_device;
       D3D11_BUFFER_DESC m_desc;
     };
   }
+
+  IMPLEMENT_GLOBAL_POOL(geCoreThread::D3D11HardwareBuffer, 32)
 }

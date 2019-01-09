@@ -22,17 +22,8 @@
 
 namespace geEngineSDK {
   namespace geCoreThread {
-    D3D11Device::D3D11Device()
-      : m_d3d11Device(nullptr),
-        m_immediateContext(nullptr),
-        m_classLinkage(nullptr)
-    {}
-
     D3D11Device::D3D11Device(ID3D11Device* device)
-      : m_d3d11Device(device),
-        m_immediateContext(nullptr),
-        m_infoQueue(nullptr),
-        m_classLinkage(nullptr) {
+      : m_d3d11Device(device) {
       GE_ASSERT(nullptr != device);
 
       HRESULT hr = E_FAIL;
@@ -59,6 +50,11 @@ namespace geEngineSDK {
                       "Unable to create class linkage.");
           }
         }
+
+        //Get feature options
+        m_d3d11Device->CheckFeatureSupport(D3D11_FEATURE_D3D11_OPTIONS,
+                                           &m_d3d11FeatureOptions,
+                                           sizeof(m_d3d11FeatureOptions));
       }
     }
 
@@ -96,7 +92,7 @@ namespace geEngineSDK {
           m_infoQueue->GetMessage(i, nullptr, &messageLength);
 
           //Allocate space and get the message
-          D3D11_MESSAGE* pMessage = reinterpret_cast<D3D11_MESSAGE*>(malloc(messageLength));
+          auto* pMessage = reinterpret_cast<D3D11_MESSAGE*>(malloc(messageLength));
           m_infoQueue->GetMessage(i, pMessage, &messageLength);
           res = res + pMessage->pDescription + "\n";
           free(pMessage);

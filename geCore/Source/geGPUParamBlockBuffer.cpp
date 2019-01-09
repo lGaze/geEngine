@@ -23,8 +23,7 @@
 namespace geEngineSDK {
   using std::static_pointer_cast;
 
-  GPUParamBlockBuffer::GPUParamBlockBuffer(uint32 size,
-                                           GPU_PARAM_BLOCK_USAGE::E usage)
+  GPUParamBlockBuffer::GPUParamBlockBuffer(uint32 size, GPU_BUFFER_USAGE::E usage)
     : m_usage(usage),
       m_size(size),
       m_cachedData(nullptr) {
@@ -106,13 +105,13 @@ namespace geEngineSDK {
   }
 
   SPtr<GPUParamBlockBuffer>
-  GPUParamBlockBuffer::create(uint32 size, GPU_PARAM_BLOCK_USAGE::E usage) {
+  GPUParamBlockBuffer::create(uint32 size, GPU_BUFFER_USAGE::E usage) {
     return HardwareBufferManager::instance().createGPUParamBlockBuffer(size, usage);
   }
 
   namespace geCoreThread {
     GPUParamBlockBuffer::GPUParamBlockBuffer(uint32 size,
-                                             GPU_PARAM_BLOCK_USAGE::E usage,
+                                             GPU_BUFFER_USAGE::E usage,
                                              GPU_DEVICE_FLAGS::E /*deviceMask*/)
       : m_usage(usage),
         m_size(size),
@@ -190,7 +189,7 @@ namespace geEngineSDK {
 
     SPtr<GPUParamBlockBuffer>
     GPUParamBlockBuffer::create(uint32 size,
-                                GPU_PARAM_BLOCK_USAGE::E usage,
+                                GPU_BUFFER_USAGE::E usage,
                                 GPU_DEVICE_FLAGS::E deviceMask) {
       return HardwareBufferManager::instance().createGPUParamBlockBuffer(size,
                                                                          usage,

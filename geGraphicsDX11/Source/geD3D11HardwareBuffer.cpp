@@ -36,42 +36,46 @@ namespace geEngineSDK {
                                              uint32 elementSize,
                                              D3D11Device& device,
                                              bool useSystemMem,
-                                             bool streamOut,
-                                             bool randomGPUWrite,
-                                             bool useCounter)
-      : HardwareBuffer(elementCount * elementSize),
-        m_d3dBuffer(nullptr),
-        m_pTempStagingBuffer(nullptr),
-        m_useTempStagingBuffer(false),
+                                             bool streamOut)
+      : HardwareBuffer(elementCount * elementSize, usage, GPU_DEVICE_FLAGS::kDEFAULT),
         m_bufferType(btype),
         m_device(device),
         m_elementCount(elementCount),
         m_elementSize(elementSize),
-        m_usage(usage),
-        m_randomGPUWrite(randomGPUWrite),
-        m_useCounter(useCounter) {
+        m_usage(usage) {
+      bool isLoadStore = (usage & GPU_BUFFER_USAGE::kLOADSTORE) ==
+                                  GPU_BUFFER_USAGE::kLOADSTORE;
 
-      GE_ASSERT((!streamOut || BUFFER_TYPE::kVERTEX == btype) &&
-                "Stream out flag is only supported on vertex buffers.");
+      if (useSystemMem) {
+        if (isLoadStore) {
+          LOGWRN("LoadStore usage and useSystemMem cannot be used together.");
+          isLoadStore = false;
+        }
 
-      GE_ASSERT(!randomGPUWrite || (btype & BUFFER_TYPE::kGROUP_GENERIC) != 0 &&
-                "randomGPUWrite flag can only be enabled with standard, "
-                "append/consume, indirect argument, structured or raw buffers.");
+        if (streamOut) {
+          LOGWRN("useSystemMem and streamOut cannot be used together.");
+          streamOut = false;
+        }
+      }
 
-      GE_ASSERT(BUFFER_TYPE::kAPPENDCONSUME != btype || randomGPUWrite &&
-                "Append/Consume buffer must be created with randomGPUWrite enabled.");
+      if (isLoadStore) {
+        if (BUFFER_TYPE::kCONSTANT == btype) {
+          LOGWRN("Constant buffers cannot be bound with LoadStore usage.");
+          isLoadStore = false;
+        }
 
-      GE_ASSERT(!useCounter || btype == BUFFER_TYPE::kSTRUCTURED &&
-                "Counter can only be used with a structured buffer.");
+        if (D3D11Mappings::isDynamic(usage)) {
+          LOGWRN("Dynamic usage not supported with LoadStore usage.");
+          usage = static_cast<GPU_BUFFER_USAGE::E>(usage & ~GPU_BUFFER_USAGE::kDYNAMIC);
+        }
+      }
 
-      GE_ASSERT(!useCounter || randomGPUWrite &&
-                "Counter can only be used with buffers that have randomGPUWrite enabled.");
-
-      GE_ASSERT(!randomGPUWrite || !useSystemMem &&
-                "randomGPUWrite and useSystemMem cannot be used together.");
-
-      GE_ASSERT(!(useSystemMem && streamOut) &&
-                "useSystemMem and streamOut cannot be used together.");
+      if (streamOut) {
+        if (BUFFER_TYPE::kCONSTANT == btype) {
+          LOGWRN("Constant buffers cannot be used with streamOut.");
+          streamOut = false;
+        }
+      }
 
       m_desc.ByteWidth = getSize();
       m_desc.MiscFlags = 0;
@@ -82,26 +86,6 @@ namespace geEngineSDK {
         m_desc.BindFlags = 0;
         m_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ;
       }
-      else if (randomGPUWrite) {
-        m_desc.Usage = D3D11_USAGE_DEFAULT;
-        m_desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
-        m_desc.CPUAccessFlags = 0;
-
-        switch (btype)
-        {
-          case BUFFER_TYPE::kSTRUCTURED:
-          case BUFFER_TYPE::kAPPENDCONSUME:
-            m_desc.StructureByteStride = elementSize;
-            m_desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-            break;
-          case BUFFER_TYPE::kRAW:
-            m_desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS;
-            break;
-          case BUFFER_TYPE::kINDIRECTARGUMENT:
-            m_desc.MiscFlags = D3D11_RESOURCE_MISC_DRAWINDIRECT_ARGS;
-            break;
-        }
-      }
       else {
         m_desc.Usage = D3D11Mappings::getUsage(usage);
         m_desc.CPUAccessFlags = D3D11Mappings::getAccessFlags(usage);
@@ -111,19 +95,7 @@ namespace geEngineSDK {
           case BUFFER_TYPE::kSTANDARD:
             m_desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
             break;
-          case BUFFER_TYPE::kVERTEX:
-            m_desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-            if (streamOut)
-              m_desc.BindFlags |= D3D11_BIND_STREAM_OUTPUT;
-            break;
-          case BUFFER_TYPE::kINDEX:
-            m_desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-            break;
-          case BUFFER_TYPE::kCONSTANT:
-            m_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-            break;
           case BUFFER_TYPE::kSTRUCTURED:
-          case BUFFER_TYPE::kAPPENDCONSUME:
             m_desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
             m_desc.StructureByteStride = elementSize;
             m_desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
@@ -132,10 +104,27 @@ namespace geEngineSDK {
             m_desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
             m_desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS;
             break;
+          case BUFFER_TYPE::kVERTEX:
+            m_desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+            break;
+          case BUFFER_TYPE::kINDEX:
+            m_desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+            break;
+          case BUFFER_TYPE::kCONSTANT:
+            m_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+            break;
           case BUFFER_TYPE::kINDIRECTARGUMENT:
             m_desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
             m_desc.MiscFlags = D3D11_RESOURCE_MISC_DRAWINDIRECT_ARGS;
             break;
+        }
+
+        if (isLoadStore) {
+          m_desc.BindFlags |= D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
+        }
+
+        if (streamOut) {
+          m_desc.BindFlags |= D3D11_BIND_STREAM_OUTPUT;
         }
       }
 
@@ -191,9 +180,18 @@ namespace geEngineSDK {
               mapType = D3D11_MAP_WRITE_NO_OVERWRITE;
             }
             else {
-              //NOTE: supported on anything but index/vertex buffers in DX11
-              //(this restriction was dropped in 11.1)
-              mapType = D3D11_MAP_WRITE;
+              const auto& featureOptions = m_device.getFeatureOptions();
+
+              if (BUFFER_TYPE::kCONSTANT == m_bufferType &&
+                  featureOptions.MapNoOverwriteOnDynamicConstantBuffer) {
+                mapType = D3D11_MAP_WRITE_NO_OVERWRITE;
+              }
+              else if (featureOptions.MapNoOverwriteOnDynamicBufferSRV) {
+                mapType = D3D11_MAP_WRITE_NO_OVERWRITE;
+              }
+              else {
+                mapType = D3D11_MAP_WRITE;
+              }
             }
             break;
           case GPU_LOCK_OPTIONS::kWRITE_ONLY:
@@ -211,13 +209,10 @@ namespace geEngineSDK {
               mapType = D3D11_MAP_READ;
             }
             break;
+          default:
           case GPU_LOCK_OPTIONS::kREAD_ONLY:
             mapType = D3D11_MAP_READ;
             break;
-          default:
-            GE_EXCEPT(RenderingAPIException,
-              "Provided lock options: " + toString(length) +
-              "\nAre not supported.");
         }
 
         if (D3D11Mappings::isMappingRead(mapType) &&
@@ -260,7 +255,7 @@ namespace geEngineSDK {
         if (!m_pTempStagingBuffer) {
           //Create another buffer instance but use system memory
           m_pTempStagingBuffer = ge_new<D3D11HardwareBuffer>(m_bufferType,
-                                                             m_usage,
+                                                             GPU_BUFFER_USAGE::kSTATIC,
                                                              1,
                                                              m_size,
                                                              ref(m_device),
@@ -269,12 +264,12 @@ namespace geEngineSDK {
 
         //Schedule a copy to the staging
         if (GPU_LOCK_OPTIONS::kREAD_ONLY == options ||
-          GPU_LOCK_OPTIONS::kREAD_WRITE == options) {
+            GPU_LOCK_OPTIONS::kREAD_WRITE == options) {
           m_pTempStagingBuffer->copyData(*this, 0, 0, m_size, true);
         }
 
         //Register whether we'll need to upload on unlock
-        m_stagingUploadNeeded = (options != GPU_LOCK_OPTIONS::kREAD_ONLY);
+        m_stagingUploadNeeded = (GPU_LOCK_OPTIONS::kREAD_ONLY != options);
 
         return m_pTempStagingBuffer->lock(offset, length, options);
       }

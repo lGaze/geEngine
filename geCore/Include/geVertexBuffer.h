@@ -129,10 +129,9 @@ namespace geEngineSDK {
       : public CoreObject, public HardwareBuffer {
      public:
       VertexBuffer(const VERTEX_BUFFER_DESC& desc,
-                   GPU_DEVICE_FLAGS::E deviceMask =
-                     GPU_DEVICE_FLAGS::kDEFAULT);
+                   GPU_DEVICE_FLAGS::E deviceMask = GPU_DEVICE_FLAGS::kDEFAULT);
 
-      virtual ~VertexBuffer() = default;
+      virtual ~VertexBuffer();
 
       /**
        * @brief Returns information about the vertex buffer.
@@ -143,6 +142,62 @@ namespace geEngineSDK {
       }
 
       /**
+       * @copydoc HardwareBuffer::readData
+       */
+      void
+      readData(uint32 offset,
+               uint32 length,
+               void* dest,
+               uint32 deviceIdx = 0,
+               uint32 queueIdx = 0) override;
+
+      /**
+       * @copydoc HardwareBuffer::writeData
+       */
+      void
+      writeData(uint32 offset,
+                uint32 length,
+                const void* source,
+                BUFFER_WRITE_TYPE::E writeFlags = BUFFER_WRITE_TYPE::kNORMAL,
+                uint32 queueIdx = 0) override;
+
+      /**
+       * @copydoc HardwareBuffer::copyData
+       */
+      void
+      copyData(HardwareBuffer& srcBuffer,
+               uint32 srcOffset,
+               uint32 dstOffset,
+               uint32 length,
+               bool discardWholeBuffer = false,
+               const SPtr<CommandBuffer>& commandBuffer = nullptr) override;
+
+      /**
+       * @brief Returns a view of this buffer that can be used for load-store
+       *        operations. Buffer must have been created with the
+       *        GPU_BUFFER_UASGE::kLOADSTORE usage flag.
+       * @param[in] type        Type of buffer to view the contents as.
+       *            Only supported values are GPU_BUFFER_TYPE::kSTANDARD and
+       *            GPU_BUFFER_TYPE::kSTRUCTURED.
+       * @param[in] format      Format of the data in the buffer.
+       *            Size of the underlying buffer must be divisible by the
+       *            size of an individual element of this format. Must be
+       *            BUFFER_FORMAT::kUNKNOWN if buffer type is
+       *            GPU_BUFFER_TYPE::kSTRUCTURED.
+       * @param[in] elementSize Size of the individual element in the buffer.
+       *            Size of the underlying buffer must be divisible by this
+       *            size. Must be 0 if buffer type is GPU_BUFFER_TYPE::kSTANDARD.
+       * @return  Buffer usable for load store operations or null if the
+       *          operation fails. Failure can happen if the buffer hasn't been
+       *          created with GPU_BUFFER_USAGE::kLOADSTORE usage or if the
+       *          element size doesn't divide the current buffer size.
+       */
+      SPtr<GPUBuffer>
+      getLoadStore(GPU_BUFFER_TYPE::E type,
+                   GPU_BUFFER_FORMAT::E format,
+                   uint32 elementSize = 0);
+
+      /**
        * @copydoc HardwareBufferManager::createVertexBuffer
        */
       static SPtr<VertexBuffer>
@@ -150,7 +205,38 @@ namespace geEngineSDK {
              GPU_DEVICE_FLAGS::E deviceMask = GPU_DEVICE_FLAGS::kDEFAULT);
 
      protected:
+      friend class HardwareBufferManager;
+
+      /**
+       * @copydoc HardwareBuffer::map
+       */
+      void*
+      map(uint32 offset,
+          uint32 length,
+          GPU_LOCK_OPTIONS::E options,
+          uint32 deviceIdx,
+          uint32 queueIdx) override;
+
+      /**
+       * @copydoc HardwareBuffer::unmap
+       */
+      void
+      unmap() override;
+
+      /**
+       * @copydoc CoreObject::initialize
+       */
+      void
+      initialize() override;
+
       VertexBufferProperties m_properties;
+
+      HardwareBuffer* m_buffer = nullptr;
+      SPtr<HardwareBuffer> m_sharedBuffer;
+      Vector<SPtr<GPUBuffer>> m_loadStoreViews;
+
+      using Deleter = void(*)(HardwareBuffer*);
+      Deleter m_bufferDeleter = nullptr;
     };
   }
 }

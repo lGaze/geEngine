@@ -26,6 +26,8 @@
 #include "geGPUParams.h"
 
 namespace geEngineSDK {
+  using std::move;
+
   SPtr<VertexDeclaration>
   HardwareBufferManager::createVertexDeclaration(const SPtr<VertexDataDesc>& desc) {
     VertexDeclaration* decl = GE_PVT_NEW(VertexDeclaration, desc->createElements());
@@ -58,10 +60,9 @@ namespace geEngineSDK {
   }
 
   SPtr<GPUParamBlockBuffer>
-  HardwareBufferManager::createGPUParamBlockBuffer(uint32 size,
-                                                   GPU_PARAM_BLOCK_USAGE::E usage) {
-    SPtr<GPUParamBlockBuffer> paramBlockPtr =
-      ge_core_ptr<GPUParamBlockBuffer>(ge_new<GPUParamBlockBuffer>(size, usage));
+  HardwareBufferManager::createGPUParamBlockBuffer(uint32 size, GPU_BUFFER_USAGE::E usage) {
+    auto paramBlockPtr = ge_core_ptr<GPUParamBlockBuffer>(
+      new (ge_alloc<GPUParamBlockBuffer>()) GPUParamBlockBuffer(size, usage));
 
     paramBlockPtr->_setThisPtr(paramBlockPtr);
     paramBlockPtr->initialize();
@@ -182,7 +183,7 @@ namespace geEngineSDK {
 
     SPtr<GPUParamBlockBuffer>
     HardwareBufferManager::createGPUParamBlockBuffer(uint32 size,
-                                                     GPU_PARAM_BLOCK_USAGE::E usage,
+                                                     GPU_BUFFER_USAGE::E usage,
                                                      GPU_DEVICE_FLAGS::E deviceMask) {
       auto paramBlockPtr = createGPUParamBlockBufferInternal(size, usage, deviceMask);
       paramBlockPtr->initialize();
@@ -194,6 +195,15 @@ namespace geEngineSDK {
     HardwareBufferManager::createGPUBuffer(const GPU_BUFFER_DESC& desc,
                                            GPU_DEVICE_FLAGS::E deviceMask) {
       SPtr<GPUBuffer> gbuf = createGPUBufferInternal(desc, deviceMask);
+      gbuf->initialize();
+
+      return gbuf;
+    }
+
+    SPtr<GPUBuffer>
+    HardwareBufferManager::createGPUBuffer(const GPU_BUFFER_DESC& desc,
+                                           SPtr<HardwareBuffer> underlyingBuffer) {
+      SPtr<GPUBuffer> gbuf = createGPUBufferInternal(desc, move(underlyingBuffer));
       gbuf->initialize();
 
       return gbuf;

@@ -167,12 +167,6 @@ namespace geEngineSDK {
       }
     }
 
-    SPtr<GPUBuffer>
-    GPUBuffer::create(const GPU_BUFFER_DESC& desc,
-                      GPU_DEVICE_FLAGS::E deviceMask) {
-      return HardwareBufferManager::instance().createGPUBuffer(desc, deviceMask);
-    }
-
     void
     GPUBuffer::initialize() {
       GE_INC_RENDER_STAT_CAT(ResCreated, RENDER_STAT_RESOURCE_TYPE::kGPUBuffer);
@@ -272,6 +266,18 @@ namespace geEngineSDK {
 
       SPtr<GPUBuffer> newView = create(desc, m_sharedBuffer);
       return newView;
+    }
+
+    SPtr<GPUBuffer>
+    GPUBuffer::create(const GPU_BUFFER_DESC& desc,
+                      GPU_DEVICE_FLAGS::E deviceMask) {
+      return HardwareBufferManager::instance().createGPUBuffer(desc, deviceMask);
+    }
+
+    SPtr<GPUBuffer>
+    GPUBuffer::create(const GPU_BUFFER_DESC& desc,
+                      SPtr<HardwareBuffer> underlyingBuffer) {
+      return HardwareBufferManager::instance().createGPUBuffer(desc, move(underlyingBuffer));
     }
   }
 }

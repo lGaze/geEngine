@@ -25,7 +25,7 @@
 /*****************************************************************************/
 
 namespace geEngineSDK {
-  class GE_CORE_EXPORT HString final
+  class GE_CORE_EXPORT GE_SCRIPT_EXPORT(n:LocString, m:Localization) HString
   {
    public:
     /**
@@ -38,6 +38,7 @@ namespace geEngineSDK {
      * @param[in] stringTableId Unique identifier of the string table to
      *            retrieve the string from.
      */
+    GE_SCRIPT_EXPORT()
     explicit HString(const String& identifier, uint32 stringTableId = 0);
 
     /**
@@ -53,6 +54,7 @@ namespace geEngineSDK {
      * @param[in]	stringTableId	Unique identifier of the string table to
      *            retrieve the string from.
      */
+    GE_SCRIPT_EXPORT()
     explicit HString(const String& identifier,
                      const String& defaultString,
                      uint32 stringTableId = 0);
@@ -62,7 +64,15 @@ namespace geEngineSDK {
      * @param[in] stringTableId Unique identifier of the string table to
      *            retrieve the string from.
      */
-    HString(uint32 stringTableId = 0);
+    GE_SCRIPT_EXPORT()
+    HString(uint32 stringTableId);
+
+    /**
+     * @brief Creates a new empty localized string.
+     */
+    GE_SCRIPT_EXPORT()
+    HString();
+
     HString(const HString& copy);
     ~HString();
 
@@ -71,6 +81,7 @@ namespace geEngineSDK {
 
     operator const String&() const;
 
+    GE_SCRIPT_EXPORT(in:true)
     const String&
     getValue() const;
 
@@ -81,6 +92,7 @@ namespace geEngineSDK {
      * @note  This is useful for strings that have dynamically changing values,
      *        like numbers, embedded in them.
      */
+    GE_SCRIPT_EXPORT()
     void
     setParameter(uint32 idx, const String& value);
 

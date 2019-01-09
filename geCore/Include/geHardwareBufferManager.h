@@ -70,8 +70,7 @@ namespace geEngineSDK {
      */
     SPtr<GPUParamBlockBuffer>
     createGPUParamBlockBuffer(uint32 size,
-                              GPU_PARAM_BLOCK_USAGE::E usage =
-                                GPU_PARAM_BLOCK_USAGE::kDYNAMIC);
+                              GPU_BUFFER_USAGE::E usage = GPU_BUFFER_USAGE::kDYNAMIC);
 
     /**
      * @brief Creates a generic buffer that can be passed as a parameter to a
@@ -154,10 +153,8 @@ namespace geEngineSDK {
        */
       SPtr<GPUParamBlockBuffer>
       createGPUParamBlockBuffer(uint32 size,
-                                GPU_PARAM_BLOCK_USAGE::E usage =
-                                  GPU_PARAM_BLOCK_USAGE::kDYNAMIC,
-                                GPU_DEVICE_FLAGS::E deviceMask =
-                                  GPU_DEVICE_FLAGS::kDEFAULT);
+                                GPU_BUFFER_USAGE::E usage = GPU_BUFFER_USAGE::kDYNAMIC,
+                                GPU_DEVICE_FLAGS::E deviceMask = GPU_DEVICE_FLAGS::kDEFAULT);
 
       /**
        * @copydoc geEngineSDK::HardwareBufferManager::createGPUBuffer
@@ -167,6 +164,12 @@ namespace geEngineSDK {
       SPtr<GPUBuffer>
       createGPUBuffer(const GPU_BUFFER_DESC& desc,
                       GPU_DEVICE_FLAGS::E deviceMask = GPU_DEVICE_FLAGS::kDEFAULT);
+
+      /**
+       * @copydoc GPUBuffer::create(const GPU_BUFFER_DESC&, SPtr<HardwareBuffer>)
+       */
+      SPtr<GPUBuffer>
+      createGPUBuffer(const GPU_BUFFER_DESC& desc, SPtr<HardwareBuffer> underlyingBuffer);
 
       /**
        * @copydoc GPUParams::create(const SPtr<GPUPipelineParamInfo>&,
@@ -232,8 +235,8 @@ namespace geEngineSDK {
        */
       virtual SPtr<GPUParamBlockBuffer>
       createGPUParamBlockBufferInternal(uint32 size,
-                                        GPU_PARAM_BLOCK_USAGE::E usage =
-                                          GPU_PARAM_BLOCK_USAGE::kDYNAMIC,
+                                        GPU_BUFFER_USAGE::E usage =
+                                          GPU_BUFFER_USAGE::kDYNAMIC,
                                         GPU_DEVICE_FLAGS::E deviceMask =
                                           GPU_DEVICE_FLAGS::kDEFAULT) = 0;
 
@@ -244,6 +247,13 @@ namespace geEngineSDK {
       createGPUBufferInternal(const GPU_BUFFER_DESC& desc,
                               GPU_DEVICE_FLAGS::E deviceMask =
                                 GPU_DEVICE_FLAGS::kDEFAULT) = 0;
+
+      /**
+       * @copydoc createGpuBuffer(const GPU_BUFFER_DESC&, SPtr<HardwareBuffer>)
+       */
+      virtual SPtr<GPUBuffer>
+      createGPUBufferInternal(const GPU_BUFFER_DESC& desc,
+                              SPtr<HardwareBuffer> underlyingBuffer) = 0;
 
       /**
        * @copydoc createVertexDeclaration(const Vector<VertexElement>&,

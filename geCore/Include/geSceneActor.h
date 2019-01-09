@@ -36,7 +36,7 @@ namespace geEngineSDK {
       kMobility = 1 << 1,
       kActive = 1 << 2,
       kEverything = 1 << 3,
-      kDependency = 1 << 31
+      kDependency = DIRTY_DEPENDENCY_MASK
     };
   }
 

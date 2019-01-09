@@ -56,7 +56,7 @@ namespace geEngineSDK {
      */
     IndexType
     getType() const {
-      return mIndexType;
+      return m_indexType;
     }
 
     /**
@@ -64,7 +64,7 @@ namespace geEngineSDK {
      */
     uint32
     getNumIndices() const {
-      return mNumIndices;
+      return m_numIndices;
     }
 
     /**
@@ -72,16 +72,16 @@ namespace geEngineSDK {
      */
     uint32
     getIndexSize() const {
-      return mIndexSize;
+      return m_indexSize;
     }
 
    protected:
     friend class IndexBuffer;
     friend class geCoreThread::IndexBuffer;
 
-    IndexType mIndexType;
-    uint32 mNumIndices;
-    uint32 mIndexSize;
+    IndexType m_indexType;
+    uint32 m_numIndices;
+    uint32 m_indexSize;
   };
 
   /**
@@ -98,7 +98,7 @@ namespace geEngineSDK {
      */
     const IndexBufferProperties&
     getProperties() const {
-      return mProperties;
+      return m_properties;
     }
 
     /**
@@ -126,8 +126,8 @@ namespace geEngineSDK {
     SPtr<geCoreThread::CoreObject>
     createCore() const override;
 
-    IndexBufferProperties mProperties;
-    GPU_BUFFER_USAGE::E mUsage;
+    IndexBufferProperties m_properties;
+    GPU_BUFFER_USAGE::E m_usage;
   };
 
   namespace geCoreThread {
@@ -140,15 +140,73 @@ namespace geEngineSDK {
      public:
       IndexBuffer(const INDEX_BUFFER_DESC& desc,
         GPU_DEVICE_FLAGS::E deviceMask = GPU_DEVICE_FLAGS::kDEFAULT);
-      virtual ~IndexBuffer() = default;
+      virtual ~IndexBuffer();
 
       /**
        * @brief Returns information about the index buffer.
        */
       const IndexBufferProperties&
       getProperties() const {
-        return mProperties;
+        return m_properties;
       }
+
+      /**
+       * @copydoc HardwareBuffer::readData
+       */
+      void
+      readData(uint32 offset,
+               uint32 length,
+               void* dest,
+               uint32 deviceIdx = 0,
+               uint32 queueIdx = 0) override;
+
+      /**
+       * @copydoc HardwareBuffer::writeData
+       */
+      void
+      writeData(uint32 offset,
+                uint32 length,
+                const void* source,
+                BUFFER_WRITE_TYPE::E writeFlags = BUFFER_WRITE_TYPE::kNORMAL,
+                uint32 queueIdx = 0) override;
+
+      /**
+       * @copydoc HardwareBuffer::copyData
+       */
+      void
+      copyData(HardwareBuffer& srcBuffer,
+               uint32 srcOffset,
+               uint32 dstOffset,
+               uint32 length,
+               bool discardWholeBuffer = false,
+               const SPtr<CommandBuffer>& commandBuffer = nullptr) override;
+
+      /**
+       * @brief Returns a view of this buffer that can be used for load-store
+       *        operations. Buffer must have been created with the
+       *        GPU_BUFFER_USAGE::kLOADSTORE usage flag.
+       * @param[in] type        Type of buffer to view the contents as.
+       *            Only supported values are GPU_BUFFER_TYPE::kSTANDARD and
+       *            GPU_BUFFER_TYPE::kSTRUCTURED.
+       * @param[in] format      Format of the data in the buffer. Size of the
+       *            underlying buffer must be divisible by the size of an
+       *            individual element of this format.
+       *            Must be BUFFER_FORMAT::kUNKNOWN if buffer type is
+       *            GPU_BUFFER_TYPE::kSTRUCTURED.
+       * @param[in] elementSize Size of the individual element in the buffer.
+       *            Size of the underlying buffer must be divisible by this
+       *            size. Must be 0 if buffer type is
+       *            GPU_BUFFER_TYPE::kSTANDARD (element size gets deduced from
+       *            format).
+       * @return    Buffer usable for load store operations or null if the
+       *            operation fails. Failure can happen if the buffer hasn't
+       *            been created with GPU_BUFFER_USAGE::kLOADSTORE usage or if
+       *            the elementSize doesn't divide the current buffer size.
+       */
+      SPtr<GPUBuffer>
+      getLoadStore(GPU_BUFFER_TYPE::E type,
+                   GPU_BUFFER_FORMAT::E format,
+                   uint32 elementSize = 0);
 
       /**
        * @copydoc HardwareBufferManager::createIndexBuffer
@@ -158,7 +216,38 @@ namespace geEngineSDK {
              GPU_DEVICE_FLAGS::E deviceMask = GPU_DEVICE_FLAGS::kDEFAULT);
 
      protected:
-      IndexBufferProperties mProperties;
+      friend class HardwareBufferManager;
+
+      /**
+       * @copydoc HardwareBuffer::map
+       */
+      void*
+      map(uint32 offset,
+          uint32 length,
+          GPU_LOCK_OPTIONS::E options,
+          uint32 deviceIdx,
+          uint32 queueIdx) override;
+
+      /**
+       * @copydoc HardwareBuffer::unmap 
+       */
+      void
+      unmap() override;
+
+      /**
+       * @copydoc CoreObject::initialize
+       */
+      void
+      initialize() override;
+
+      IndexBufferProperties m_properties;
+
+      HardwareBuffer* m_buffer = nullptr;
+      SPtr<HardwareBuffer> m_sharedBuffer;
+      Vector<SPtr<GPUBuffer>> m_loadStoreViews;
+
+      using Deleter = void(*)(HardwareBuffer*);
+      Deleter m_bufferDeleter = nullptr;
     };
   }
 }

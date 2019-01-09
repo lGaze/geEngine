@@ -27,6 +27,14 @@
 #include "geStringTableManager.h"
 
 namespace geEngineSDK {
+  HString::HString() {
+    m_stringData = StringTableManager::instance().getTable(0)->getStringData(u8"");
+
+    if (m_stringData->numParameters > 0) {
+      m_parameters = ge_newN<String>(m_stringData->numParameters);
+    }
+  }
+
   HString::HString(uint32 stringTableId) {
     m_stringData = StringTableManager::instance().
                      getTable(stringTableId)->getStringData(u8"");

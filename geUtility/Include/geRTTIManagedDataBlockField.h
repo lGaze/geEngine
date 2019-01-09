@@ -24,6 +24,7 @@
 #include "geRTTIField.h"
 
 namespace geEngineSDK {
+  using std::move;
   using std::function;
 
   /**
@@ -88,7 +89,7 @@ namespace geEngineSDK {
       m_valueGetter = getter;
       m_valueSetter = setter;
 
-      init(std::move(name),
+      init(move(name),
            uniqueId,
            false,
            SERIALIZABLE_FIELD_TYPE::kDataBlock,

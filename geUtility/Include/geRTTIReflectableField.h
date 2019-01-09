@@ -24,6 +24,7 @@
 #include "geIReflectable.h"
 
 namespace geEngineSDK {
+  using std::move;
   using std::function;
 
   struct RTTIReflectableFieldBase : public RTTIField
@@ -140,7 +141,7 @@ namespace geEngineSDK {
       m_valueGetter = getter;
       m_valueSetter = setter;
 
-      init(std::move(name),
+      init(move(name),
            uniqueId,
            false,
            SERIALIZABLE_FIELD_TYPE::kReflectable,
@@ -180,7 +181,7 @@ namespace geEngineSDK {
       m_arraySizeGetter = getSize;
       m_arraySizeSetter = setSize;
 
-      init(std::move(name),
+      init(move(name),
            uniqueId,
            true,
            SERIALIZABLE_FIELD_TYPE::kReflectable,

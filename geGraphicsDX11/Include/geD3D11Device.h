@@ -74,6 +74,15 @@ namespace geEngineSDK {
       }
 
       /**
+       * @brief Returns information about optional features supported by the
+       *        device.
+       */
+      const D3D11_FEATURE_DATA_D3D11_OPTIONS&
+      getFeatureOptions() const {
+        return m_d3d11FeatureOptions;
+      }
+
+      /**
        * @brief Resets error state & error messages.
        */
       void
@@ -102,12 +111,13 @@ namespace geEngineSDK {
       setExceptionsErrorLevel(const GE_D3D11_ERROR_LEVEL::E exceptionsErrorLevel);
 
      private:
-      D3D11Device();
+      D3D11Device() = default;
 
-      ID3D11Device* m_d3d11Device;
-      ID3D11DeviceContext* m_immediateContext;
-      ID3D11InfoQueue* m_infoQueue;
-      ID3D11ClassLinkage* m_classLinkage;
+      ID3D11Device* m_d3d11Device = nullptr;
+      ID3D11DeviceContext* m_immediateContext = nullptr;
+      ID3D11InfoQueue* m_infoQueue = nullptr;
+      ID3D11ClassLinkage* m_classLinkage = nullptr;
+      D3D11_FEATURE_DATA_D3D11_OPTIONS m_d3d11FeatureOptions;
     };
   }
 }

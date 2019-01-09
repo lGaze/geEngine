@@ -33,7 +33,7 @@ namespace geEngineSDK {
   class GE_CORE_EXPORT GPUParamBlockBuffer : public CoreObject
   {
    public:
-    GPUParamBlockBuffer(uint32 size, GPU_PARAM_BLOCK_USAGE::E usage);
+    GPUParamBlockBuffer(uint32 size, GPU_BUFFER_USAGE::E usage);
     virtual ~GPUParamBlockBuffer();
 
     /**
@@ -87,8 +87,7 @@ namespace geEngineSDK {
      * @copydoc HardwareBufferManager::createGPUParamBlockBuffer
      */
     static SPtr<GPUParamBlockBuffer>
-    create(uint32 size,
-           GPU_PARAM_BLOCK_USAGE::E usage = GPU_PARAM_BLOCK_USAGE::kDYNAMIC);
+    create(uint32 size, GPU_BUFFER_USAGE::E usage = GPU_BUFFER_USAGE::kDYNAMIC);
 
    protected:
     /**
@@ -103,7 +102,7 @@ namespace geEngineSDK {
     CoreSyncData
     syncToCore(FrameAlloc* allocator) override;
 
-    GPU_PARAM_BLOCK_USAGE::E m_usage;
+    GPU_BUFFER_USAGE::E m_usage;
     uint32 m_size;
     uint8* m_cachedData;
   };
@@ -117,7 +116,7 @@ namespace geEngineSDK {
     {
      public:
       GPUParamBlockBuffer(uint32 size,
-                          GPU_PARAM_BLOCK_USAGE::E usage,
+                          GPU_BUFFER_USAGE::E usage,
                           GPU_DEVICE_FLAGS::E deviceMask);
       virtual ~GPUParamBlockBuffer();
 
@@ -176,7 +175,7 @@ namespace geEngineSDK {
        */
       static SPtr<GPUParamBlockBuffer>
       create(uint32 size,
-             GPU_PARAM_BLOCK_USAGE::E usage = GPU_PARAM_BLOCK_USAGE::kDYNAMIC,
+             GPU_BUFFER_USAGE::E usage = GPU_BUFFER_USAGE::kDYNAMIC,
              GPU_DEVICE_FLAGS::E deviceMask = GPU_DEVICE_FLAGS::kDEFAULT);
 
      protected:
@@ -186,7 +185,7 @@ namespace geEngineSDK {
       void
       syncToCore(const CoreSyncData& data)  override;
 
-      GPU_PARAM_BLOCK_USAGE::E m_usage;
+      GPU_BUFFER_USAGE::E m_usage;
       uint32 m_size;
 
       uint8* m_cachedData;
