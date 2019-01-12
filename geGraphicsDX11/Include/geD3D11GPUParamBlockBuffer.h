@@ -28,15 +28,9 @@ namespace geEngineSDK {
     {
      public:
       D3D11GPUParamBlockBuffer(uint32 size,
-                               GPU_PARAM_BLOCK_USAGE::E usage,
+                               GPU_BUFFER_USAGE::E usage,
                                GPU_DEVICE_FLAGS::E deviceMask);
       ~D3D11GPUParamBlockBuffer();
-
-      /**
-       * @copydoc GPUParamBlockBuffer::writeToGPU
-       */
-      void
-      writeToGPU(const uint8* data, uint32 queueIdx = 0) override;
 
       /**
        * @brief Returns internal DX11 buffer object.
@@ -51,9 +45,6 @@ namespace geEngineSDK {
        */
       void
       initialize() override;
-
-     private:
-      D3D11HardwareBuffer * m_buffer;
     };
   }
 }

@@ -28,7 +28,7 @@ namespace geEngineSDK {
        * @brief Constructs a new driver list from an existing DXGI factory
        *        object.
        */
-      D3D11DriverList(IDXGIFactory* dxgiFactory);
+      D3D11DriverList(IDXGIFactory1* dxgiFactory);
       ~D3D11DriverList();
 
       /**
@@ -56,7 +56,7 @@ namespace geEngineSDK {
        *        available drivers.
        */
       void
-      enumerate(IDXGIFactory* dxgiFactory);
+      enumerate(IDXGIFactory1* dxgiFactory);
 
       Vector<D3D11Driver*> m_driverList;
     };

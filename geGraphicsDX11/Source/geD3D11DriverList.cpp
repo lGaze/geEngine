@@ -23,7 +23,7 @@
 
 namespace geEngineSDK {
   namespace geCoreThread {
-    D3D11DriverList::D3D11DriverList(IDXGIFactory* dxgiFactory) {
+    D3D11DriverList::D3D11DriverList(IDXGIFactory1* dxgiFactory) {
       enumerate(dxgiFactory);
     }
 
@@ -35,7 +35,7 @@ namespace geEngineSDK {
     }
 
     void
-    D3D11DriverList::enumerate(IDXGIFactory* dxgiFactory) {
+    D3D11DriverList::enumerate(IDXGIFactory1* dxgiFactory) {
       uint32 adapterIdx = 0;
       IDXGIAdapter* dxgiAdapter = nullptr;
       HRESULT hr;

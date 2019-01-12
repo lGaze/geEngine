@@ -22,6 +22,8 @@
 #include "geCoreObject.h"
 
 namespace geEngineSDK {
+  class HardwareBuffer;
+
   /**
    * @brief Represents a GPU parameter block buffer. Parameter block buffers
    *        are bound to GPU programs which then fetch parameters from those
@@ -127,8 +129,8 @@ namespace geEngineSDK {
        * @param[in] queueIdx  Device queue to perform the write operation on.
        *                      See @ref queuesDoc.
        */
-      virtual void
-      writeToGPU(const uint8* data, uint32 queueIdx = 0) = 0;
+      void
+      writeToGPU(const uint8* data, uint32 queueIdx = 0);
 
       /**
        * @brief Flushes any cached data into the actual GPU buffer.
@@ -179,11 +181,21 @@ namespace geEngineSDK {
              GPU_DEVICE_FLAGS::E deviceMask = GPU_DEVICE_FLAGS::kDEFAULT);
 
      protected:
+      friend class HardwareBufferManager;
+
       /**
        * @copydoc CoreObject::syncToCore
        */
       void
       syncToCore(const CoreSyncData& data)  override;
+
+      /**
+       * @copydoc CoreObject::initialize
+       */
+      void
+      initialize() override;
+
+      HardwareBuffer* m_buffer;
 
       GPU_BUFFER_USAGE::E m_usage;
       uint32 m_size;

@@ -43,7 +43,7 @@ namespace geEngineSDK {
 #endif
         //If feature level is 11, create class linkage
         SAFE_RELEASE(m_classLinkage);
-        if (m_d3d11Device->GetFeatureLevel() == D3D_FEATURE_LEVEL_11_0) {
+        if (m_d3d11Device->GetFeatureLevel() >= D3D_FEATURE_LEVEL_11_0) {
           hr = m_d3d11Device->CreateClassLinkage(&m_classLinkage);
           if (FAILED(hr)) {
             GE_EXCEPT(RenderingAPIException,
@@ -109,12 +109,10 @@ namespace geEngineSDK {
     bool
     D3D11Device::hasError() const {
       if (nullptr != m_infoQueue) {
-        uint64 numStoredMessages =
+        const uint64 numStoredMessages =
           m_infoQueue->GetNumStoredMessagesAllowedByRetrievalFilter();
 
-        if (numStoredMessages > 0) {
-          return true;
-        }
+        return numStoredMessages > 0;
       }
 
       return false;

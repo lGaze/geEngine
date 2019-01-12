@@ -18,7 +18,9 @@
  */
 /*****************************************************************************/
 #include "geGPUParamBlockBuffer.h"
+#include "geHardwareBuffer.h"
 #include "geHardwareBufferManager.h"
+#include "geRenderStats.h"
 
 namespace geEngineSDK {
   using std::static_pointer_cast;
@@ -127,6 +129,14 @@ namespace geEngineSDK {
       if (nullptr != m_cachedData) {
         ge_free(m_cachedData);
       }
+
+      GE_INC_RENDER_STAT_CAT(ResDestroyed, RENDER_STAT_RESOURCE_TYPE::kGPUParamBuffer);
+    }
+
+    void
+    GPUParamBlockBuffer::initialize() {
+      GE_INC_RENDER_STAT_CAT(ResCreated, RENDER_STAT_RESOURCE_TYPE::kGPUParamBuffer);
+      CoreObject::initialize();
     }
 
     void
@@ -179,6 +189,12 @@ namespace geEngineSDK {
         writeToGPU(m_cachedData, queueIdx);
         m_gpuBufferDirty = false;
       }
+    }
+
+    void
+    GPUParamBlockBuffer::writeToGPU(const uint8* data, uint32 queueIdx) {
+      m_buffer->writeData(0, m_size, data, BUFFER_WRITE_TYPE::kDISCARD, queueIdx);
+      GE_INC_RENDER_STAT_CAT(ResWrite, RENDER_STAT_RESOURCE_TYPE::kGPUParamBuffer);
     }
 
     void

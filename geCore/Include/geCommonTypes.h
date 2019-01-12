@@ -398,19 +398,19 @@ namespace geEngineSDK {
        * after creation. Modifying such buffer will involve a larger performance
        * hit. Mutually exclusive with GBU_DYNAMIC.
        */
-      kSTATIC = 0x01,
+      kSTATIC = 1 << 0,
 
       /**
        * Signifies that you will modify this buffer fairly often
        * (e.g. every frame). Mutually exclusive with GBU_STATIC.
        */
-      kDYNAMIC = 0x02,
+      kDYNAMIC = 1 << 1,
 
       /**
        * Signifies that the buffer can be used for arbitrary load/store
        * operations on the GPU. Implies GBU_STATIC.
        */
-      kLOADSTORE = kSTATIC | 0x04
+      kLOADSTORE = kSTATIC | 1 << 2
     };
   }
 
@@ -494,22 +494,22 @@ namespace geEngineSDK {
        * Buffer is seen as a default shader resource, used primarily for reading.
        * (for example a texture for sampling)
        */
-      kDEFAULT = 0x01,
+      kDEFAULT = 1 << 0,
       /**
        * Buffer is seen as a render target that color pixels will be written to
        * after pixel shader stage.
        */
-      kRENDERTARGET = 0x02,
+      kRENDERTARGET = 1 << 1,
       /**
        * Buffer is seen as a depth stencil target that depth and stencil
        * information is written to.
        */
-      kDEPTHSTENCIL = 0x04,
+      kDEPTHSTENCIL = 1 << 2,
       /**
        * Buffer that allows you to write to any part of it from within a GPU
        * program.
        */
-      kRANDOMWRITE = 0x08
+      kRANDOMWRITE = 1 << 3 
     };
   }
 
@@ -526,34 +526,23 @@ namespace geEngineSDK {
       /**
        * Use only the primary GPU.
        */
-      kPRIMARY = 0x01,
+      kPRIMARY = 1 << 0,
       /**
        * Use the second GPU.
        */
-      kGPU2 = 0x02,
+      kGPU2 = 1 << 1,
       /**
        * Use the third GPU.
        */
-      kGPU3 = 0x04,
+      kGPU3 = 1 << 2,
       /**
        * Use the fourth GPU.
        */
-      kGPU4 = 0x08,
+      kGPU4 = 1 << 3,
       /**
        * Use the fifth GPU.
        */
-      kGPU5 = 0x10
-    };
-  }
-
-  /**
-   * @brief Type of parameter block usages. Signifies how often will parameter
-   *        blocks be changed.
-   */
-  namespace GPU_PARAM_BLOCK_USAGE {
-    enum E {
-      kSTATIC,  //Buffer will be rarely, if ever, updated.
-      kDYNAMIC  //Buffer will be updated often (for example every frame).
+      kGPU5 = 1 << 4
     };
   }
 
@@ -727,7 +716,7 @@ namespace geEngineSDK {
       kTEXTURE1DARRAY = 54,
       //2D texture with multiple array entries.
       kTEXTURE2DARRAY = 55,
-      //Cubemap texture with multiple array entries.
+      //Cube map texture with multiple array entries.
       kTEXTURECUBEARRAY = 56,
       //2D texture with multiple samples and array entries.
       kTEXTURE2DMSARRAY = 57,
