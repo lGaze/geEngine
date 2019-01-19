@@ -204,8 +204,9 @@ namespace geEngineSDK {
       desc.elementSize = elementSize;
       desc.elementCount = m_buffer->getSize() / elemSize;
 
-      if (!m_sharedBuffer)
+      if (!m_sharedBuffer) {
         m_sharedBuffer = ge_shared_ptr(m_buffer, m_bufferDeleter);
+      }
 
       SPtr<GPUBuffer> newView = GPUBuffer::create(desc, m_sharedBuffer);
       m_loadStoreViews.push_back(newView);

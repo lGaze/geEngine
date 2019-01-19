@@ -112,10 +112,7 @@
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxgi.lib;dxguid.lib;geUtilityd.lib;geCored.lib;gtestd.lib;gtest_maind.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>$(SolutionDir)/Tools/unit_test_runner/Guitar.exe $(SolutionDir)bin/$(PlatformShortName)/$(TargetName).exe --close-timeout 5</Command>
-      <Message>Run Unit Tests</Message>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -137,10 +134,7 @@
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxgi.lib;dxguid.lib;geUtilityd.lib;geCored.lib;gtestd.lib;gtest_maind.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>$(SolutionDir)/Tools/unit_test_runner/Guitar.exe $(SolutionDir)bin/$(PlatformShortName)/$(TargetName).exe --close-timeout 5</Command>
-      <Message>Run Unit Tests</Message>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -164,10 +158,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Lib/$(PlatformShortName)/;$(DEVLIBS)GoogleTest/lib/$(PlatformTarget)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxgi.lib;dxguid.lib;geUtility.lib;geCore.lib;gtest.lib;gtest_main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>$(SolutionDir)/Tools/unit_test_runner/Guitar.exe $(SolutionDir)bin/$(PlatformShortName)/$(TargetName).exe --close-timeout 5</Command>
-      <Message>Run Unit Tests</Message>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -191,10 +182,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Lib/$(PlatformShortName)/;$(DEVLIBS)GoogleTest/lib/$(PlatformTarget)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxgi.lib;dxguid.lib;geUtility.lib;geCore.lib;gtest.lib;gtest_main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>$(SolutionDir)/Tools/unit_test_runner/Guitar.exe $(SolutionDir)bin/$(PlatformShortName)/$(TargetName).exe --close-timeout 5</Command>
-      <Message>Run Unit Tests</Message>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\GraphicsBuffer.cpp" />

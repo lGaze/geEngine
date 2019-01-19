@@ -78,11 +78,24 @@ LinearColor                         g_vMeshColor(0.7f, 0.7f, 0.7f, 1.0f);
 //--------------------------------------------------------------------------------------
 // Forward declarations
 //--------------------------------------------------------------------------------------
-HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
-HRESULT InitDevice();
-void CleanupDevice();
-LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-void Render();
+HRESULT
+InitWindow(HINSTANCE hInstance, int nCmdShow);
+
+HRESULT
+InitDevice();
+
+void
+CleanupDevice();
+
+LRESULT CALLBACK
+WndProc(HWND, UINT, WPARAM, LPARAM);
+
+void
+Render();
+
+//Tests
+void
+testLookupTable();
 
 int
 main() {
@@ -100,11 +113,13 @@ main() {
   }
 
   //Main message loop
-  MSG msg = { 0 };
+  MSG msg;
+  msg.message = WM_NULL;
+
   while (WM_QUIT != msg.message) {
     g_time()._update();
 
-    if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+    if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
       TranslateMessage(&msg);
       DispatchMessage(&msg);
     }
@@ -156,12 +171,12 @@ InitWindow(HINSTANCE hInstance, int nCmdShow) {
   wcex.cbClsExtra = 0;
   wcex.cbWndExtra = 0;
   wcex.hInstance = hInstance;
-  wcex.hIcon = 0;
+  wcex.hIcon = nullptr;
   wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-  wcex.hbrBackground = (HBRUSH)(0);
+  wcex.hbrBackground = nullptr;
   wcex.lpszMenuName = nullptr;
   wcex.lpszClassName = "TutorialWindowClass";
-  wcex.hIconSm = 0;
+  wcex.hIconSm = nullptr;
 
   if (!RegisterClassEx(&wcex)) {
     return E_FAIL;
@@ -297,10 +312,8 @@ InitDevice() {
   sd.SampleDesc.Quality = 0;
   sd.Windowed = TRUE;
 
-  for (size_t driverTypeIndex = 0;
-       driverTypeIndex < driverTypes.size();
-       ++driverTypeIndex) {
-    g_driverType = driverTypes[driverTypeIndex];
+  for (auto & driverType : driverTypes) {
+    g_driverType = driverType;
     hr = D3D11CreateDeviceAndSwapChain(nullptr,
                                        g_driverType,
                                        nullptr,

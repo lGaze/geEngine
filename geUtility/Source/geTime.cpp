@@ -21,13 +21,15 @@
 #include "geMath.h"
 
 namespace geEngineSDK {
+  using std::time;
+  using std::time_t;
+  using std::strftime;
+  using std::gmtime;
+  using std::localtime;
   using std::memory_order_relaxed;
 
-  /**
-   * Determines how many fixed updates per frame are allowed.
-   * Only relevant when framerate is low.
-   */
-  static constexpr uint32 MAX_FIXED_UPDATES_PER_FRAME = 4;
+  constexpr uint32 Time::MAX_ACCUM_FIXED_UPDATES;
+  constexpr uint32 Time::NEW_FIXED_UPDATES_PER_FRAME;
 
   const double Time::MICROSEC_TO_SEC = 1.0 / 1000000.0;
 
@@ -35,6 +37,7 @@ namespace geEngineSDK {
     m_timer = ge_new<Timer>();
     m_appStartTime = m_timer->getStartMs();
     m_lastFrameTime = m_timer->getMicroseconds();
+    m_appStartUpDate = std::time(nullptr);
   }
 
   Time::~Time() {
@@ -82,12 +85,19 @@ namespace geEngineSDK {
       //If too many iterations are required, increase time step.
       //This should only happen in extreme situations (or when debugging).
       auto stepus = static_cast<int64>(m_fixedStep);
-      if (static_cast<int32>(MAX_FIXED_UPDATES_PER_FRAME) < numIterations) {
+      if (m_numRemainingFixedUpdates < numIterations) {
         stepus = Math::divideAndRoundUp(simulationAmount,
-                                        static_cast<int64>(MAX_FIXED_UPDATES_PER_FRAME));
+                                        static_cast<int64>(m_numRemainingFixedUpdates));
         numIterations = static_cast<uint32>(
                         Math::divideAndRoundUp(simulationAmount, static_cast<int64>(stepus)));
       }
+
+      GE_ASSERT(m_numRemainingFixedUpdates >= numIterations);
+
+      m_numRemainingFixedUpdates -= numIterations;
+      m_numRemainingFixedUpdates = Math::min(MAX_ACCUM_FIXED_UPDATES,
+                                             m_numRemainingFixedUpdates +
+                                             NEW_FIXED_UPDATES_PER_FRAME);
 
       step = stepus;
       return numIterations;
@@ -106,6 +116,47 @@ namespace geEngineSDK {
   uint64
   Time::getTimePrecise() const {
     return m_timer->getMicroseconds();
+  }
+
+  String
+  Time::getCurrentDateTime(bool isUTC) {
+    time_t t = time(nullptr);
+    char out[100];
+    if (isUTC) {
+      strftime(out, sizeof(out), "%A, %B %d, %Y %T", gmtime(&t));
+    }
+    else {
+      strftime(out, sizeof(out), "%A, %B %d, %Y %T", localtime(&t));
+    }
+
+    return String(out);
+  }
+
+  String
+  Time::getCurrentTime(bool isUTC) {
+    time_t t = time(nullptr);
+    char out[15];
+    if (isUTC) {
+      strftime(out, sizeof(out), "%T", std::gmtime(&t));
+    }
+    else {
+      strftime(out, sizeof(out), "%T", std::localtime(&t));
+    }
+
+    return String(out);
+  }
+
+  String
+  Time::getAppStartUpDate(bool isUTC) {
+    char out[100];
+    if (isUTC) {
+      strftime(out, sizeof(out), "%A, %B %d, %Y %T", gmtime(&m_appStartUpDate));
+    }
+    else {
+      strftime(out, sizeof(out), "%A, %B %d, %Y %T", localtime(&m_appStartUpDate));
+    }
+
+    return String(out);
   }
 
   Time&

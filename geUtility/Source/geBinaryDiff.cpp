@@ -793,6 +793,13 @@ namespace geEngineSDK {
       commandsPerSubObj.emplace_back(std::move(commands));
     }
 
+    DiffCommand objStartCommand;
+    objStartCommand.field = nullptr;
+    objStartCommand.type = DIFF_COMMAND_TYPE::kObjectStart;
+    objStartCommand.object = object;
+
+    diffCommands.push_back(objStartCommand);
+
     DiffCommand objEndCommand;
     objEndCommand.field = nullptr;
     objEndCommand.type = DIFF_COMMAND_TYPE::kObjectEnd;

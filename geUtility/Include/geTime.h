@@ -22,6 +22,7 @@
 
 namespace geEngineSDK {
   using std::atomic;
+  using std::time_t;
 
   /**
    * @brief Manages all time related functionality.
@@ -114,6 +115,41 @@ namespace geEngineSDK {
     }
 
     /**
+     * @brief Gets the current date and time in textual form.
+     * @param[in] isUTC Outputs the date and time in Coordinated Universal Time,
+     *            otherwise in local time.
+     * @return    A String containing the current date and time.
+     * @note  Thread safe.
+     * @note  The output format is:
+     *        [DayOfWeek], [Month] [NumericalDate], [NumericalYear] [HH]::[MM]::[SS].
+     */
+    String
+    getCurrentDateTime(bool isUTC);
+
+    /**
+     * @brief Gets the current time in textual form
+     * @param[in]	isUTC Outputs the time in Coordinated Universal Time,
+     *            otherwise in local time.
+     * @return  A String containing the current time.
+     * @note  Thread safe.
+     * @note  The output format is [HH]::[MM]::[SS].
+     */
+    String
+    getCurrentTime(bool isUTC);
+
+    /**
+     * @brief Gets the date and time where the application has been started in textual form.
+     * @param[in]	isUTC Outputs the date and time in Coordinated Universal Time,
+     *            otherwise in local time.
+     * @return	A String containing the application startup date and time.
+     * @note Thread safe.
+     * @note  The output format is:
+     *        [DayOfWeek], [Month] [NumericalDate], [NumericalYear] [HH]::[MM]::[SS].
+     */
+    String
+    getAppStartUpDate(bool isUTC);
+
+    /**
      * @brief Called every frame. Should only be called by Application.
      */
     void
@@ -150,6 +186,16 @@ namespace geEngineSDK {
      */
     static const double MICROSEC_TO_SEC;
    private:
+    /**
+     * @brief Maximum number of fixed updates that can ever be accumulated.
+     */
+    static constexpr uint32 MAX_ACCUM_FIXED_UPDATES = 200;
+
+    /**
+     * @brief Determines how many new fixed updates are regenerated per frame.
+     */
+    static constexpr uint32 NEW_FIXED_UPDATES_PER_FRAME = 4;
+
     float m_frameDelta = 0.0f;      /**< Frame delta in seconds */
     float m_timeSinceStart = 0.0f;  /**< Time since start in seconds */
     uint64 m_timeSinceStartMs = 0u;
@@ -162,6 +208,9 @@ namespace geEngineSDK {
     uint64 m_fixedStep = 16666; //60 times a second in microseconds
     uint64 m_lastFixedUpdateTime = 0;
     bool m_firstFixedFrame = true;
+    uint32 m_numRemainingFixedUpdates = MAX_ACCUM_FIXED_UPDATES;
+
+    time_t m_appStartUpDate;
 
     Timer* m_timer;
   };
