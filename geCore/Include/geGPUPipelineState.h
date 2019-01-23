@@ -70,23 +70,15 @@ namespace geEngineSDK {
   template<>
   struct TGPUPipelineStateTypes<false>
   {
-    using BlendStateType            = SPtr<BlendState>;
-    using RasterizerStateType       = SPtr<RasterizerState>;
-    using DepthStencilStateType     = SPtr<DepthStencilState>;
-    using GPUProgramType            = SPtr<GPUProgram>;
-    using GPUPipelineParamInfoType  = GPUPipelineParamInfo;
-    using StateDescType             = PIPELINE_STATE_DESC;
+    using GPUPipelineParamInfoType = GPUPipelineParamInfo;
+    using StateDescType = PIPELINE_STATE_DESC;
   };
 
   template<>
   struct TGPUPipelineStateTypes<true>
   {
-    using BlendStateType            = SPtr<geCoreThread::BlendState>;
-    using RasterizerStateType       = SPtr<geCoreThread::RasterizerState>;
-    using DepthStencilStateType     = SPtr<geCoreThread::DepthStencilState>;
-    using GPUProgramType            = SPtr<geCoreThread::GPUProgram>;
-    using GPUPipelineParamInfoType  = geCoreThread::GPUPipelineParamInfo;
-    using StateDescType             = geCoreThread::PIPELINE_STATE_DESC;
+    using GPUPipelineParamInfoType = geCoreThread::GPUPipelineParamInfo;
+    using StateDescType = geCoreThread::PIPELINE_STATE_DESC;
   };
 
   /**
@@ -97,23 +89,13 @@ namespace geEngineSDK {
   class GE_CORE_EXPORT TGraphicsPipelineState
   {
    public:
-    using BlendStateType =
-      typename TGPUPipelineStateTypes<Core>::BlendStateType;
-
-    using RasterizerStateType =
-      typename TGPUPipelineStateTypes<Core>::RasterizerStateType;
-
-    using DepthStencilStateType =
-      typename TGPUPipelineStateTypes<Core>::DepthStencilStateType;
-
-    using GPUProgramType =
-      typename TGPUPipelineStateTypes<Core>::GPUProgramType;
-
-    using StateDescType =
-      typename TGPUPipelineStateTypes<Core>::StateDescType;
-
-    using GPUPipelineParamInfoType =
-      typename TGPUPipelineStateTypes<Core>::GPUPipelineParamInfoType;
+     using BlendStateType = SPtr<CoreVariantType<BlendState, Core>>;
+     using RasterizerStateType = SPtr<CoreVariantType<RasterizerState, Core>>;
+     using DepthStencilStateType = SPtr<CoreVariantType<DepthStencilState, Core>>;
+     using GPUProgramType = SPtr<CoreVariantType<GPUProgram, Core>>;
+     using StateDescType = typename TGPUPipelineStateTypes<Core>::StateDescType;
+     using GPUPipelineParamInfoType = typename TGPUPipelineStateTypes<Core>
+                                                 ::GPUPipelineParamInfoType;
 
     virtual ~TGraphicsPipelineState() = default;
 
@@ -207,11 +189,10 @@ namespace geEngineSDK {
   class GE_CORE_EXPORT TComputePipelineState
   {
    public:
-    using GPUProgramType =
-      typename TGPUPipelineStateTypes<Core>::GPUProgramType;
+    using GPUProgramType = SPtr<CoreVariantType<GPUProgram, Core>>;
 
-    using GPUPipelineParamInfoType =
-      typename TGPUPipelineStateTypes<Core>::GPUPipelineParamInfoType;
+    using GPUPipelineParamInfoType = typename TGPUPipelineStateTypes<Core>
+                                                ::GPUPipelineParamInfoType;
 
     virtual ~TComputePipelineState() = default;
 

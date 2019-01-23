@@ -209,29 +209,6 @@ namespace geEngineSDK {
     SPtr<GPUPipelineParamInfoBase> m_paramInfo;
   };
 
-  template<bool Core>
-  struct TGPUParamsTypes {};
-
-  template<>
-  struct TGPUParamsTypes<false>
-  {
-    using GPUParamsType     = GPUParams;
-    using TextureType       = HTexture;
-    using BufferType        = SPtr<GPUBuffer>;
-    using SamplerType       = SPtr<SamplerState>;
-    using ParamsBufferType  = SPtr<GPUParamBlockBuffer>;
-  };
-
-  template<>
-  struct TGPUParamsTypes<true>
-  {
-    using GPUParamsType     = geCoreThread::GPUParams;
-    using TextureType       = SPtr<geCoreThread::Texture>;
-    using BufferType        = SPtr<geCoreThread::GPUBuffer>;
-    using SamplerType       = SPtr<geCoreThread::SamplerState>;
-    using ParamsBufferType  = SPtr<geCoreThread::GPUParamBlockBuffer>;
-  };
-
   /**
    * @brief Template version of GPUParams that contains functionality for both
    *        sim and core thread versions of stored data.
@@ -240,11 +217,11 @@ namespace geEngineSDK {
   class GE_CORE_EXPORT TGPUParams : public GPUParamsBase
   {
    public:
-    using GPUParamsType = typename TGPUParamsTypes<Core>::GPUParamsType;
-    using TextureType = typename TGPUParamsTypes<Core>::TextureType;
-    using BufferType = typename TGPUParamsTypes<Core>::BufferType;
-    using SamplerType = typename TGPUParamsTypes<Core>::SamplerType;
-    using ParamsBufferType = typename TGPUParamsTypes<Core>::ParamsBufferType;
+    using GPUParamsType = CoreVariantType<GPUParams, Core>;
+    using TextureType = CoreVariantHandleType<Texture, Core>;
+    using BufferType = SPtr<CoreVariantType<GPUBuffer, Core>>;
+    using SamplerType = SPtr<CoreVariantType<SamplerState, Core>>;
+    using ParamsBufferType = SPtr<CoreVariantType<GPUParamBlockBuffer, Core>>;
 
     virtual ~TGPUParams();
 

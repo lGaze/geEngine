@@ -29,81 +29,6 @@
 namespace geEngineSDK {
   using std::nullptr_t;
 
-  template<bool Core>
-  struct TGPUParamsPtrType {};
-
-  template<>
-  struct TGPUParamsPtrType<false>
-  {
-    using Type = SPtr<GPUParams>;
-  };
-
-  template<>
-  struct TGPUParamsPtrType<true>
-  {
-    using Type = SPtr<geCoreThread::GPUParams>;
-  };
-
-  template<bool Core>
-  struct TGPUParamTextureType {};
-
-  template<>
-  struct TGPUParamTextureType<false>
-  {
-    using Type = HTexture;
-  };
-
-  template<>
-  struct TGPUParamTextureType<true>
-  {
-    using Type = SPtr<geCoreThread::Texture>;
-  };
-
-  template<bool Core>
-  struct TGPUParamSamplerStateType {};
-
-  template<>
-  struct TGPUParamSamplerStateType<false>
-  {
-    using Type = SPtr<SamplerState>;
-  };
-
-  template<>
-  struct TGPUParamSamplerStateType<true>
-  {
-    using Type = SPtr<geCoreThread::SamplerState>;
-  };
-
-  template<bool Core>
-  struct TGPUParamBufferType {};
-
-  template<>
-  struct TGPUParamBufferType<false>
-  {
-    using Type = SPtr<GPUParamBlockBuffer>;
-  };
-
-  template<>
-  struct TGPUParamBufferType<true>
-  {
-    using Type = SPtr<geCoreThread::GPUParamBlockBuffer>;
-  };
-
-  template<bool Core>
-  struct TGPUBufferType {};
-
-  template<>
-  struct TGPUBufferType<false>
-  {
-    using Type = SPtr<GPUBuffer>;
-  };
-
-  template<>
-  struct TGPUBufferType<true>
-  {
-    using Type = SPtr<geCoreThread::GPUBuffer>;
-  };
-
   /**
    * @brief Policy class that allows us to re-use this template class for
    *        matrices which might need transposing, and other types which do
@@ -165,8 +90,8 @@ namespace geEngineSDK {
   class GE_CORE_EXPORT TGPUDataParam
   {
    private:
-    using GPUParamBufferType = typename TGPUParamBufferType<Core>::Type;
-    using GPUParamsType = typename TGPUParamsPtrType<Core>::Type;
+    using GPUParamBufferType = SPtr<CoreVariantType<GPUParamBlockBuffer, Core>>;
+    using GPUParamsType = SPtr<CoreVariantType<GPUParams, Core>>;
 
    public:
     TGPUDataParam();
@@ -204,7 +129,7 @@ namespace geEngineSDK {
      */
     bool
     operator==(const nullptr_t&) const {
-      return m_paramDesc == nullptr;
+      return nullptr == m_paramDesc;
     }
 
    protected:
@@ -219,8 +144,8 @@ namespace geEngineSDK {
   class GE_CORE_EXPORT TGPUParamStruct
   {
    public:
-    using GPUParamBufferType = typename TGPUParamBufferType<Core>::Type;
-    using GPUParamsType = typename TGPUParamsPtrType<Core>::Type;
+    using GPUParamBufferType = SPtr<CoreVariantType<GPUParamBlockBuffer, Core>>;
+    using GPUParamsType = SPtr<CoreVariantType<GPUParams, Core>>;
 
     TGPUParamStruct();
     TGPUParamStruct(GPUParamDataDesc* paramDesc, const GPUParamsType& parent);
@@ -274,8 +199,8 @@ namespace geEngineSDK {
     friend class GPUParams;
     friend class geCoreThread::GPUParams;
 
-    using GPUParamsType = typename TGPUParamsPtrType<Core>::Type;
-    using TextureType = typename TGPUParamTextureType<Core>::Type;
+    using GPUParamsType = SPtr<CoreVariantType<GPUParams, Core>>;
+    using TextureType = CoreVariantHandleType<Texture, Core>;
 
    public:
     TGPUParamTexture();
@@ -326,8 +251,8 @@ namespace geEngineSDK {
     friend class GPUParams;
     friend class geCoreThread::GPUParams;
 
-    using GPUParamsType = typename TGPUParamsPtrType<Core>::Type;
-    using TextureType = typename TGPUParamTextureType<Core>::Type;
+    using GPUParamsType = SPtr<CoreVariantType<GPUParams, Core>>;
+    using TextureType = CoreVariantHandleType<Texture, Core>;
 
    public:
     TGPUParamLoadStoreTexture();
@@ -378,8 +303,8 @@ namespace geEngineSDK {
     friend class GPUParams;
     friend class geCoreThread::GPUParams;
 
-    using GPUParamsType = typename TGPUParamsPtrType<Core>::Type;
-    using BufferType = typename TGPUBufferType<Core>::Type;
+    using GPUParamsType = SPtr<CoreVariantType<GPUParams, Core>>;
+    using BufferType = SPtr<CoreVariantType<GPUBuffer, Core>>;
 
    public:
     TGPUParamBuffer();
@@ -428,8 +353,8 @@ namespace geEngineSDK {
     friend class GPUParams;
     friend class geCoreThread::GPUParams;
 
-    using GPUParamsType = typename TGPUParamsPtrType<Core>::Type;
-    using SamplerStateType = typename TGPUParamSamplerStateType<Core>::Type;
+    using GPUParamsType = SPtr<CoreVariantType<GPUParams, Core>>;
+    using SamplerStateType = SPtr<CoreVariantType<SamplerState, Core>>;
 
    public:
     TGPUParamSampState();
@@ -473,7 +398,7 @@ namespace geEngineSDK {
   using GPUParamVec2  = TGPUDataParam<Vector2, false>;
   using GPUParamVec3  = TGPUDataParam<Vector3, false>;
   using GPUParamVec4  = TGPUDataParam<Vector4, false>;
-  using GPUParamInt   = TGPUDataParam<int, false>;
+  using GPUParamInt   = TGPUDataParam<int32, false>;
   using GPUParamVec2I = TGPUDataParam<Vector2I, false>;
   using GPUParamVec3I = TGPUDataParam<Vector3I, false>;
   using GPUParamVec4I = TGPUDataParam<Vector4I, false>;
@@ -491,7 +416,7 @@ namespace geEngineSDK {
     using GPUParamVec2  = TGPUDataParam<Vector2, true>;
     using GPUParamVec3  = TGPUDataParam<Vector3, true>;
     using GPUParamVec4  = TGPUDataParam<Vector4, true>;
-    using GPUParamInt   = TGPUDataParam<int, true>;
+    using GPUParamInt   = TGPUDataParam<int32, true>;
     using GPUParamVec2I = TGPUDataParam<Vector2I, true>;
     using GPUParamVec3I = TGPUDataParam<Vector3I, true>;
     using GPUParamVec4I = TGPUDataParam<Vector4I, true>;

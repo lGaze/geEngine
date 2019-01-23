@@ -170,8 +170,8 @@ namespace geEngineSDK {
   template<class ElemType>
   char*
   rttiReadElement(ElemType& data, char* memory) {
-    RTTIPlainType<ElemType>::fromMemory(data, memory);
-    return memory + rttiGetElementSize(data);
+    uint32 size = RTTIPlainType<ElemType>::fromMemory(data, memory);
+    return memory + size;
   }
 
   /**
@@ -185,11 +185,9 @@ namespace geEngineSDK {
   template<class ElemType>
   char*
   rttiReadElement(ElemType& data, char* memory, uint32& size) {
-    RTTIPlainType<ElemType>::fromMemory(data, memory);
+    uint32 elemSize = RTTIPlainType<ElemType>::fromMemory(data, memory);
 
-    uint32 elemSize = rttiGetElementSize(data);
     size += elemSize;
-
     return memory + elemSize;
   }
 
@@ -260,7 +258,7 @@ namespace geEngineSDK {
       char* memoryStart = memory;
       memory += sizeof(uint32);
 
-      uint32 numElements = static_cast<uint32>(data.size());
+      auto numElements = static_cast<uint32>(data.size());
       memcpy(memory, &numElements, sizeof(uint32));
       memory += sizeof(uint32);
       size += sizeof(uint32);
@@ -420,7 +418,7 @@ namespace geEngineSDK {
       char* memoryStart = memory;
       memory += sizeof(uint32);
 
-      uint32 numElements = static_cast<uint32>(data.size());
+      auto numElements = static_cast<uint32>(data.size());
       memcpy(memory, &numElements, sizeof(uint32));
       memory += sizeof(uint32);
       size += sizeof(uint32);
@@ -519,7 +517,7 @@ namespace geEngineSDK {
       char* memoryStart = memory;
       memory += sizeof(uint32);
 
-      uint32 numElements = static_cast<uint32>(data.size());
+      auto numElements = static_cast<uint32>(data.size());
       memcpy(memory, &numElements, sizeof(uint32));
       memory += sizeof(uint32);
       size += sizeof(uint32);
@@ -613,7 +611,7 @@ namespace geEngineSDK {
       char* memoryStart = memory;
       memory += sizeof(uint32);
 
-      uint32 numElements = static_cast<uint32>(data.size());
+      auto numElements = static_cast<uint32>(data.size());
       memcpy(memory, &numElements, sizeof(uint32));
       memory += sizeof(uint32);
       size += sizeof(uint32);
