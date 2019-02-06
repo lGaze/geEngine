@@ -23,7 +23,7 @@
     <ProjectGuid>{79D00812-D540-49D1-97EE-E45AD45FEA87}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>geUtility_UnitTest</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

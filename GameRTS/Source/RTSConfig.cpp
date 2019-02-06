@@ -1,6 +1,6 @@
 #include "RTSConfig.h"
 
-Vector2I GameOptions::s_Resolution = Vector2I(2560, 1440);
+Vector2I GameOptions::s_Resolution = Vector2I(1920, 1080);
 Vector2 GameOptions::s_MapMovementSpeed = Vector2(1024.0f, 1024.0f);
 
 bool GameOptions::s_MapShowGrid = false;
@@ -18,6 +18,13 @@ GameOptions::BITSHFT_TILESIZE = Vector2I(
 const Vector2I
 GameOptions::BITSFHT_TILEHALFSIZE = Vector2I(GameOptions::BITSHFT_TILESIZE.x - 1,
                                              GameOptions::BITSHFT_TILESIZE.y - 1);
+
+int::GameOptions::s_Terrain = -1;
+bool::GameOptions::s_Editor = false;
+bool::GameOptions::s_GameOptions = false;
+bool::GameOptions::s_PathFinders = false;
+int::GameOptions::s_PfPositions = -1;
+int::GameOptions::s_PathFindingTypes = -1;
 
 GameOptions&
 g_gameOptions() {

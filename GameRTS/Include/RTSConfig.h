@@ -33,10 +33,23 @@ class GameOptions : public Module<GameOptions>
   static bool s_MapShowGrid;
   static Color s_MapGridColor;
 
+  //Editor
+  static int s_Terrain;
+
+  //PathFinders
+  static int s_PfPositions;
+  static int s_PathFindingTypes;
+
   //Global Constants
   static const Vector2I TILEHALFSIZE;
   static const Vector2I BITSFHT_TILEHALFSIZE;
   static const Vector2I BITSHFT_TILESIZE;
+
+  //Windows 
+  static bool s_Editor;
+  static bool s_GameOptions;
+  static bool s_PathFinders;
+
 };
 
 GameOptions&

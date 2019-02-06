@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{25F9CA63-923F-4BA2-A9A5-2F337E85346C}</ProjectGuid>
     <RootNamespace>GameRTS</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -172,6 +172,7 @@
     <ClCompile Include="Source\Externals\imgui.cpp" />
     <ClCompile Include="Source\Externals\imgui_demo.cpp" />
     <ClCompile Include="Source\Externals\imgui_draw.cpp" />
+    <ClCompile Include="Source\Externals\imgui_widgets.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\RTSApplication.cpp" />
     <ClCompile Include="Source\RTSConfig.cpp" />

@@ -60,6 +60,8 @@ class RTSApplication
    void
    renderFrame();
 
+  
+
  private:
    sf::RenderWindow* m_window;
    sf::Font* m_arialFont;

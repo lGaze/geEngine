@@ -125,6 +125,53 @@ RTSApplication::gameLoop() {
     while (m_window->pollEvent(event)) {
       ImGui::SFML::ProcessEvent(event);
       
+      if (ImGui::IsMouseHoveringAnyWindow() || ImGui::IsAnyItemHovered())
+      {
+        continue;
+      }
+      else
+      {
+        //Water
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && GameOptions::s_Terrain == 0)
+        {
+          int32 Xcoord, Ycoord;
+          auto map = m_gameWorld.getTiledMap();
+          sf::Vector2i mousePos = sf::Mouse::getPosition();
+          map->getScreenToMapCoords(mousePos.x, mousePos.y, Xcoord, Ycoord);
+          map->setType(Xcoord, Ycoord, TERRAIN_TYPE::kWater);
+        }
+
+        //Obstacle
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && GameOptions::s_Terrain == 1)
+        {
+          int32 Xcoord, Ycoord;
+          auto map = m_gameWorld.getTiledMap();
+          sf::Vector2i mousePos = sf::Mouse::getPosition();
+          map->getScreenToMapCoords(mousePos.x, mousePos.y, Xcoord, Ycoord);
+          map->setType(Xcoord, Ycoord, TERRAIN_TYPE::kObstacle);
+        }
+
+        //Grass
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && GameOptions::s_Terrain == 2)
+        {
+          int32 Xcoord, Ycoord;
+          auto map = m_gameWorld.getTiledMap();
+          sf::Vector2i mousePos = sf::Mouse::getPosition();
+          map->getScreenToMapCoords(mousePos.x, mousePos.y, Xcoord, Ycoord);
+          map->setType(Xcoord, Ycoord, TERRAIN_TYPE::kGrass);
+        }
+
+        //Marsh
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && GameOptions::s_Terrain == 3)
+        {
+          int32 Xcoord, Ycoord;
+          auto map = m_gameWorld.getTiledMap();
+          sf::Vector2i mousePos = sf::Mouse::getPosition();
+          map->getScreenToMapCoords(mousePos.x, mousePos.y, Xcoord, Ycoord);
+          map->setType(Xcoord, Ycoord, TERRAIN_TYPE::kMarsh);
+        }
+      }
+
       if (event.type == sf::Event::Closed) {
         m_window->close();
       }
@@ -153,7 +200,7 @@ RTSApplication::updateFrame() {
   m_fpsCounter += 1.0f;
 
   //Update the interface
-  ImGui::SFML::Update(*m_window, deltaTime);
+  ImGui::SFML::Update(*m_window, sf::seconds(deltaTime));
 
   //Begin the menu 
   mainMenu(this);
@@ -203,7 +250,7 @@ RTSApplication::updateFrame() {
 
   axisMovement *= GameOptions::s_MapMovementSpeed * deltaTime;
 
-  m_gameWorld.getTiledMap()->moveCamera(axisMovement.x, axisMovement.y);
+  m_gameWorld.getTiledMap()->moveCamera(axisMovement.x, axisMovement.y); 
 
   //Update the world
   m_gameWorld.update(deltaTime);
@@ -217,7 +264,7 @@ RTSApplication::renderFrame() {
 
   ImGui::SFML::Render(*m_window);
 
-  /*
+/*
   sf::Text text;
   text.setPosition(0.f, 30.f);
   text.setFont(*m_arialFont);
@@ -226,6 +273,7 @@ RTSApplication::renderFrame() {
   text.setString( toString(1.0f/g_time().getFrameDelta()).c_str() );
   m_window->draw(text);
   */
+
   m_window->display();
 }
 
@@ -239,8 +287,6 @@ void
 RTSApplication::postDestroy() {
   m_gameWorld.destroy();
 }
-
-
 
 void
 loadMapFromFile(RTSApplication* pApp) {
@@ -294,25 +340,96 @@ mainMenu(RTSApplication* pApp) {
 
       ImGui::EndMenu();
     }
-    
+    if (ImGui::BeginMenu("View")){
+      ImGui::MenuItem("Game Options","", &GameOptions::s_GameOptions);
+      if (ImGui::MenuItem("Editor", "", &GameOptions::s_Editor))
+      {
+        GameOptions::s_PathFinders = false;
+      }
+      if (ImGui::MenuItem("PathFinders", " ", &GameOptions::s_PathFinders))
+      {
+        GameOptions::s_Editor = false;
+      }
+      ImGui::EndMenu();
+    }
     ImGui::EndMainMenuBar();
   }
 
-  ImGui::Begin("Game Options");
+
+  if (GameOptions::s_GameOptions)
   {
-    ImGui::Text("Framerate: %f", pApp->getFPS());
 
-    ImGui::SliderFloat("Map movement speed X",
-      &GameOptions::s_MapMovementSpeed.x,
-      0.0f,
-      10240.0f);
-    ImGui::SliderFloat("Map movement speed Y",
-      &GameOptions::s_MapMovementSpeed.y,
-      0.0f,
-      10240.0f);
+    ImGui::Begin("Game Options", &GameOptions::s_GameOptions, ImGuiWindowFlags_AlwaysAutoResize);
+    {
+      ImGui::Text("Framerate: %f", pApp->getFPS());
 
-    ImGui::Checkbox("Show grid", &GameOptions::s_MapShowGrid);
+      ImGui::SliderFloat("Map movement speed X",
+        &GameOptions::s_MapMovementSpeed.x,
+        0.0f,
+        10240.0f);
+      ImGui::SliderFloat("Map movement speed Y",
+        &GameOptions::s_MapMovementSpeed.y,
+        0.0f,
+        10240.0f);
+
+      ImGui::Checkbox("Show grid", &GameOptions::s_MapShowGrid);
+
+    }
+    ImGui::End();
   }
-  ImGui::End();
+
+  if (GameOptions::s_Editor)
+  {
+    ImGui::Begin("Editor", &GameOptions::s_Editor, ImGuiWindowFlags_AlwaysAutoResize);
+    {
+      ImGui::Text("Terrain");
+      ImGui::Separator();
+      ImGui::RadioButton("Enable Water", &GameOptions::s_Terrain, 0);
+      ImGui::Spacing();
+      ImGui::RadioButton("Enable Obstacle", &GameOptions::s_Terrain, 1);
+      ImGui::Spacing();
+      ImGui::RadioButton("Enable Grass", &GameOptions::s_Terrain, 2);
+      ImGui::Spacing();
+      ImGui::RadioButton("Enable Marsh", &GameOptions::s_Terrain, 3);
+      ImGui::Spacing();
+      //ImGui::SliderInt("Brush Size")
+    }
+    ImGui::End();
+  }
+  else
+  {
+    GameOptions::s_Terrain = -1;
+  }
+
+  if (GameOptions::s_PathFinders)
+  {
+    ImGui::Begin("PathFinders", &GameOptions::s_PathFinders ,ImGuiWindowFlags_AlwaysAutoResize);
+    {
+      ImGui::Text("Positions");
+      ImGui::Separator();
+      ImGui::RadioButton("Start Position", &GameOptions::s_PfPositions, 0);
+      ImGui::Spacing();
+      ImGui::RadioButton("End Position", &GameOptions::s_PfPositions, 1);
+      ImGui::Spacing();
+      ImGui::Spacing();
+      ImGui::Text("Patfinding Types");
+      ImGui::Separator();
+      ImGui::RadioButton("Depth First Search", &GameOptions::s_PathFindingTypes, 0);
+      ImGui::Spacing();
+      ImGui::RadioButton("Breath First Search", &GameOptions::s_PathFindingTypes, 1);
+      ImGui::Spacing();
+      ImGui::RadioButton("Best First Search", &GameOptions::s_PathFindingTypes, 2);
+      ImGui::Spacing();
+      ImGui::RadioButton("Dijkstra", &GameOptions::s_PathFindingTypes, 3);
+      ImGui::Spacing();
+      ImGui::RadioButton("A*", &GameOptions::s_PathFindingTypes, 4);
+    }
+    ImGui::End();
+  }
+  else
+  {
+    GameOptions::s_PfPositions = -1;
+    GameOptions::s_PathFindingTypes = -1;
+  }
 
 }

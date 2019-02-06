@@ -47,6 +47,9 @@
     <ClCompile Include="Source\RTSWorld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Externals\imgui_widgets.cpp">
+      <Filter>Source Files\Externals</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\RTSUnitType.h">
