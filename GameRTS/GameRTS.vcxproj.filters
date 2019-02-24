@@ -50,6 +50,18 @@
     <ClCompile Include="Source\Externals\imgui_widgets.cpp">
       <Filter>Source Files\Externals</Filter>
     </ClCompile>
+    <ClCompile Include="Source\RTSMapGridWalker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RTSBreadthFirstSearchMapGridWalker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RTSMapTileNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RTSDepthFirstSearchMapGridWalker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\RTSUnitType.h">
@@ -70,5 +82,9 @@
     <ClInclude Include="Include\RTSWorld.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\RTSMapGridWalker.h" />
+    <ClInclude Include="Include\RTSBreadthFirstSearchMapGridWalker.h" />
+    <ClInclude Include="Include\RTSMapTileNode.h" />
+    <ClInclude Include="Include\RTSDepthFirstSearchMapGridWalker.h" />
   </ItemGroup>
 </Project>

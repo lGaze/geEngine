@@ -10,6 +10,8 @@ RTSTiledMap::RTSTiledMap() {
   m_scrEnd = Vector2I::ZERO;
   m_iCamera = Vector2I::ZERO;
   m_fCamera = Vector2::ZERO;
+  m_StartMarked = false;
+  m_EndMArked = false;
 }
 
 RTSTiledMap::RTSTiledMap(sf::RenderTarget* pTarget, const Vector2I& mapSize) {
@@ -31,17 +33,30 @@ RTSTiledMap::init(sf::RenderTarget* pTarget, const Vector2I& mapSize) {
   m_mapGrid.resize(mapSize.x * mapSize.y);
   m_mapSize = mapSize;
   setCameraStartPosition(0, 0);
-
   m_mapTextures.resize(TERRAIN_TYPE::kNumObjects);
+  m_marks.resize(MARK_TYPE::kNumObjects);
 
+  String markName;
   String textureName;
   for (uint32 i = 0; i < TERRAIN_TYPE::kNumObjects; ++i) {
 #ifdef MAP_IS_ISOMETRIC
     textureName = "Textures/Terrain/iso_terrain_" + toString(i) + ".png";
+   
 #else
     textureName = "Textures/Terrain/terrain_" + toString(i) + ".png";
 #endif
     m_mapTextures[i].loadFromFile(m_pTarget, textureName);
+    
+  }
+
+  for (uint32 i = 1; i < MARK_TYPE::kNumObjects; ++i) {
+    markName = "Textures/Marks/Mark_" + toString(i) + ".png";
+    m_marks[i].loadFromFile(m_pTarget, markName);
+    m_marks[i].setOrigin(
+                            m_marks[i].getWidth() / 2.0f, 
+                            m_marks[i].getHeight() / 1.25f);
+
+    m_marks[i].setScale(0.05f, 0.05f);
   }
 
   preCalc();
@@ -53,6 +68,7 @@ void
 RTSTiledMap::destroy() {
   m_mapGrid.clear();
   m_mapTextures.clear();
+  m_marks.clear();
 
   m_mapSize = Vector2I::ZERO;
   setCameraStartPosition(0, 0);
@@ -81,6 +97,30 @@ void
 RTSTiledMap::setType(const int32 x, const int32 y, const uint8 idtype) {
   GE_ASSERT((x >= 0) && (x < m_mapSize.x) && (y >= 0) && (y < m_mapSize.y));
   m_mapGrid[(y*m_mapSize.x) + x].setType(idtype);
+
+}
+
+void
+RTSTiledMap::setMark(const int32 x, const int32 y, const uint8 idtype) {
+  GE_ASSERT((x >= 0) && (x < m_mapSize.x) && (y >= 0) && (y < m_mapSize.y));
+
+  if (idtype == MARK_TYPE::kStartFlag) {
+    if (m_StartMarked) {
+      m_mapGrid[(m_refStartMark.y * m_mapSize.x) + m_refStartMark.x].setMarkType(MARK_TYPE::kNone);
+    }
+    m_StartMarked = true;
+    m_refStartMark = { x,y };
+  }
+
+  if (idtype == MARK_TYPE::kEndFlag) {
+    if (m_EndMArked) {
+      m_mapGrid[(m_refEndMark.y * m_mapSize.x) + m_refEndMark.x].setMarkType(MARK_TYPE::kNone);
+    }
+    m_EndMArked = true;
+    m_refEndMark = { x,y };
+  }
+
+  m_mapGrid[(y*m_mapSize.x) + x].setMarkType(idtype);
 }
 
 void
@@ -161,6 +201,7 @@ RTSTiledMap::render() {
   int32 tmpX = 0;
   int32 tmpY = 0;
   int32 tmpTypeTile = 0;
+  int32 tmpMarkType = 0;
   Vector2I clipRect;
 
   int32 tileIniX = 0, tileIniY = 0;
@@ -257,21 +298,61 @@ RTSTiledMap::render() {
 
     m_pTarget->draw(&gridLines[0], gridLines.size(), sf::Lines);
   }
+
+#ifdef MAP_IS_ISOMETRIC
+  getScreenToMapCoords(m_scrStart.x, m_scrStart.y, tileIniX, trashCoord);
+  getScreenToMapCoords(m_scrEnd.x, m_scrEnd.y, tileFinX, trashCoord);
+
+  getScreenToMapCoords(m_scrEnd.x, m_scrStart.y, trashCoord, tileIniY);
+  getScreenToMapCoords(m_scrStart.x, m_scrEnd.y, trashCoord, tileFinY);
+#else
+  getScreenToMapCoords(m_scrStart.x, m_scrStart.y, tileIniX, tileIniY);
+  getScreenToMapCoords(m_scrEnd.x, m_scrEnd.y, tileFinX, tileFinY);
+#endif
+  for (int32 iterX = tileIniX; iterX <= tileFinX; ++iterX) {
+    for (int32 iterY = tileIniY; iterY <= tileFinY; ++iterY) {
+
+      getMapToScreenCoords(iterX, iterY, tmpX, tmpY);
+      if (tmpX > m_scrEnd.x ||
+        tmpY > m_scrEnd.y ||
+        (tmpX + TILESIZE_X) < m_scrStart.x ||
+        (tmpY + TILESIZE_X) < m_scrStart.y) {
+        continue;
+      }
+
+      tmpMarkType = m_mapGrid[(iterY*m_mapSize.x) + iterX].getMarkType();
+     
+      if (tmpMarkType == MARK_TYPE::kNone) {
+        continue;
+      }
+
+      RTSTexture& refMark = m_marks[tmpMarkType];
+
+      int32 x = tmpX + (TILESIZE_X >> 1);
+      int32 y = tmpY + (TILESIZE_Y >> 1 );
+      refMark.setPosition(x, y);
+
+      refMark.draw();
+    }
+  }
 }
 
 RTSTiledMap::MapTile::MapTile() {
   m_idType = 1;
   m_cost = 1;
+  m_markType = MARK_TYPE::kNone;
 }
 
 RTSTiledMap::MapTile::MapTile(const int8 idType, const int8 cost) {
   m_idType = idType;
   m_cost = cost;
+  m_markType = MARK_TYPE::kNone;
 }
 
 RTSTiledMap::MapTile::MapTile(const MapTile& copy) {
   m_idType = copy.m_idType;
   m_cost = copy.m_cost;
+  m_markType = MARK_TYPE::kNone;
 }
 
 RTSTiledMap::MapTile&

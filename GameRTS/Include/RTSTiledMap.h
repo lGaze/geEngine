@@ -22,6 +22,17 @@ namespace TERRAIN_TYPE {
   };
 }
 
+namespace MARK_TYPE {
+  enum E {
+    kNone = 0,
+    kStartFlag,
+    kEndFlag,
+    KPathMark,
+    kNumObjects
+  };
+
+}
+
 class RTSTiledMap
 {
   class MapTile
@@ -39,9 +50,19 @@ class RTSTiledMap
       return m_idType;
     }
 
+    FORCEINLINE uint8
+    getMarkType() const {
+      return m_markType;
+    }
+
     void
     setType(const int8 idType) {
       m_idType = idType;
+    }
+
+    void
+    setMarkType(const int8 idType) {
+      m_markType = idType;
     }
 
     FORCEINLINE int8
@@ -55,6 +76,7 @@ class RTSTiledMap
     }
 
    private:
+    uint8 m_markType;
     uint8 m_idType;
     int8 m_cost;
   };
@@ -83,6 +105,12 @@ class RTSTiledMap
   }
 
   bool
+  getStartMarked(){ return m_StartMarked; }
+
+  void
+  setStartMarked(bool is_Started) { m_StartMarked = is_Started; }
+
+  bool
   loadFromImageFile(sf::RenderTarget* pTarget, String fileName);
 
   bool
@@ -99,6 +127,9 @@ class RTSTiledMap
 
   void
   setType(const int32 x, const int32 y, const uint8 idtype);
+
+  void
+  setMark(const int32 x, const int32 y, const uint8 idtype);
 
   void
   setStart(const uint32 x, const uint32 y) {
@@ -165,6 +196,7 @@ class RTSTiledMap
   Vector2I m_mapSize;
   Vector<MapTile> m_mapGrid;
   Vector<RTSTexture> m_mapTextures;
+  Vector<RTSTexture> m_marks;
 
   Vector2I m_iCamera;
   Vector2 m_fCamera;
@@ -177,4 +209,10 @@ class RTSTiledMap
   Vector2I m_PreCalc_ScreenDeface;
 
   sf::RenderTarget* m_pTarget;
+
+  bool m_StartMarked, m_EndMArked;
+
+  Vector2I m_refStartMark, m_refEndMark;
+  
+
 };

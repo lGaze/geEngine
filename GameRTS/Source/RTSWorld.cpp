@@ -1,6 +1,7 @@
 #include "RTSWorld.h"
 #include "RTSTiledMap.h"
-
+#include "RTSBreadthFirstSearchMapGridWalker.h"
+#include "RTSDepthFirstSearchMapGridWalker.h"
 #include "RTSUnitType.h"
 
 RTSWorld::RTSWorld() {
@@ -25,17 +26,18 @@ RTSWorld::init(sf::RenderTarget* pTarget) {
   m_pTiledMap->init(m_pTarget, Vector2I(256, 256));
 
   //Create the path finding classes and push them to the walker list
-  //m_walkersList.push_back(ge_new<RTSBreadthFirstSearchMapGridWalker>(m_pTiledMap));
+  m_walkersList.push_back(ge_new<RTSDepthFirstSearchMapGridWalker>(m_pTiledMap));
+  m_walkersList.push_back(ge_new<RTSBreadthFirstSearchMapGridWalker>(m_pTiledMap));
 
   //Init the walker objects
-/*
+
   for (SIZE_T it = 0; it < m_walkersList.size(); ++it) {
-    m_walkersList[it]->init();
+    m_walkersList[it]->Init(m_pTarget);
   }
 
   //Set the first walker as the active walker
   setCurrentWalker(m_walkersList.size() > 0 ? 0 : -1);
-*/
+
 
   RTSGame::RTSUnitType unitTypes;
   unitTypes.loadAnimationData(m_pTarget, 1);
@@ -61,11 +63,37 @@ RTSWorld::destroy() {
 void
 RTSWorld::update(float deltaTime) {
   m_pTiledMap->update(deltaTime);
+  if (m_activeWalker->getState() == KSTILLLOOKING)
+  {
+    m_activeWalker->Update();
+  }
 }
 
 void
 RTSWorld::render() {
   m_pTiledMap->render();
+  m_activeWalker->Render();
+}
+
+void RTSWorld::resetPath()
+{
+  m_activeWalker->Reset();
+}
+
+void
+RTSWorld::setStartPos(int32 x, int32 y)
+{
+  for (SIZE_T it = 0; it < m_walkersList.size(); ++it) {
+    m_walkersList[it]->setStartPosition(x, y);
+  }
+}
+
+void
+RTSWorld::setEndPos(int32 x, int32 y)
+{
+  for (SIZE_T it = 0; it < m_walkersList.size(); ++it) {
+    m_walkersList[it]->setEndPosition(x, y);
+  }
 }
 
 void

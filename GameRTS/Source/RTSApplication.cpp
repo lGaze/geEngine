@@ -170,6 +170,29 @@ RTSApplication::gameLoop() {
           map->getScreenToMapCoords(mousePos.x, mousePos.y, Xcoord, Ycoord);
           map->setType(Xcoord, Ycoord, TERRAIN_TYPE::kMarsh);
         }
+
+        //StartFlag
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && GameOptions::s_PfPositions == 0)
+        {
+          int32 Xcoord, Ycoord;
+          auto map = m_gameWorld.getTiledMap();
+          sf::Vector2i mousePos = sf::Mouse::getPosition();
+          map->getScreenToMapCoords(mousePos.x, mousePos.y, Xcoord, Ycoord);
+          m_gameWorld.setStartPos(Xcoord, Ycoord);
+          map->setMark(Xcoord, Ycoord, MARK_TYPE::kStartFlag);
+        }       
+        
+        //EndFlag
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && GameOptions::s_PfPositions == 1)
+        {
+          int32 Xcoord, Ycoord;
+          auto map = m_gameWorld.getTiledMap();
+          sf::Vector2i mousePos = sf::Mouse::getPosition();
+          map->getScreenToMapCoords(mousePos.x, mousePos.y, Xcoord, Ycoord);
+          m_gameWorld.setEndPos(Xcoord, Ycoord);
+          map->setMark(Xcoord, Ycoord, MARK_TYPE::kEndFlag);
+        }
+
       }
 
       if (event.type == sf::Event::Closed) {
@@ -423,6 +446,13 @@ mainMenu(RTSApplication* pApp) {
       ImGui::RadioButton("Dijkstra", &GameOptions::s_PathFindingTypes, 3);
       ImGui::Spacing();
       ImGui::RadioButton("A*", &GameOptions::s_PathFindingTypes, 4);
+      ImGui::Spacing();   
+      ImGui::Spacing();
+      if (ImGui::Button("Start"))
+      {
+        pApp->getWorld()->resetPath();
+        pApp->getWorld()->setCurrentWalker(GameOptions::s_PathFindingTypes);
+      }
     }
     ImGui::End();
   }
