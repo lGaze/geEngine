@@ -18,6 +18,7 @@ RTSBestFirstSearchMapGridWalker::RTSBestFirstSearchMapGridWalker(void)
   m_nodegrid = NULL;
   m_StartX = m_StartY = 0;
   m_EndX = m_EndY = 0;
+  m_bestPath.clear();
 }
 
 RTSBestFirstSearchMapGridWalker::RTSBestFirstSearchMapGridWalker(RTSTiledMap *pMap) : RTSMapGridWalker(pMap)
@@ -42,6 +43,9 @@ bool RTSBestFirstSearchMapGridWalker::Init(sf::RenderTarget * target)
   m_patTex->loadFromFile(target, "Textures/Marks/Mark_3.png");
   m_patTex->setScale(.125f, .125f);
 
+  m_bestPathTex = new RTSTexture();
+  m_bestPathTex->loadFromFile(target, "Textures/Marks/Mark_4.png");
+  m_bestPathTex->setScale(.125f, .125f);
 
   if (m_nodegrid != NULL)
   {
@@ -77,21 +81,20 @@ bool RTSBestFirstSearchMapGridWalker::Init(sf::RenderTarget * target)
 void RTSBestFirstSearchMapGridWalker::Destroy()
 {
   //Destruimos los nodos de la matriz bidimensional
-  if (m_nodegrid != nullptr)
+  if (m_nodegrid)
   {
     for (int32 i = 0; i < m_pTiledMap->getMapSize().x; i++)
     {
-      if (nullptr != m_nodegrid[i])
-      {
-        delete[](m_nodegrid[i]);
-      }
+      delete[](m_nodegrid[i]);
     }
     delete(m_nodegrid);
   }
 
   //Limpiamos punteros a los nodos
-  m_nodegrid = NULL;
-  m_n = NULL;
+  m_start = nullptr;
+  m_end = nullptr;
+  m_n = nullptr;
+  m_nodegrid = nullptr;
 }
 
 void RTSBestFirstSearchMapGridWalker::Render()
@@ -107,12 +110,24 @@ void RTSBestFirstSearchMapGridWalker::Render()
   }
 }
 
+void RTSBestFirstSearchMapGridWalker::PathRender()
+{
+  int32 tmpx;
+  int32 tmpy;
+  for (int32 i = 0; i < m_bestPath.size(); ++i)
+  {
+    m_pTiledMap->getMapToScreenCoords(m_bestPath[i]->m_x, m_bestPath[i]->m_y, tmpx, tmpy);
+    m_bestPathTex->setPosition(tmpx, tmpy);
+    m_bestPathTex->draw();
+  }
+}
+
 WALKSTATE::E RTSBestFirstSearchMapGridWalker::Update()
 {//Función de actualización del algoritmo (calcula un paso a la vez del algoritmo)
   //Revisamos si hay objetos en la lista abierta
   if (m_open.size() > 0)
   {//Hay objetos, por lo que podemos seguir calculando una ruta
-    m_n = (RTSMapTileNode*)m_open.front();	//Obtenemos el nodo actual para chequeos
+    m_n = m_open.front();	//Obtenemos el nodo actual para chequeos
     m_open.pop_front();							//Sacamos este objeto de la lista abierta
     m_n->setVisited(true);					//Marcamos este nodo como visitado
     m_close.push_back(m_n);
@@ -208,37 +223,37 @@ void RTSBestFirstSearchMapGridWalker::visitGridNode(int32 x, int32 y)
   {//Si este nodo está bloqueado o ya fue visitado
      //Marcamos este nodo como visitable agregándolo a la lista abierta
      // m_open.push(&m_nodegrid[x][y]);
-    PriorityQueue(Vector2I(x,y));
-
+    PriorityQueue(x,y);
   }
 }
 
-void RTSBestFirstSearchMapGridWalker::PriorityQueue(Vector2I & v)
+void RTSBestFirstSearchMapGridWalker::PriorityQueue(int32 x, int32 y)
 {
-  Vector2I tempv = Vector2I(m_end->m_x, m_end->m_y);
-  Vector2I tempv2;
+  Vector2I tempEnd = Vector2I(m_end->m_x, m_end->m_y);
+  Vector2I tempNode = Vector2I(x, y);
 
-  uint32 distance = v.manhattanDist(tempv);
+  uint32 distance = tempNode.manhattanDist(tempEnd);
 
   for (auto it = m_open.begin(); it != m_open.end(); ++it)
   {
-    if ((*it)->m_x == tempv.x && (*it)->m_y == tempv.y)
+    if ((*it)->m_x == x && (*it)->m_y == y)
     {
       return;
     }
-    tempv2.x = (*it)->m_x;
-    tempv2.y = (*it)->m_y;
-    uint32 distance2 = tempv2.manhattanDist(tempv);
+   tempNode.x = (*it)->m_x;
+   tempNode.y = (*it)->m_y;
+
+    uint32 distance2 = tempNode.manhattanDist(tempEnd);
     if (distance < distance2)
     {
-      m_open.insert(it, &m_nodegrid[v.x][v.y]);
-      m_nodegrid[v.x][v.y].m_parent = m_n;
+      m_open.insert(it, &m_nodegrid[x][y]);
+      m_nodegrid[x][y].m_parent = m_n;
       m_open.unique();
       return;
     }
   }
-  m_open.push_back(m_n);
-  m_nodegrid[v.x][v.y].m_parent = m_n;
+  m_open.push_back(&m_nodegrid[x][y]);
+  m_nodegrid[x][y].m_parent = m_n;
   m_open.unique();
 }
 
@@ -256,6 +271,10 @@ void RTSBestFirstSearchMapGridWalker::Reset()
     m_close.clear();
   }
 
+  if (m_bestPath.size() > 0)
+  {
+    m_bestPath.clear();
+  }
   //Establecemos que no hay un nodo actual en chequeo
   m_n = nullptr;
 
@@ -268,8 +287,16 @@ void RTSBestFirstSearchMapGridWalker::Reset()
     for (int j = 0; j < m_pTiledMap->getMapSize().y; j++)
     {
       m_nodegrid[i][j].setVisited(false);
+      if (m_nodegrid[i][j].m_parent)
+      {
+        m_nodegrid[i][j].m_parent = nullptr;
+      }
     }
   }
+
+  m_start = nullptr;
+  m_end = nullptr;
+  m_n = nullptr;
 
   //Obtenemos el punto de inicio, lo marcamos como visitado y lo establecemos como el nodo inicial
   int x, y;
@@ -285,4 +312,18 @@ void RTSBestFirstSearchMapGridWalker::Reset()
   m_open.push_front(m_start);
 
   State = KSTILLLOOKING;
+}
+
+void RTSBestFirstSearchMapGridWalker::traceBack()
+{
+  if(m_close.size() > 0)
+  {
+    RTSMapTileNode * node = m_close.back();
+    while (node->m_parent)
+    {
+      m_bestPath.push_back(node);
+      node = node->m_parent;
+    }
+    m_bestPath.push_back(node);
+  }
 }

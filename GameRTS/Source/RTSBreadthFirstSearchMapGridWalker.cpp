@@ -42,6 +42,9 @@ bool RTSBreadthFirstSearchMapGridWalker::Init(sf::RenderTarget * target)
   m_patTex->loadFromFile(target, "Textures/Marks/Mark_3.png");
   m_patTex->setScale(.125f, .125f);
 
+  m_bestPathTex = new RTSTexture();
+  m_bestPathTex->loadFromFile(target, "Textures/Marks/Mark_4.png");
+  m_bestPathTex->setScale(.125f, .125f);
 
   if (m_nodegrid != NULL)
   {
@@ -104,6 +107,18 @@ void RTSBreadthFirstSearchMapGridWalker::Render()
     m_pTiledMap->getMapToScreenCoords(m_close[i]->m_x, m_close[i]->m_y, tmpx, tmpy);
     m_patTex->setPosition(tmpx, tmpy);
     m_patTex->draw();
+  }
+}
+
+void RTSBreadthFirstSearchMapGridWalker::PathRender()
+{
+  int32 tmpx;
+  int32 tmpy;
+  for (int32 i = 0; i < m_bestPath.size(); ++i)
+  {
+    m_pTiledMap->getMapToScreenCoords(m_bestPath[i]->m_x, m_bestPath[i]->m_y, tmpx, tmpy);
+    m_bestPathTex->setPosition(tmpx, tmpy);
+    m_bestPathTex->draw();
   }
 }
 
@@ -228,8 +243,13 @@ void RTSBreadthFirstSearchMapGridWalker::Reset()
     m_close.clear();
   }
 
+  if (m_bestPath.size() > 0)
+  {
+    m_bestPath.clear();
+  }
+
   //Establecemos que no hay un nodo actual en chequeo
-  m_n = NULL;
+  m_n = nullptr;
 
   //Revisamos que los nodos ya hayan sido creado (Solo en modo Debug)
   GE_ASSERT(m_nodegrid);
@@ -240,8 +260,16 @@ void RTSBreadthFirstSearchMapGridWalker::Reset()
     for (int j = 0; j < m_pTiledMap->getMapSize().y; j++)
     {
       m_nodegrid[i][j].setVisited(false);
+      if (m_nodegrid[i][j].m_parent)
+      {
+        m_nodegrid[i][j].m_parent = nullptr;
+      }
     }
   }
+
+  m_start = nullptr;
+  m_end = nullptr;
+  m_n = nullptr;
 
   //Obtenemos el punto de inicio, lo marcamos como visitado y lo establecemos como el nodo inicial
   int x, y;
@@ -257,4 +285,18 @@ void RTSBreadthFirstSearchMapGridWalker::Reset()
   m_open.push(m_start);
 
   State = KSTILLLOOKING;
+}
+
+void RTSBreadthFirstSearchMapGridWalker::traceBack()
+{
+  if (m_close.size() > 0)
+  {
+    RTSMapTileNode * node = m_close.back();
+    while (node->m_parent)
+    {
+      m_bestPath.push_back(node);
+      node = node->m_parent;
+    }
+    m_bestPath.push_back(node);
+  }
 }

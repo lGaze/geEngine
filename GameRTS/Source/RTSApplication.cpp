@@ -180,6 +180,7 @@ RTSApplication::gameLoop() {
           sf::Vector2i mousePos = sf::Mouse::getPosition();
           map->getScreenToMapCoords(mousePos.x, mousePos.y, Xcoord, Ycoord);
           m_gameWorld.setStartPos(Xcoord, Ycoord);
+          m_gameWorld.setStartPos(Xcoord, Ycoord);
           map->setMark(Xcoord, Ycoord, MARK_TYPE::kStartFlag);
         }       
         

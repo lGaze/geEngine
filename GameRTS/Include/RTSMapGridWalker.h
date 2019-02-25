@@ -52,6 +52,7 @@ public:
   virtual void Destroy() = 0;											//Destruye los objetos de la clase
   virtual WALKSTATE::E Update() = 0;									//Actualiza el estado del pathfinding (puede hacerse por pasos o recursivamente)
   virtual void Render() = 0;											//Renderea la información necesaria para su uso en pathfinding
+  virtual void PathRender() = 0;
   virtual void Reset() = 0;												//Reinicializa las variables de esta clase para su uso en un nuevo cálculo
 
   virtual bool weightedGraphSupported() { return false; }				//Indica si este Walker soporta la asignación y el uso de pesos a los nodos del graph
@@ -67,7 +68,7 @@ public:
   void getEndPosition(int32 & x, int32 & y) { x = m_EndX; y = m_EndY; }						//Función de ayuda para obtener el punto final de búsqueda
 
   WALKSTATE::E getState() { return State; }
-
+  virtual void traceBack() = 0;
 
 protected:
   virtual void visitGridNode(int32 x, int32 y) = 0;					//Marca un nodo de mapa como visitado (esto lo procesa según el algoritmo utilizado)

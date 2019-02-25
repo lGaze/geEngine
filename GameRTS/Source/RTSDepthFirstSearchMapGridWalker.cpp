@@ -41,6 +41,10 @@ bool RTSDepthFirstSearchMapGridWalker::Init(sf::RenderTarget * target)
   m_patTex = new RTSTexture();
   m_patTex->loadFromFile(target, "Textures/Marks/Mark_3.png");
 
+  m_bestPathTex = new RTSTexture();
+  m_bestPathTex->loadFromFile(target, "Textures/Marks/Mark_4.png");
+  m_bestPathTex->setScale(.125f, .125f);
+
   m_patTex->setScale(.125f, .125f);
 
   if (m_nodegrid != NULL)
@@ -104,6 +108,18 @@ void RTSDepthFirstSearchMapGridWalker::Render()
     m_pTiledMap->getMapToScreenCoords(m_close[i]->m_x, m_close[i]->m_y, tmpx, tmpy);
     m_patTex->setPosition(tmpx, tmpy);
     m_patTex->draw();
+  }
+}
+
+void RTSDepthFirstSearchMapGridWalker::PathRender()
+{
+  int32 tmpx;
+  int32 tmpy;
+  for (int32 i = 0; i < m_bestPath.size(); ++i)
+  {
+    m_pTiledMap->getMapToScreenCoords(m_bestPath[i]->m_x, m_bestPath[i]->m_y, tmpx, tmpy);
+    m_bestPathTex->setPosition(tmpx, tmpy);
+    m_bestPathTex->draw();
   }
 }
 
@@ -230,6 +246,11 @@ void RTSDepthFirstSearchMapGridWalker::Reset()
     m_close.clear();
   }
 
+  if (m_bestPath.size() > 0)
+  {
+    m_bestPath.clear();
+  }
+
   //Establecemos que no hay un nodo actual en chequeo
   m_n = NULL;
 
@@ -259,4 +280,18 @@ void RTSDepthFirstSearchMapGridWalker::Reset()
   m_open.push(m_start);
 
   State = KSTILLLOOKING;
+}
+
+void RTSDepthFirstSearchMapGridWalker::traceBack()
+{
+  if (m_close.size() > 0)
+  {
+    RTSMapTileNode * node = m_close.back();
+    while (node->m_parent)
+    {
+      m_bestPath.push_back(node);
+      node = node->m_parent;
+    }
+    m_bestPath.push_back(node);
+  }
 }

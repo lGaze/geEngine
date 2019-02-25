@@ -27,8 +27,9 @@ public:
   virtual void Destroy();
   virtual WALKSTATE::E Update();
   virtual void Render();
+  virtual void PathRender();
   virtual void Reset();
-
+  virtual void traceBack();
   virtual bool weightedGraphSupported() { return false; };
 
 protected:
@@ -37,10 +38,12 @@ protected:
 
 
 private:
+
+  RTSTexture * m_bestPathTex;
   RTSTexture * m_patTex;
   std::stack<RTSMapTileNode*> m_open;			//Nuestra lista abierta utilizando un queue ordinario
   Vector<RTSMapTileNode *> m_close;
   RTSMapTileNode *m_start, *m_n, *m_end;		//Punteros a los nodos de inicio, uso y final
   RTSMapTileNode **m_nodegrid;					//Matriz para almacenamiento de los nodos del mapa
-
+  Vector<RTSMapTileNode *> m_bestPath;
 };

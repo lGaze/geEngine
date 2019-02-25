@@ -28,6 +28,7 @@ namespace MARK_TYPE {
     kStartFlag,
     kEndFlag,
     KPathMark,
+    kTraceBackMark,
     kNumObjects
   };
 

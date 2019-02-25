@@ -69,18 +69,27 @@ RTSWorld::update(float deltaTime) {
   {
     m_activeWalker->Update();
   }
+ 
+  if (m_activeWalker->getState() == KREACHEDGOAL)
+  {
+    m_activeWalker->traceBack();
+  }
 }
 
 void
 RTSWorld::render() {
   m_pTiledMap->render();
   m_activeWalker->Render();
+  m_activeWalker->PathRender();
   m_pTiledMap->renderMarks();
 }
 
 void RTSWorld::resetPath()
 {
-  m_activeWalker->Reset();
+  for(int8 it = 0; it < m_walkersList.size(); ++it)
+  {
+    m_walkersList[it]->Reset();
+  }
 }
 
 void
