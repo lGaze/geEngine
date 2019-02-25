@@ -99,6 +99,9 @@ class RTSTiledMap
   void
   render();
 
+  void
+  renderMarks();
+
   Vector2I
   getMapSize() const {
     return m_mapSize;

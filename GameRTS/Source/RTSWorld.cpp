@@ -2,6 +2,7 @@
 #include "RTSTiledMap.h"
 #include "RTSBreadthFirstSearchMapGridWalker.h"
 #include "RTSDepthFirstSearchMapGridWalker.h"
+#include "RTSBestFirstSearchMapGridWalker.h"
 #include "RTSUnitType.h"
 
 RTSWorld::RTSWorld() {
@@ -23,11 +24,12 @@ RTSWorld::init(sf::RenderTarget* pTarget) {
   //Initialize the map (right now it's an empty map)
   m_pTiledMap = ge_new<RTSTiledMap>();
   GE_ASSERT(m_pTiledMap);
-  m_pTiledMap->init(m_pTarget, Vector2I(256, 256));
+  m_pTiledMap->init(m_pTarget, Vector2I(512, 512));
 
   //Create the path finding classes and push them to the walker list
   m_walkersList.push_back(ge_new<RTSDepthFirstSearchMapGridWalker>(m_pTiledMap));
   m_walkersList.push_back(ge_new<RTSBreadthFirstSearchMapGridWalker>(m_pTiledMap));
+  m_walkersList.push_back(ge_new<RTSBestFirstSearchMapGridWalker>(m_pTiledMap));
 
   //Init the walker objects
 
@@ -73,6 +75,7 @@ void
 RTSWorld::render() {
   m_pTiledMap->render();
   m_activeWalker->Render();
+  m_pTiledMap->renderMarks();
 }
 
 void RTSWorld::resetPath()

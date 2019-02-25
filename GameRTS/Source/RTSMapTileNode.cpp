@@ -17,7 +17,7 @@ RTSMapTileNode & RTSMapTileNode::operator=(const RTSMapTileNode & rhs)
   m_visited = rhs.m_visited;
   m_cost = rhs.m_cost;
 
-  return *this;
+  return *this; 
 }
 
 bool RTSMapTileNode::operator==(const RTSMapTileNode & rhs)

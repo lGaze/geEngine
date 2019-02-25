@@ -149,6 +149,7 @@ RTSApplication::gameLoop() {
           sf::Vector2i mousePos = sf::Mouse::getPosition();
           map->getScreenToMapCoords(mousePos.x, mousePos.y, Xcoord, Ycoord);
           map->setType(Xcoord, Ycoord, TERRAIN_TYPE::kObstacle);
+          map->setCost(Xcoord, Ycoord, 3000);
         }
 
         //Grass

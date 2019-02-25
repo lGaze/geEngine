@@ -40,7 +40,8 @@ bool RTSDepthFirstSearchMapGridWalker::Init(sf::RenderTarget * target)
 
   m_patTex = new RTSTexture();
   m_patTex->loadFromFile(target, "Textures/Marks/Mark_3.png");
-  m_patTex->setScale(0.05f, 0.05f);
+
+  m_patTex->setScale(.125f, .125f);
 
   if (m_nodegrid != NULL)
   {
@@ -203,7 +204,7 @@ WALKSTATE::E RTSDepthFirstSearchMapGridWalker::Update()
 void RTSDepthFirstSearchMapGridWalker::visitGridNode(int32 x, int32 y)
 {//Esta función "visita" un nodo, esto es para saber si debe agregarse a la lista abierta para su chequeo en el futuro
   // if the node is blocked or has been visited, early out
-  if (m_pTiledMap->getCost(x, y) != TILENODE_BLOCKED && !m_nodegrid[x][y].getVisited())
+  if (m_pTiledMap->getType(x, y) != TERRAIN_TYPE::kObstacle && !m_nodegrid[x][y].getVisited())
   {//Si este nodo está bloqueado o ya fue visitado
      //Marcamos este nodo como visitable agregándolo a la lista abierta
     m_open.push(&m_nodegrid[x][y]);

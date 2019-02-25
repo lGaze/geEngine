@@ -201,7 +201,6 @@ RTSTiledMap::render() {
   int32 tmpX = 0;
   int32 tmpY = 0;
   int32 tmpTypeTile = 0;
-  int32 tmpMarkType = 0;
   Vector2I clipRect;
 
   int32 tileIniX = 0, tileIniY = 0;
@@ -298,6 +297,15 @@ RTSTiledMap::render() {
 
     m_pTarget->draw(&gridLines[0], gridLines.size(), sf::Lines);
   }
+}
+
+void RTSTiledMap::renderMarks()
+{
+  int32 tmpX = 0;
+  int32 tmpY = 0;
+  int32 tmpMarkType = 0;
+  int32 tileIniX = 0, tileIniY = 0;
+  int32 tileFinX = 0, tileFinY = 0;
 
 #ifdef MAP_IS_ISOMETRIC
   getScreenToMapCoords(m_scrStart.x, m_scrStart.y, tileIniX, trashCoord);
@@ -321,7 +329,7 @@ RTSTiledMap::render() {
       }
 
       tmpMarkType = m_mapGrid[(iterY*m_mapSize.x) + iterX].getMarkType();
-     
+
       if (tmpMarkType == MARK_TYPE::kNone) {
         continue;
       }
@@ -329,7 +337,7 @@ RTSTiledMap::render() {
       RTSTexture& refMark = m_marks[tmpMarkType];
 
       int32 x = tmpX + (TILESIZE_X >> 1);
-      int32 y = tmpY + (TILESIZE_Y >> 1 );
+      int32 y = tmpY + (TILESIZE_Y >> 1);
       refMark.setPosition(x, y);
 
       refMark.draw();

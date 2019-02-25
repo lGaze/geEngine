@@ -175,6 +175,7 @@
     <ClCompile Include="Source\Externals\imgui_widgets.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\RTSApplication.cpp" />
+    <ClCompile Include="Source\RTSBestFirstSearchMapGridWalker.cpp" />
     <ClCompile Include="Source\RTSBreadthFirstSearchMapGridWalker.cpp" />
     <ClCompile Include="Source\RTSConfig.cpp" />
     <ClCompile Include="Source\RTSDepthFirstSearchMapGridWalker.cpp" />
@@ -187,6 +188,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\RTSApplication.h" />
+    <ClInclude Include="Include\RTSBestFirstSearchMapGridWalker.h" />
     <ClInclude Include="Include\RTSBreadthFirstSearchMapGridWalker.h" />
     <ClInclude Include="Include\RTSConfig.h" />
     <ClInclude Include="Include\RTSDepthFirstSearchMapGridWalker.h" />
