@@ -68,6 +68,9 @@
     <ClCompile Include="Source\RTSDijkstraMapGridWalker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\RTSAstarMapGridWalker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\RTSUnitType.h">
@@ -94,5 +97,6 @@
     <ClInclude Include="Include\RTSDepthFirstSearchMapGridWalker.h" />
     <ClInclude Include="Include\RTSBestFirstSearchMapGridWalker.h" />
     <ClInclude Include="Include\RTSDijkstraMapGridWalker.h" />
+    <ClInclude Include="Include\RTSAstarMapGridWalker.h" />
   </ItemGroup>
 </Project>

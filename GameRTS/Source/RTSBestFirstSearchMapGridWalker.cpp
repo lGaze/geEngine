@@ -252,6 +252,7 @@ void RTSBestFirstSearchMapGridWalker::PriorityQueue(int32 x, int32 y)
    tempNode.y = (*it)->m_y;
 
     uint32 distance2 = tempNode.manhattanDist(tempEnd);
+
     if (distance < distance2)
     {
       m_open.insert(it, &m_nodegrid[x][y]);
