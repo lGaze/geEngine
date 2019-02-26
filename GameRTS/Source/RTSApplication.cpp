@@ -139,6 +139,7 @@ RTSApplication::gameLoop() {
           sf::Vector2i mousePos = sf::Mouse::getPosition();
           map->getScreenToMapCoords(mousePos.x, mousePos.y, Xcoord, Ycoord);
           map->setType(Xcoord, Ycoord, TERRAIN_TYPE::kWater);
+          map->setCost(Xcoord, Ycoord, 3);
         }
 
         //Obstacle
@@ -149,7 +150,6 @@ RTSApplication::gameLoop() {
           sf::Vector2i mousePos = sf::Mouse::getPosition();
           map->getScreenToMapCoords(mousePos.x, mousePos.y, Xcoord, Ycoord);
           map->setType(Xcoord, Ycoord, TERRAIN_TYPE::kObstacle);
-          map->setCost(Xcoord, Ycoord, 3000);
         }
 
         //Grass
@@ -160,6 +160,7 @@ RTSApplication::gameLoop() {
           sf::Vector2i mousePos = sf::Mouse::getPosition();
           map->getScreenToMapCoords(mousePos.x, mousePos.y, Xcoord, Ycoord);
           map->setType(Xcoord, Ycoord, TERRAIN_TYPE::kGrass);
+          map->setCost(Xcoord, Ycoord, 1);
         }
 
         //Marsh
@@ -170,6 +171,7 @@ RTSApplication::gameLoop() {
           sf::Vector2i mousePos = sf::Mouse::getPosition();
           map->getScreenToMapCoords(mousePos.x, mousePos.y, Xcoord, Ycoord);
           map->setType(Xcoord, Ycoord, TERRAIN_TYPE::kMarsh);
+          map->setCost(Xcoord, Ycoord, 5);
         }
 
         //StartFlag

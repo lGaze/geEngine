@@ -179,6 +179,7 @@
     <ClCompile Include="Source\RTSBreadthFirstSearchMapGridWalker.cpp" />
     <ClCompile Include="Source\RTSConfig.cpp" />
     <ClCompile Include="Source\RTSDepthFirstSearchMapGridWalker.cpp" />
+    <ClCompile Include="Source\RTSDijkstraMapGridWalker.cpp" />
     <ClCompile Include="Source\RTSMapGridWalker.cpp" />
     <ClCompile Include="Source\RTSMapTileNode.cpp" />
     <ClCompile Include="Source\RTSTexture.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Include\RTSBreadthFirstSearchMapGridWalker.h" />
     <ClInclude Include="Include\RTSConfig.h" />
     <ClInclude Include="Include\RTSDepthFirstSearchMapGridWalker.h" />
+    <ClInclude Include="Include\RTSDijkstraMapGridWalker.h" />
     <ClInclude Include="Include\RTSMapGridWalker.h" />
     <ClInclude Include="Include\RTSMapTileNode.h" />
     <ClInclude Include="Include\RTSTexture.h" />

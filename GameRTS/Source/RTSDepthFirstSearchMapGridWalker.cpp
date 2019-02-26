@@ -40,12 +40,18 @@ bool RTSDepthFirstSearchMapGridWalker::Init(sf::RenderTarget * target)
 
   m_patTex = new RTSTexture();
   m_patTex->loadFromFile(target, "Textures/Marks/Mark_3.png");
+  m_patTex->setScale(.075f, .075f);
+  m_patTex->setOrigin(
+    (m_patTex->getWidth() - 120) / 2.0f,
+    m_patTex->getHeight() / 2.0f);
 
   m_bestPathTex = new RTSTexture();
   m_bestPathTex->loadFromFile(target, "Textures/Marks/Mark_4.png");
-  m_bestPathTex->setScale(.125f, .125f);
+  m_bestPathTex->setScale(.075f, .075f);
 
-  m_patTex->setScale(.125f, .125f);
+  m_bestPathTex->setOrigin(
+    (m_bestPathTex->getWidth() - 120) / 2.0f,
+    m_bestPathTex->getHeight() / 2.0f);
 
   if (m_nodegrid != NULL)
   {
@@ -103,10 +109,10 @@ void RTSDepthFirstSearchMapGridWalker::Render()
 
   int32 tmpx;
   int32 tmpy;
-  for (int32 i = 0; i < m_close.size(); ++i)
+  for (int32 i = 1; i < m_close.size();  i++)
   {
     m_pTiledMap->getMapToScreenCoords(m_close[i]->m_x, m_close[i]->m_y, tmpx, tmpy);
-    m_patTex->setPosition(tmpx, tmpy);
+    m_patTex->setPosition(tmpx + (TILESIZE_X >> 1), tmpy + (TILESIZE_Y >> 1));
     m_patTex->draw();
   }
 }
@@ -118,7 +124,7 @@ void RTSDepthFirstSearchMapGridWalker::PathRender()
   for (int32 i = 0; i < m_bestPath.size(); ++i)
   {
     m_pTiledMap->getMapToScreenCoords(m_bestPath[i]->m_x, m_bestPath[i]->m_y, tmpx, tmpy);
-    m_bestPathTex->setPosition(tmpx, tmpy);
+    m_bestPathTex->setPosition(tmpx + (TILESIZE_X >> 1), tmpy + (TILESIZE_Y >> 1));
     m_bestPathTex->draw();
   }
 }
@@ -292,6 +298,5 @@ void RTSDepthFirstSearchMapGridWalker::traceBack()
       m_bestPath.push_back(node);
       node = node->m_parent;
     }
-    m_bestPath.push_back(node);
   }
 }
