@@ -294,6 +294,7 @@ void RTSDijkstraMapGridWalker::Reset()
       {
         m_nodegrid[i][j].m_parent = nullptr;
       }
+      m_nodegrid[i][j].setCost(m_pTiledMap->getCost(i, j));
     }
   }
 
