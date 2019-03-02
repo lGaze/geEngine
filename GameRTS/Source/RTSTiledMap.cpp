@@ -306,7 +306,9 @@ void RTSTiledMap::renderMarks()
   int32 tmpMarkType = 0;
   int32 tileIniX = 0, tileIniY = 0;
   int32 tileFinX = 0, tileFinY = 0;
+  Vector2I clipRect;
 
+  int32 trashCoord = 0;
 #ifdef MAP_IS_ISOMETRIC
   getScreenToMapCoords(m_scrStart.x, m_scrStart.y, tileIniX, trashCoord);
   getScreenToMapCoords(m_scrEnd.x, m_scrEnd.y, tileFinX, trashCoord);
@@ -335,6 +337,10 @@ void RTSTiledMap::renderMarks()
       }
 
       RTSTexture& refMark = m_marks[tmpMarkType];
+
+
+      clipRect.x = (iterX << GameOptions::BITSHFT_TILESIZE.x) % refMark.getWidth();
+      clipRect.y = (iterY << GameOptions::BITSHFT_TILESIZE.y) % refMark.getHeight();
 
       int32 x = tmpX + (TILESIZE_X >> 1);
       int32 y = tmpY + (TILESIZE_Y >> 1);

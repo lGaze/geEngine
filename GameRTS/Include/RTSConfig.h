@@ -1,7 +1,7 @@
 #pragma once
 
 //Define only if the map should be isometric
-//#define MAP_IS_ISOMETRIC
+#define MAP_IS_ISOMETRIC
 
 #ifdef MAP_IS_ISOMETRIC
 //Tiles pixel size

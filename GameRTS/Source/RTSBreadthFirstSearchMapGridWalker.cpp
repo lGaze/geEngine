@@ -101,19 +101,26 @@ void RTSBreadthFirstSearchMapGridWalker::Destroy()
   }
 
   //Limpiamos punteros a los nodos
-  m_nodegrid = NULL;
-  m_n = NULL;
+  m_start = nullptr;
+  m_end = nullptr;
+  m_n = nullptr;
+  m_nodegrid = nullptr;
+  ge_delete(m_patTex);
+  ge_delete(m_bestPathTex);
 }
 
 void RTSBreadthFirstSearchMapGridWalker::Render()
 {//Función utilizada para renderear información del nodo en pantalla
  
-  int32 tmpx;
-  int32 tmpy;
+  int32 tmpX = 0;
+  int32 tmpY = 0;
+  int32 tmpMarkType = 0;
+
+
   for (int32 i = 1; i < m_close.size() - 1; ++i)
   {
-    m_pTiledMap->getMapToScreenCoords(m_close[i]->m_x, m_close[i]->m_y, tmpx, tmpy);
-    m_patTex->setPosition(tmpx + (TILESIZE_X >> 1), tmpy + (TILESIZE_Y >> 1));
+    m_pTiledMap->getMapToScreenCoords(m_close[i]->m_x, m_close[i]->m_y, tmpX, tmpY);
+    m_patTex->setPosition(tmpX + (TILESIZE_X >> 1), tmpY + (TILESIZE_Y >> 1));
     m_patTex->draw();
   }
 }

@@ -49,29 +49,29 @@ public:
 public:
 
   virtual bool Init(sf::RenderTarget * target) { return false; }									//Función de inicialización de la clase (por default en este aspecto regresamos false porque no estamos haciendo nada)
-  virtual void Destroy() = 0;											//Destruye los objetos de la clase
-  virtual WALKSTATE::E Update() = 0;									//Actualiza el estado del pathfinding (puede hacerse por pasos o recursivamente)
-  virtual void Render() = 0;											//Renderea la información necesaria para su uso en pathfinding
-  virtual void PathRender() = 0;
-  virtual void Reset() = 0;												//Reinicializa las variables de esta clase para su uso en un nuevo cálculo
+  virtual void Destroy() = 0;											                                //Destruye los objetos de la clase
+  virtual WALKSTATE::E Update() = 0;									                            //Actualiza el estado del pathfinding (puede hacerse por pasos o recursivamente)
+  virtual void Render() = 0;											                                //Renderea la información necesaria para su uso en pathfinding
+  virtual void PathRender() = 0;                                                  //Renderea el camino del algotimo 
+  virtual void Reset() = 0;												                                //Reinicializa las variables de esta clase para su uso en un nuevo cálculo
 
-  virtual bool weightedGraphSupported() { return false; }				//Indica si este Walker soporta la asignación y el uso de pesos a los nodos del graph
-  virtual bool heuristicsSupported() { return false; }					//Indica si este Walker soporta heuristicas
+  virtual bool weightedGraphSupported() { return false; }				                  //Indica si este Walker soporta la asignación y el uso de pesos a los nodos del graph
+  virtual bool heuristicsSupported() { return false; }					                  //Indica si este Walker soporta heuristicas
 
-  void setTiledMap(RTSTiledMap *pMap) { m_pTiledMap = pMap; }			//Establecemos un puntero al mapa que será utilizado para todos los cálculos
-  RTSTiledMap *getMapGrid() { return m_pTiledMap; }					//Regresa el puntero al mapa que se está utilizando para todos los cálculos
+  void setTiledMap(RTSTiledMap *pMap) { m_pTiledMap = pMap; }			                //Establecemos un puntero al mapa que será utilizado para todos los cálculos
+  RTSTiledMap *getMapGrid() { return m_pTiledMap; }					                      //Regresa el puntero al mapa que se está utilizando para todos los cálculos
 
-  void setStartPosition(const int32 x, const int32 y) { m_StartX = x; m_StartY = y; }	//Esta función se utiliza para establecer el punto inicial de búsqueda
-  void setEndPosition(const int32 x, const int32 y) { m_EndX = x; m_EndY = y; }			//Esta función se utiliza para establecer el punto final de la búsqueda
+  void setStartPosition(const int32 x, const int32 y) { m_StartX = x; m_StartY = y; }	    //Esta función se utiliza para establecer el punto inicial de búsqueda
+  void setEndPosition(const int32 x, const int32 y) { m_EndX = x; m_EndY = y; }			      //Esta función se utiliza para establecer el punto final de la búsqueda
 
-  void getStartPosition(int32 & x, int32 & y) { x = m_StartX; y = m_StartY; }				//Función de ayuda para obtener el punto inicial de búsqueda
-  void getEndPosition(int32 & x, int32 & y) { x = m_EndX; y = m_EndY; }						//Función de ayuda para obtener el punto final de búsqueda
+  void getStartPosition(int32 & x, int32 & y) { x = m_StartX; y = m_StartY; }				      //Función de ayuda para obtener el punto inicial de búsqueda
+  void getEndPosition(int32 & x, int32 & y) { x = m_EndX; y = m_EndY; }			        			//Función de ayuda para obtener el punto final de búsqueda
 
-  WALKSTATE::E getState() { return State; }
-  virtual void traceBack() = 0;
+  WALKSTATE::E getState() { return State; }                                      
+  virtual void traceBack() = 0;                                                  //Funcion de ayua ara realizar el BackTracing de los algoritmos
 
 protected:
-  virtual void visitGridNode(int32 x, int32 y) = 0;					//Marca un nodo de mapa como visitado (esto lo procesa según el algoritmo utilizado)
+  virtual void visitGridNode(int32 x, int32 y) = 0;					                     //Marca un nodo de mapa como visitado (esto lo procesa según el algoritmo utilizado)
 
   /************************************************************************************************************************/
   /* Declaración de variables miembro de la clase                                 										*/

@@ -105,6 +105,8 @@ void RTSDijkstraMapGridWalker::Destroy()
   m_end = nullptr;
   m_n = nullptr;
   m_nodegrid = nullptr;
+  ge_delete(m_patTex);
+  ge_delete(m_bestPathTex);
 }
 
 void RTSDijkstraMapGridWalker::Render()

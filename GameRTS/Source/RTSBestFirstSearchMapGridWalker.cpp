@@ -44,8 +44,8 @@ bool RTSBestFirstSearchMapGridWalker::Init(sf::RenderTarget * target)
   m_patTex->loadFromFile(target, "Textures/Marks/Mark_3.png");
   m_patTex->setScale(.075f, .075f);
   m_patTex->setOrigin(
-    (m_patTex->getWidth() - 120) / 2.0f,
-    m_patTex->getHeight() / 2.0f);
+                      (m_patTex->getWidth() - 120) / 2.0f,
+                       m_patTex->getHeight() / 2.0f);
 
   m_bestPathTex = new RTSTexture();
   m_bestPathTex->loadFromFile(target, "Textures/Marks/Mark_4.png");
@@ -103,6 +103,8 @@ void RTSBestFirstSearchMapGridWalker::Destroy()
   m_end = nullptr;
   m_n = nullptr;
   m_nodegrid = nullptr;
+  ge_delete(m_patTex);
+  ge_delete(m_bestPathTex);
 }
 
 void RTSBestFirstSearchMapGridWalker::Render()

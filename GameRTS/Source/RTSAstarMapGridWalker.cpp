@@ -105,6 +105,9 @@ void RTSAstarMapGridWalker::Destroy()
   m_end = nullptr;
   m_n = nullptr;
   m_nodegrid = nullptr;
+  //Destruimos las texturas
+  ge_delete(m_patTex);
+  ge_delete(m_bestPathTex);
 }
 
 void RTSAstarMapGridWalker::Render()

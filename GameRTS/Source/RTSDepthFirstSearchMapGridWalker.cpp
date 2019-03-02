@@ -100,8 +100,12 @@ void RTSDepthFirstSearchMapGridWalker::Destroy()
   }
 
   //Limpiamos punteros a los nodos
-  m_nodegrid = NULL;
-  m_n = NULL;
+  m_start = nullptr;
+  m_end = nullptr;
+  m_n = nullptr;
+  m_nodegrid = nullptr;
+  ge_delete(m_patTex);
+  ge_delete(m_bestPathTex);
 }
 
 void RTSDepthFirstSearchMapGridWalker::Render()

@@ -139,7 +139,7 @@ RTSApplication::gameLoop() {
           sf::Vector2i mousePos = sf::Mouse::getPosition();
           map->getScreenToMapCoords(mousePos.x, mousePos.y, Xcoord, Ycoord);
           map->setType(Xcoord, Ycoord, TERRAIN_TYPE::kWater);
-          map->setCost(Xcoord, Ycoord, 20);
+          map->setCost(Xcoord, Ycoord, 3);
         }
 
         //Obstacle
@@ -171,7 +171,7 @@ RTSApplication::gameLoop() {
           sf::Vector2i mousePos = sf::Mouse::getPosition();
           map->getScreenToMapCoords(mousePos.x, mousePos.y, Xcoord, Ycoord);
           map->setType(Xcoord, Ycoord, TERRAIN_TYPE::kMarsh);
-          map->setCost(Xcoord, Ycoord, 25);
+          map->setCost(Xcoord, Ycoord, 5);
         }
 
         //StartFlag

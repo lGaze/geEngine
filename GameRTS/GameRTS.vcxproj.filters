@@ -91,12 +91,26 @@
     <ClInclude Include="Include\RTSWorld.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\RTSMapGridWalker.h" />
-    <ClInclude Include="Include\RTSBreadthFirstSearchMapGridWalker.h" />
-    <ClInclude Include="Include\RTSMapTileNode.h" />
-    <ClInclude Include="Include\RTSDepthFirstSearchMapGridWalker.h" />
-    <ClInclude Include="Include\RTSBestFirstSearchMapGridWalker.h" />
-    <ClInclude Include="Include\RTSDijkstraMapGridWalker.h" />
-    <ClInclude Include="Include\RTSAstarMapGridWalker.h" />
+    <ClInclude Include="Include\RTSAstarMapGridWalker.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\RTSBestFirstSearchMapGridWalker.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\RTSBreadthFirstSearchMapGridWalker.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\RTSDepthFirstSearchMapGridWalker.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\RTSDijkstraMapGridWalker.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\RTSMapGridWalker.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\RTSMapTileNode.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
