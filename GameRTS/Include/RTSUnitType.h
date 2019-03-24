@@ -69,5 +69,7 @@ namespace RTSGame {
      Vector<Animation> m_animationFrames;
      RTSTexture m_texture;
      sf::RenderTarget* m_pTarget;
+     bool m_texLoaded;
+
   };
 }

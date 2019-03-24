@@ -1,0 +1,4005 @@
+{
+  "frames": {
+
+    "castilianknight/attack_N/attackN0001.png": {
+      "frame": {
+        "x": 1009,
+        "y": 197,
+        "w": 26,
+        "h": 57
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 100,
+        "w": 26,
+        "h": 57
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_N/attackN0002.png": {
+      "frame": {
+        "x": 1037,
+        "y": 197,
+        "w": 53,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 115,
+        "y": 101,
+        "w": 53,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_N/attackN0003.png": {
+      "frame": {
+        "x": 1092,
+        "y": 197,
+        "w": 50,
+        "h": 51
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 117,
+        "y": 103,
+        "w": 50,
+        "h": 51
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_N/attackN0004.png": {
+      "frame": {
+        "x": 1144,
+        "y": 197,
+        "w": 41,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 85,
+        "w": 41,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_N/attackN0005.png": {
+      "frame": {
+        "x": 1187,
+        "y": 197,
+        "w": 28,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 102,
+        "w": 28,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_N/attackN0006.png": {
+      "frame": {
+        "x": 1217,
+        "y": 197,
+        "w": 26,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 102,
+        "w": 26,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_N/attackN0007.png": {
+      "frame": {
+        "x": 1245,
+        "y": 197,
+        "w": 49,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 102,
+        "w": 49,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_N/attackN0008.png": {
+      "frame": {
+        "x": 1296,
+        "y": 197,
+        "w": 45,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 101,
+        "w": 45,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_N/attackN0009.png": {
+      "frame": {
+        "x": 1343,
+        "y": 197,
+        "w": 32,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 101,
+        "w": 32,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_N/attackN0010.png": {
+      "frame": {
+        "x": 1377,
+        "y": 197,
+        "w": 24,
+        "h": 57
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 100,
+        "w": 24,
+        "h": 57
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_NW/attackNW0001.png": {
+      "frame": {
+        "x": 1403,
+        "y": 197,
+        "w": 39,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 99,
+        "w": 39,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_NW/attackNW0002.png": {
+      "frame": {
+        "x": 1444,
+        "y": 197,
+        "w": 39,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 100,
+        "w": 39,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_NW/attackNW0003.png": {
+      "frame": {
+        "x": 1485,
+        "y": 197,
+        "w": 28,
+        "h": 59
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 94,
+        "w": 28,
+        "h": 59
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_NW/attackNW0004.png": {
+      "frame": {
+        "x": 1515,
+        "y": 197,
+        "w": 48,
+        "h": 51
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 121,
+        "y": 102,
+        "w": 48,
+        "h": 51
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_NW/attackNW0005.png": {
+      "frame": {
+        "x": 1565,
+        "y": 197,
+        "w": 63,
+        "h": 51
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 107,
+        "y": 101,
+        "w": 63,
+        "h": 51
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_NW/attackNW0006.png": {
+      "frame": {
+        "x": 1630,
+        "y": 197,
+        "w": 60,
+        "h": 49
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 111,
+        "y": 102,
+        "w": 60,
+        "h": 49
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_NW/attackNW0007.png": {
+      "frame": {
+        "x": 1692,
+        "y": 197,
+        "w": 45,
+        "h": 57
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 124,
+        "y": 96,
+        "w": 45,
+        "h": 57
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_NW/attackNW0008.png": {
+      "frame": {
+        "x": 1739,
+        "y": 197,
+        "w": 34,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 97,
+        "w": 34,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_NW/attackNW0009.png": {
+      "frame": {
+        "x": 1775,
+        "y": 197,
+        "w": 42,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 101,
+        "w": 42,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_NW/attackNW0010.png": {
+      "frame": {
+        "x": 1819,
+        "y": 197,
+        "w": 39,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 100,
+        "w": 39,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_S/attackS0001.png": {
+      "frame": {
+        "x": 1860,
+        "y": 197,
+        "w": 27,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 91,
+        "w": 27,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_S/attackS0002.png": {
+      "frame": {
+        "x": 1889,
+        "y": 197,
+        "w": 51,
+        "h": 49
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 152,
+        "y": 107,
+        "w": 51,
+        "h": 49
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_S/attackS0003.png": {
+      "frame": {
+        "x": 1942,
+        "y": 197,
+        "w": 50,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 152,
+        "y": 106,
+        "w": 50,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_S/attackS0004.png": {
+      "frame": {
+        "x": 1994,
+        "y": 197,
+        "w": 41,
+        "h": 49
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 110,
+        "w": 41,
+        "h": 49
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_S/attackS0005.png": {
+      "frame": {
+        "x": 2037,
+        "y": 197,
+        "w": 28,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 153,
+        "y": 118,
+        "w": 28,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_S/attackS0006.png": {
+      "frame": {
+        "x": 2067,
+        "y": 197,
+        "w": 25,
+        "h": 57
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 154,
+        "y": 114,
+        "w": 25,
+        "h": 57
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_S/attackS0007.png": {
+      "frame": {
+        "x": 2094,
+        "y": 197,
+        "w": 49,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 127,
+        "y": 111,
+        "w": 49,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_S/attackS0008.png": {
+      "frame": {
+        "x": 2145,
+        "y": 197,
+        "w": 46,
+        "h": 51
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 129,
+        "y": 108,
+        "w": 46,
+        "h": 51
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_S/attackS0009.png": {
+      "frame": {
+        "x": 2193,
+        "y": 197,
+        "w": 34,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 101,
+        "w": 34,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_S/attackS0010.png": {
+      "frame": {
+        "x": 2229,
+        "y": 197,
+        "w": 26,
+        "h": 62
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 94,
+        "w": 26,
+        "h": 62
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_SW/attackSW0001.png": {
+      "frame": {
+        "x": 2257,
+        "y": 197,
+        "w": 33,
+        "h": 63
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 91,
+        "w": 33,
+        "h": 63
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_SW/attackSW0002.png": {
+      "frame": {
+        "x": 2292,
+        "y": 197,
+        "w": 22,
+        "h": 67
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 87,
+        "w": 22,
+        "h": 67
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_SW/attackSW0003.png": {
+      "frame": {
+        "x": 2316,
+        "y": 197,
+        "w": 38,
+        "h": 51
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 132,
+        "y": 103,
+        "w": 38,
+        "h": 51
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_SW/attackSW0004.png": {
+      "frame": {
+        "x": 2356,
+        "y": 197,
+        "w": 27,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 110,
+        "w": 27,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_SW/attackSW0005.png": {
+      "frame": {
+        "x": 2385,
+        "y": 197,
+        "w": 39,
+        "h": 58
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 128,
+        "y": 112,
+        "w": 39,
+        "h": 58
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_SW/attackSW0006.png": {
+      "frame": {
+        "x": 2426,
+        "y": 197,
+        "w": 53,
+        "h": 49
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 112,
+        "y": 119,
+        "w": 53,
+        "h": 49
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_SW/attackSW0007.png": {
+      "frame": {
+        "x": 2481,
+        "y": 197,
+        "w": 56,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 111,
+        "y": 113,
+        "w": 56,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_SW/attackSW0008.png": {
+      "frame": {
+        "x": 2539,
+        "y": 197,
+        "w": 45,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 122,
+        "y": 105,
+        "w": 45,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_SW/attackSW0009.png": {
+      "frame": {
+        "x": 2586,
+        "y": 197,
+        "w": 22,
+        "h": 65
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 90,
+        "w": 22,
+        "h": 65
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_SW/attackSW0010.png": {
+      "frame": {
+        "x": 2610,
+        "y": 197,
+        "w": 23,
+        "h": 66
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 89,
+        "w": 23,
+        "h": 66
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_W/attackW0001.png": {
+      "frame": {
+        "x": 2635,
+        "y": 197,
+        "w": 45,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 99,
+        "w": 45,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_W/attackW0002.png": {
+      "frame": {
+        "x": 2682,
+        "y": 197,
+        "w": 25,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 111,
+        "w": 25,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_W/attackW0003.png": {
+      "frame": {
+        "x": 2709,
+        "y": 197,
+        "w": 37,
+        "h": 47
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 116,
+        "w": 37,
+        "h": 47
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_W/attackW0004.png": {
+      "frame": {
+        "x": 2748,
+        "y": 197,
+        "w": 52,
+        "h": 61
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 118,
+        "y": 95,
+        "w": 52,
+        "h": 61
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_W/attackW0005.png": {
+      "frame": {
+        "x": 2802,
+        "y": 197,
+        "w": 61,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 109,
+        "y": 114,
+        "w": 61,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_W/attackW0006.png": {
+      "frame": {
+        "x": 2865,
+        "y": 197,
+        "w": 60,
+        "h": 43
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 110,
+        "y": 113,
+        "w": 60,
+        "h": 43
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_W/attackW0007.png": {
+      "frame": {
+        "x": 2927,
+        "y": 197,
+        "w": 35,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 135,
+        "y": 100,
+        "w": 35,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_W/attackW0008.png": {
+      "frame": {
+        "x": 2964,
+        "y": 197,
+        "w": 36,
+        "h": 50
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 105,
+        "w": 36,
+        "h": 50
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_W/attackW0009.png": {
+      "frame": {
+        "x": 3002,
+        "y": 197,
+        "w": 45,
+        "h": 51
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 103,
+        "w": 45,
+        "h": 51
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/attack_W/attackW0010.png": {
+      "frame": {
+        "x": 3049,
+        "y": 197,
+        "w": 46,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 101,
+        "w": 46,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_N/dieN0001.png": {
+      "frame": {
+        "x": 3097,
+        "y": 197,
+        "w": 25,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 102,
+        "w": 25,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_N/dieN0002.png": {
+      "frame": {
+        "x": 3124,
+        "y": 197,
+        "w": 30,
+        "h": 51
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 103,
+        "w": 30,
+        "h": 51
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_N/dieN0003.png": {
+      "frame": {
+        "x": 3156,
+        "y": 197,
+        "w": 32,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 102,
+        "w": 32,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_N/dieN0004.png": {
+      "frame": {
+        "x": 3190,
+        "y": 197,
+        "w": 33,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 99,
+        "w": 33,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_N/dieN0005.png": {
+      "frame": {
+        "x": 3225,
+        "y": 197,
+        "w": 31,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 97,
+        "w": 31,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_N/dieN0006.png": {
+      "frame": {
+        "x": 3258,
+        "y": 197,
+        "w": 29,
+        "h": 34
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 152,
+        "y": 117,
+        "w": 29,
+        "h": 34
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_N/dieN0007.png": {
+      "frame": {
+        "x": 3289,
+        "y": 197,
+        "w": 30,
+        "h": 31
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 151,
+        "y": 120,
+        "w": 30,
+        "h": 31
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_N/dieN0008.png": {
+      "frame": {
+        "x": 3321,
+        "y": 197,
+        "w": 30,
+        "h": 31
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 151,
+        "y": 120,
+        "w": 30,
+        "h": 31
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_N/dieN0009.png": {
+      "frame": {
+        "x": 3353,
+        "y": 197,
+        "w": 31,
+        "h": 31
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 120,
+        "w": 31,
+        "h": 31
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_N/dieN0010.png": {
+      "frame": {
+        "x": 3386,
+        "y": 197,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 120,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_NW/dieNW0001.png": {
+      "frame": {
+        "x": 3420,
+        "y": 197,
+        "w": 40,
+        "h": 49
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 102,
+        "w": 40,
+        "h": 49
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_NW/dieNW0002.png": {
+      "frame": {
+        "x": 3462,
+        "y": 197,
+        "w": 42,
+        "h": 42
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 112,
+        "w": 42,
+        "h": 42
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_NW/dieNW0003.png": {
+      "frame": {
+        "x": 3506,
+        "y": 197,
+        "w": 46,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 115,
+        "w": 46,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_NW/dieNW0004.png": {
+      "frame": {
+        "x": 3554,
+        "y": 197,
+        "w": 47,
+        "h": 37
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 120,
+        "w": 47,
+        "h": 37
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_NW/dieNW0005.png": {
+      "frame": {
+        "x": 3603,
+        "y": 197,
+        "w": 54,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 126,
+        "w": 54,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_NW/dieNW0006.png": {
+      "frame": {
+        "x": 3659,
+        "y": 197,
+        "w": 54,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 130,
+        "w": 54,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_NW/dieNW0007.png": {
+      "frame": {
+        "x": 3715,
+        "y": 197,
+        "w": 56,
+        "h": 37
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 133,
+        "w": 56,
+        "h": 37
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_NW/dieNW0008.png": {
+      "frame": {
+        "x": 3773,
+        "y": 197,
+        "w": 57,
+        "h": 34
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 136,
+        "w": 57,
+        "h": 34
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_NW/dieNW0009.png": {
+      "frame": {
+        "x": 3832,
+        "y": 197,
+        "w": 58,
+        "h": 33
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 137,
+        "w": 58,
+        "h": 33
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_NW/dieNW0010.png": {
+      "frame": {
+        "x": 3892,
+        "y": 197,
+        "w": 58,
+        "h": 33
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 137,
+        "w": 58,
+        "h": 33
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_S/dieS0001.png": {
+      "frame": {
+        "x": 3952,
+        "y": 197,
+        "w": 26,
+        "h": 57
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 100,
+        "w": 26,
+        "h": 57
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_S/dieS0002.png": {
+      "frame": {
+        "x": 3980,
+        "y": 197,
+        "w": 30,
+        "h": 61
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 101,
+        "w": 30,
+        "h": 61
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_S/dieS0003.png": {
+      "frame": {
+        "x": 4012,
+        "y": 197,
+        "w": 32,
+        "h": 62
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 103,
+        "w": 32,
+        "h": 62
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_S/dieS0004.png": {
+      "frame": {
+        "x": 4046,
+        "y": 197,
+        "w": 32,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 110,
+        "w": 32,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_S/dieS0005.png": {
+      "frame": {
+        "x": 1,
+        "y": 269,
+        "w": 30,
+        "h": 31
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 136,
+        "w": 30,
+        "h": 31
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_S/dieS0006.png": {
+      "frame": {
+        "x": 33,
+        "y": 269,
+        "w": 29,
+        "h": 33
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 144,
+        "w": 29,
+        "h": 33
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_S/dieS0007.png": {
+      "frame": {
+        "x": 64,
+        "y": 269,
+        "w": 29,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 145,
+        "w": 29,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_S/dieS0008.png": {
+      "frame": {
+        "x": 95,
+        "y": 269,
+        "w": 30,
+        "h": 33
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 145,
+        "w": 30,
+        "h": 33
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_S/dieS0009.png": {
+      "frame": {
+        "x": 127,
+        "y": 269,
+        "w": 31,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 145,
+        "w": 31,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_S/dieS0010.png": {
+      "frame": {
+        "x": 160,
+        "y": 269,
+        "w": 32,
+        "h": 31
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 146,
+        "w": 32,
+        "h": 31
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_SW/dieSW0001.png": {
+      "frame": {
+        "x": 194,
+        "y": 269,
+        "w": 27,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 104,
+        "w": 27,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_SW/dieSW0002.png": {
+      "frame": {
+        "x": 223,
+        "y": 269,
+        "w": 44,
+        "h": 43
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 114,
+        "w": 44,
+        "h": 43
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_SW/dieSW0003.png": {
+      "frame": {
+        "x": 269,
+        "y": 269,
+        "w": 46,
+        "h": 41
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 117,
+        "w": 46,
+        "h": 41
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_SW/dieSW0004.png": {
+      "frame": {
+        "x": 317,
+        "y": 269,
+        "w": 48,
+        "h": 37
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 122,
+        "w": 48,
+        "h": 37
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_SW/dieSW0005.png": {
+      "frame": {
+        "x": 367,
+        "y": 269,
+        "w": 58,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 132,
+        "w": 58,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_SW/dieSW0006.png": {
+      "frame": {
+        "x": 427,
+        "y": 269,
+        "w": 63,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 129,
+        "w": 63,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_SW/dieSW0007.png": {
+      "frame": {
+        "x": 492,
+        "y": 269,
+        "w": 64,
+        "h": 36
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 125,
+        "w": 64,
+        "h": 36
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_SW/dieSW0008.png": {
+      "frame": {
+        "x": 558,
+        "y": 269,
+        "w": 64,
+        "h": 37
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 126,
+        "w": 64,
+        "h": 37
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_SW/dieSW0009.png": {
+      "frame": {
+        "x": 624,
+        "y": 269,
+        "w": 64,
+        "h": 39
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 125,
+        "w": 64,
+        "h": 39
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_SW/dieSW0010.png": {
+      "frame": {
+        "x": 690,
+        "y": 269,
+        "w": 64,
+        "h": 39
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 125,
+        "w": 64,
+        "h": 39
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_W/dieW0001.png": {
+      "frame": {
+        "x": 756,
+        "y": 269,
+        "w": 39,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 133,
+        "y": 100,
+        "w": 39,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_W/dieW0002.png": {
+      "frame": {
+        "x": 797,
+        "y": 269,
+        "w": 41,
+        "h": 51
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 129,
+        "y": 102,
+        "w": 41,
+        "h": 51
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_W/dieW0003.png": {
+      "frame": {
+        "x": 840,
+        "y": 269,
+        "w": 43,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 127,
+        "y": 101,
+        "w": 43,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_W/dieW0004.png": {
+      "frame": {
+        "x": 885,
+        "y": 269,
+        "w": 43,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 127,
+        "y": 101,
+        "w": 43,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_W/dieW0005.png": {
+      "frame": {
+        "x": 930,
+        "y": 269,
+        "w": 50,
+        "h": 41
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 113,
+        "y": 113,
+        "w": 50,
+        "h": 41
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_W/dieW0006.png": {
+      "frame": {
+        "x": 982,
+        "y": 269,
+        "w": 59,
+        "h": 20
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 104,
+        "y": 134,
+        "w": 59,
+        "h": 20
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_W/dieW0007.png": {
+      "frame": {
+        "x": 1043,
+        "y": 269,
+        "w": 57,
+        "h": 18
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 106,
+        "y": 136,
+        "w": 57,
+        "h": 18
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_W/dieW0008.png": {
+      "frame": {
+        "x": 1102,
+        "y": 269,
+        "w": 57,
+        "h": 19
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 106,
+        "y": 136,
+        "w": 57,
+        "h": 19
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_W/dieW0009.png": {
+      "frame": {
+        "x": 1161,
+        "y": 269,
+        "w": 58,
+        "h": 19
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 106,
+        "y": 136,
+        "w": 58,
+        "h": 19
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/die_W/dieW0010.png": {
+      "frame": {
+        "x": 1221,
+        "y": 269,
+        "w": 59,
+        "h": 18
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 106,
+        "y": 137,
+        "w": 59,
+        "h": 18
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_N/idleN0001.png": {
+      "frame": {
+        "x": 1282,
+        "y": 269,
+        "w": 37,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 100,
+        "w": 37,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_N/idleN0002.png": {
+      "frame": {
+        "x": 1321,
+        "y": 269,
+        "w": 38,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 100,
+        "w": 38,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_N/idleN0003.png": {
+      "frame": {
+        "x": 1361,
+        "y": 269,
+        "w": 37,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 99,
+        "w": 37,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_N/idleN0004.png": {
+      "frame": {
+        "x": 1400,
+        "y": 269,
+        "w": 37,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 98,
+        "w": 37,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_N/idleN0005.png": {
+      "frame": {
+        "x": 1439,
+        "y": 269,
+        "w": 38,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 98,
+        "w": 38,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_N/idleN0006.png": {
+      "frame": {
+        "x": 1479,
+        "y": 269,
+        "w": 38,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 98,
+        "w": 38,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_N/idleN0007.png": {
+      "frame": {
+        "x": 1519,
+        "y": 269,
+        "w": 38,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 99,
+        "w": 38,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_N/idleN0008.png": {
+      "frame": {
+        "x": 1559,
+        "y": 269,
+        "w": 39,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 99,
+        "w": 39,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_N/idleN0009.png": {
+      "frame": {
+        "x": 1600,
+        "y": 269,
+        "w": 37,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 99,
+        "w": 37,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_N/idleN0010.png": {
+      "frame": {
+        "x": 1639,
+        "y": 269,
+        "w": 36,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 99,
+        "w": 36,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_NW/idleNW0001.png": {
+      "frame": {
+        "x": 1677,
+        "y": 269,
+        "w": 24,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 99,
+        "w": 24,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_NW/idleNW0002.png": {
+      "frame": {
+        "x": 1703,
+        "y": 269,
+        "w": 24,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 99,
+        "w": 24,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_NW/idleNW0003.png": {
+      "frame": {
+        "x": 1729,
+        "y": 269,
+        "w": 24,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 98,
+        "w": 24,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_NW/idleNW0004.png": {
+      "frame": {
+        "x": 1755,
+        "y": 269,
+        "w": 24,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 98,
+        "w": 24,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_NW/idleNW0005.png": {
+      "frame": {
+        "x": 1781,
+        "y": 269,
+        "w": 23,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 98,
+        "w": 23,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_NW/idleNW0006.png": {
+      "frame": {
+        "x": 1806,
+        "y": 269,
+        "w": 23,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 98,
+        "w": 23,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_NW/idleNW0007.png": {
+      "frame": {
+        "x": 1831,
+        "y": 269,
+        "w": 24,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 98,
+        "w": 24,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_NW/idleNW0008.png": {
+      "frame": {
+        "x": 1857,
+        "y": 269,
+        "w": 24,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 98,
+        "w": 24,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_NW/idleNW0009.png": {
+      "frame": {
+        "x": 1883,
+        "y": 269,
+        "w": 24,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 98,
+        "w": 24,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_NW/idleNW0010.png": {
+      "frame": {
+        "x": 1909,
+        "y": 269,
+        "w": 24,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 99,
+        "w": 24,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_S/idleS0001.png": {
+      "frame": {
+        "x": 1935,
+        "y": 269,
+        "w": 37,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 100,
+        "w": 37,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_S/idleS0002.png": {
+      "frame": {
+        "x": 1974,
+        "y": 269,
+        "w": 38,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 99,
+        "w": 38,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_S/idleS0003.png": {
+      "frame": {
+        "x": 2014,
+        "y": 269,
+        "w": 38,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 99,
+        "w": 38,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_S/idleS0004.png": {
+      "frame": {
+        "x": 2054,
+        "y": 269,
+        "w": 36,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 100,
+        "w": 36,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_S/idleS0005.png": {
+      "frame": {
+        "x": 2092,
+        "y": 269,
+        "w": 37,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 100,
+        "w": 37,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_S/idleS0006.png": {
+      "frame": {
+        "x": 2131,
+        "y": 269,
+        "w": 38,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 101,
+        "w": 38,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_S/idleS0007.png": {
+      "frame": {
+        "x": 2171,
+        "y": 269,
+        "w": 38,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 100,
+        "w": 38,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_S/idleS0008.png": {
+      "frame": {
+        "x": 2211,
+        "y": 269,
+        "w": 38,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 100,
+        "w": 38,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_S/idleS0009.png": {
+      "frame": {
+        "x": 2251,
+        "y": 269,
+        "w": 38,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 100,
+        "w": 38,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_S/idleS0010.png": {
+      "frame": {
+        "x": 2291,
+        "y": 269,
+        "w": 38,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 100,
+        "w": 38,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_SW/idleSW0001.png": {
+      "frame": {
+        "x": 2331,
+        "y": 269,
+        "w": 46,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 99,
+        "w": 46,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_SW/idleSW0002.png": {
+      "frame": {
+        "x": 2379,
+        "y": 269,
+        "w": 45,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 99,
+        "w": 45,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_SW/idleSW0003.png": {
+      "frame": {
+        "x": 2426,
+        "y": 269,
+        "w": 45,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 99,
+        "w": 45,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_SW/idleSW0004.png": {
+      "frame": {
+        "x": 2473,
+        "y": 269,
+        "w": 45,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 100,
+        "w": 45,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_SW/idleSW0005.png": {
+      "frame": {
+        "x": 2520,
+        "y": 269,
+        "w": 45,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 100,
+        "w": 45,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_SW/idleSW0006.png": {
+      "frame": {
+        "x": 2567,
+        "y": 269,
+        "w": 45,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 101,
+        "w": 45,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_SW/idleSW0007.png": {
+      "frame": {
+        "x": 2614,
+        "y": 269,
+        "w": 45,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 100,
+        "w": 45,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_SW/idleSW0008.png": {
+      "frame": {
+        "x": 2661,
+        "y": 269,
+        "w": 44,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 100,
+        "w": 44,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_SW/idleSW0009.png": {
+      "frame": {
+        "x": 2707,
+        "y": 269,
+        "w": 46,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 99,
+        "w": 46,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_SW/idleSW0010.png": {
+      "frame": {
+        "x": 2755,
+        "y": 269,
+        "w": 46,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 99,
+        "w": 46,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_W/idleW0001.png": {
+      "frame": {
+        "x": 2803,
+        "y": 269,
+        "w": 31,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 152,
+        "y": 98,
+        "w": 31,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_W/idleW0002.png": {
+      "frame": {
+        "x": 2836,
+        "y": 269,
+        "w": 30,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 152,
+        "y": 99,
+        "w": 30,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_W/idleW0003.png": {
+      "frame": {
+        "x": 2868,
+        "y": 269,
+        "w": 30,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 152,
+        "y": 98,
+        "w": 30,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_W/idleW0004.png": {
+      "frame": {
+        "x": 2900,
+        "y": 269,
+        "w": 30,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 152,
+        "y": 99,
+        "w": 30,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_W/idleW0005.png": {
+      "frame": {
+        "x": 2932,
+        "y": 269,
+        "w": 29,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 152,
+        "y": 99,
+        "w": 29,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_W/idleW0006.png": {
+      "frame": {
+        "x": 2963,
+        "y": 269,
+        "w": 29,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 152,
+        "y": 99,
+        "w": 29,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_W/idleW0007.png": {
+      "frame": {
+        "x": 2994,
+        "y": 269,
+        "w": 29,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 152,
+        "y": 98,
+        "w": 29,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_W/idleW0008.png": {
+      "frame": {
+        "x": 3025,
+        "y": 269,
+        "w": 29,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 152,
+        "y": 98,
+        "w": 29,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_W/idleW0009.png": {
+      "frame": {
+        "x": 3056,
+        "y": 269,
+        "w": 30,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 152,
+        "y": 98,
+        "w": 30,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/idle_W/idleW0010.png": {
+      "frame": {
+        "x": 3088,
+        "y": 269,
+        "w": 30,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 152,
+        "y": 98,
+        "w": 30,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_N/runN0001.png": {
+      "frame": {
+        "x": 3120,
+        "y": 269,
+        "w": 29,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 99,
+        "w": 29,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_N/runN0002.png": {
+      "frame": {
+        "x": 3151,
+        "y": 269,
+        "w": 27,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 99,
+        "w": 27,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_N/runN0003.png": {
+      "frame": {
+        "x": 3180,
+        "y": 269,
+        "w": 26,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 100,
+        "w": 26,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_N/runN0004.png": {
+      "frame": {
+        "x": 3208,
+        "y": 269,
+        "w": 25,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 100,
+        "w": 25,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_N/runN0005.png": {
+      "frame": {
+        "x": 3235,
+        "y": 269,
+        "w": 25,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 100,
+        "w": 25,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_N/runN0006.png": {
+      "frame": {
+        "x": 3262,
+        "y": 269,
+        "w": 27,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 100,
+        "w": 27,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_N/runN0007.png": {
+      "frame": {
+        "x": 3291,
+        "y": 269,
+        "w": 30,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 99,
+        "w": 30,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_N/runN0008.png": {
+      "frame": {
+        "x": 3323,
+        "y": 269,
+        "w": 30,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 99,
+        "w": 30,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_N/runN0009.png": {
+      "frame": {
+        "x": 3355,
+        "y": 269,
+        "w": 34,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 100,
+        "w": 34,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_N/runN0010.png": {
+      "frame": {
+        "x": 3391,
+        "y": 269,
+        "w": 33,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 99,
+        "w": 33,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_NW/runNW0001.png": {
+      "frame": {
+        "x": 3426,
+        "y": 269,
+        "w": 22,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 98,
+        "w": 22,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_NW/runNW0002.png": {
+      "frame": {
+        "x": 3450,
+        "y": 269,
+        "w": 25,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 98,
+        "w": 25,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_NW/runNW0003.png": {
+      "frame": {
+        "x": 3477,
+        "y": 269,
+        "w": 29,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 99,
+        "w": 29,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_NW/runNW0004.png": {
+      "frame": {
+        "x": 3508,
+        "y": 269,
+        "w": 28,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 100,
+        "w": 28,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_NW/runNW0005.png": {
+      "frame": {
+        "x": 3538,
+        "y": 269,
+        "w": 27,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 100,
+        "w": 27,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_NW/runNW0006.png": {
+      "frame": {
+        "x": 3567,
+        "y": 269,
+        "w": 23,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 100,
+        "w": 23,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_NW/runNW0007.png": {
+      "frame": {
+        "x": 3592,
+        "y": 269,
+        "w": 22,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 99,
+        "w": 22,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_NW/runNW0008.png": {
+      "frame": {
+        "x": 3616,
+        "y": 269,
+        "w": 20,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 99,
+        "w": 20,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_NW/runNW0009.png": {
+      "frame": {
+        "x": 3638,
+        "y": 269,
+        "w": 20,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 99,
+        "w": 20,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_NW/runNW0010.png": {
+      "frame": {
+        "x": 3660,
+        "y": 269,
+        "w": 20,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 99,
+        "w": 20,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_S/runS0001.png": {
+      "frame": {
+        "x": 3682,
+        "y": 269,
+        "w": 30,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 99,
+        "w": 30,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_S/runS0002.png": {
+      "frame": {
+        "x": 3714,
+        "y": 269,
+        "w": 28,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 99,
+        "w": 28,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_S/runS0003.png": {
+      "frame": {
+        "x": 3744,
+        "y": 269,
+        "w": 26,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 100,
+        "w": 26,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_S/runS0004.png": {
+      "frame": {
+        "x": 3772,
+        "y": 269,
+        "w": 25,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 99,
+        "w": 25,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_S/runS0005.png": {
+      "frame": {
+        "x": 3799,
+        "y": 269,
+        "w": 26,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 99,
+        "w": 26,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_S/runS0006.png": {
+      "frame": {
+        "x": 3827,
+        "y": 269,
+        "w": 28,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 99,
+        "w": 28,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_S/runS0007.png": {
+      "frame": {
+        "x": 3857,
+        "y": 269,
+        "w": 29,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 99,
+        "w": 29,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_S/runS0008.png": {
+      "frame": {
+        "x": 3888,
+        "y": 269,
+        "w": 31,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 100,
+        "w": 31,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_S/runS0009.png": {
+      "frame": {
+        "x": 3921,
+        "y": 269,
+        "w": 34,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 100,
+        "w": 34,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_S/runS0010.png": {
+      "frame": {
+        "x": 3957,
+        "y": 269,
+        "w": 33,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 99,
+        "w": 33,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_SW/runSW0001.png": {
+      "frame": {
+        "x": 3992,
+        "y": 269,
+        "w": 45,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 98,
+        "w": 45,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_SW/runSW0002.png": {
+      "frame": {
+        "x": 4039,
+        "y": 269,
+        "w": 43,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 98,
+        "w": 43,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_SW/runSW0003.png": {
+      "frame": {
+        "x": 1,
+        "y": 327,
+        "w": 41,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 99,
+        "w": 41,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_SW/runSW0004.png": {
+      "frame": {
+        "x": 44,
+        "y": 327,
+        "w": 41,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 100,
+        "w": 41,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_SW/runSW0005.png": {
+      "frame": {
+        "x": 87,
+        "y": 327,
+        "w": 41,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 99,
+        "w": 41,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_SW/runSW0006.png": {
+      "frame": {
+        "x": 130,
+        "y": 327,
+        "w": 44,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 99,
+        "w": 44,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_SW/runSW0007.png": {
+      "frame": {
+        "x": 176,
+        "y": 327,
+        "w": 45,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 99,
+        "w": 45,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_SW/runSW0008.png": {
+      "frame": {
+        "x": 223,
+        "y": 327,
+        "w": 46,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 100,
+        "w": 46,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_SW/runSW0009.png": {
+      "frame": {
+        "x": 271,
+        "y": 327,
+        "w": 46,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 99,
+        "w": 46,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_SW/runSW0010.png": {
+      "frame": {
+        "x": 319,
+        "y": 327,
+        "w": 46,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 98,
+        "w": 46,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_W/runW0001.png": {
+      "frame": {
+        "x": 367,
+        "y": 327,
+        "w": 39,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 98,
+        "w": 39,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_W/runW0002.png": {
+      "frame": {
+        "x": 408,
+        "y": 327,
+        "w": 42,
+        "h": 55
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 98,
+        "w": 42,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_W/runW0003.png": {
+      "frame": {
+        "x": 452,
+        "y": 327,
+        "w": 43,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 99,
+        "w": 43,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_W/runW0004.png": {
+      "frame": {
+        "x": 497,
+        "y": 327,
+        "w": 43,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 100,
+        "w": 43,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_W/runW0005.png": {
+      "frame": {
+        "x": 542,
+        "y": 327,
+        "w": 43,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 100,
+        "w": 43,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_W/runW0006.png": {
+      "frame": {
+        "x": 587,
+        "y": 327,
+        "w": 41,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 100,
+        "w": 41,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_W/runW0007.png": {
+      "frame": {
+        "x": 630,
+        "y": 327,
+        "w": 39,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 100,
+        "w": 39,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_W/runW0008.png": {
+      "frame": {
+        "x": 671,
+        "y": 327,
+        "w": 37,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 99,
+        "w": 37,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_W/runW0009.png": {
+      "frame": {
+        "x": 710,
+        "y": 327,
+        "w": 34,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 99,
+        "w": 34,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "castilianknight/run_W/runW0010.png": {
+      "frame": {
+        "x": 746,
+        "y": 327,
+        "w": 35,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 98,
+        "w": 35,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    }
+  }
+}

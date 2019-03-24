@@ -8,7 +8,7 @@ using namespace geEngineSDK;
 using nlohmann::json;
 
 namespace RTSGame {
-  RTSUnitType::RTSUnitType() {}
+  RTSUnitType::RTSUnitType() : m_texLoaded(false) {}
 
   RTSUnitType::~RTSUnitType() {}
 
@@ -99,6 +99,10 @@ namespace RTSGame {
 
     //Load the texture for this unit type
     m_pTarget = pTarget;
-    m_texture.loadFromFile(pTarget, filePath.toString() + "units.png");
+    if (!m_texLoaded)
+    {
+      m_texture.loadFromFile(pTarget, filePath.toString() + "units.png");
+      m_texLoaded = true;
+    }
   }
 }

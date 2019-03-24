@@ -9,6 +9,7 @@ using namespace geEngineSDK;
 
 class RTSTiledMap;
 class RTSMapGridWalker;
+class RTSUnitType;
 
 class RTSWorld
 {

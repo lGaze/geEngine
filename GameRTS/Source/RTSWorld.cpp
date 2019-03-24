@@ -7,6 +7,7 @@
 #include "RTSAstarMapGridWalker.h"
 #include "RTSUnitType.h"
 
+
 RTSWorld::RTSWorld() {
   m_pTiledMap = nullptr;
   m_activeWalkerIndex = -1;	//-1 = Invalid index
@@ -45,8 +46,14 @@ RTSWorld::init(sf::RenderTarget* pTarget) {
   setCurrentWalker(m_walkersList.size() > 0 ? 0 : -1);
 
 
-  RTSGame::RTSUnitType unitTypes;
-  unitTypes.loadAnimationData(m_pTarget, 1);
+
+  for ( uint32 i = 1; i < 3; i++ )
+  {
+    RTSGame::RTSUnitType* unitType = new RTSGame::RTSUnitType();
+    unitType->loadAnimationData( pTarget, i );
+   // m_lstUnitTypes.push_back( unitType );
+
+  }
 
   return true;
 }

@@ -1,0 +1,6005 @@
+{
+  "frames": {
+
+    "crossbow/attack_N/attackN0001.png": {
+      "frame": {
+        "x": 783,
+        "y": 327,
+        "w": 29,
+        "h": 47
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 110,
+        "w": 29,
+        "h": 47
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_N/attackN0002.png": {
+      "frame": {
+        "x": 814,
+        "y": 327,
+        "w": 30,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 109,
+        "w": 30,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_N/attackN0003.png": {
+      "frame": {
+        "x": 846,
+        "y": 327,
+        "w": 32,
+        "h": 49
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 108,
+        "w": 32,
+        "h": 49
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_N/attackN0004.png": {
+      "frame": {
+        "x": 880,
+        "y": 327,
+        "w": 33,
+        "h": 49
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 109,
+        "w": 33,
+        "h": 49
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_N/attackN0005.png": {
+      "frame": {
+        "x": 915,
+        "y": 327,
+        "w": 36,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 110,
+        "w": 36,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_N/attackN0006.png": {
+      "frame": {
+        "x": 953,
+        "y": 327,
+        "w": 37,
+        "h": 47
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 111,
+        "w": 37,
+        "h": 47
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_N/attackN0007.png": {
+      "frame": {
+        "x": 992,
+        "y": 327,
+        "w": 38,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 112,
+        "w": 38,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_N/attackN0008.png": {
+      "frame": {
+        "x": 1032,
+        "y": 327,
+        "w": 38,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 114,
+        "w": 38,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_N/attackN0009.png": {
+      "frame": {
+        "x": 1072,
+        "y": 327,
+        "w": 39,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 114,
+        "w": 39,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_N/attackN0010.png": {
+      "frame": {
+        "x": 1113,
+        "y": 327,
+        "w": 37,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 113,
+        "w": 37,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_N/attackN0011.png": {
+      "frame": {
+        "x": 1152,
+        "y": 327,
+        "w": 35,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 112,
+        "w": 35,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_N/attackN0012.png": {
+      "frame": {
+        "x": 1189,
+        "y": 327,
+        "w": 31,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 111,
+        "w": 31,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_N/attackN0013.png": {
+      "frame": {
+        "x": 1222,
+        "y": 327,
+        "w": 28,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 111,
+        "w": 28,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_N/attackN0014.png": {
+      "frame": {
+        "x": 1252,
+        "y": 327,
+        "w": 25,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 111,
+        "w": 25,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_N/attackN0015.png": {
+      "frame": {
+        "x": 1279,
+        "y": 327,
+        "w": 26,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 111,
+        "w": 26,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_NW/attackNW0001.png": {
+      "frame": {
+        "x": 1307,
+        "y": 327,
+        "w": 29,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 109,
+        "w": 29,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_NW/attackNW0002.png": {
+      "frame": {
+        "x": 1338,
+        "y": 327,
+        "w": 26,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 109,
+        "w": 26,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_NW/attackNW0003.png": {
+      "frame": {
+        "x": 1366,
+        "y": 327,
+        "w": 28,
+        "h": 49
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 106,
+        "w": 28,
+        "h": 49
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_NW/attackNW0004.png": {
+      "frame": {
+        "x": 1396,
+        "y": 327,
+        "w": 29,
+        "h": 49
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 106,
+        "w": 29,
+        "h": 49
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_NW/attackNW0005.png": {
+      "frame": {
+        "x": 1427,
+        "y": 327,
+        "w": 30,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 107,
+        "w": 30,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_NW/attackNW0006.png": {
+      "frame": {
+        "x": 1459,
+        "y": 327,
+        "w": 30,
+        "h": 47
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 108,
+        "w": 30,
+        "h": 47
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_NW/attackNW0007.png": {
+      "frame": {
+        "x": 1491,
+        "y": 327,
+        "w": 29,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 109,
+        "w": 29,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_NW/attackNW0008.png": {
+      "frame": {
+        "x": 1522,
+        "y": 327,
+        "w": 29,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 111,
+        "w": 29,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_NW/attackNW0009.png": {
+      "frame": {
+        "x": 1553,
+        "y": 327,
+        "w": 27,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 111,
+        "w": 27,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_NW/attackNW0010.png": {
+      "frame": {
+        "x": 1582,
+        "y": 327,
+        "w": 27,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 111,
+        "w": 27,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_NW/attackNW0011.png": {
+      "frame": {
+        "x": 1611,
+        "y": 327,
+        "w": 25,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 110,
+        "w": 25,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_NW/attackNW0012.png": {
+      "frame": {
+        "x": 1638,
+        "y": 327,
+        "w": 26,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 110,
+        "w": 26,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_NW/attackNW0013.png": {
+      "frame": {
+        "x": 1666,
+        "y": 327,
+        "w": 30,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 110,
+        "w": 30,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_NW/attackNW0014.png": {
+      "frame": {
+        "x": 1698,
+        "y": 327,
+        "w": 30,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 110,
+        "w": 30,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_NW/attackNW0015.png": {
+      "frame": {
+        "x": 1730,
+        "y": 327,
+        "w": 31,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 110,
+        "w": 31,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_S/attackS0001.png": {
+      "frame": {
+        "x": 1763,
+        "y": 327,
+        "w": 32,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 111,
+        "w": 32,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_S/attackS0002.png": {
+      "frame": {
+        "x": 1797,
+        "y": 327,
+        "w": 33,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 110,
+        "w": 33,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_S/attackS0003.png": {
+      "frame": {
+        "x": 1832,
+        "y": 327,
+        "w": 36,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 108,
+        "w": 36,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_S/attackS0004.png": {
+      "frame": {
+        "x": 1870,
+        "y": 327,
+        "w": 37,
+        "h": 49
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 107,
+        "w": 37,
+        "h": 49
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_S/attackS0005.png": {
+      "frame": {
+        "x": 1909,
+        "y": 327,
+        "w": 38,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 108,
+        "w": 38,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_S/attackS0006.png": {
+      "frame": {
+        "x": 1949,
+        "y": 327,
+        "w": 38,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 108,
+        "w": 38,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_S/attackS0007.png": {
+      "frame": {
+        "x": 1989,
+        "y": 327,
+        "w": 41,
+        "h": 47
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 136,
+        "y": 109,
+        "w": 41,
+        "h": 47
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_S/attackS0008.png": {
+      "frame": {
+        "x": 2032,
+        "y": 327,
+        "w": 40,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 137,
+        "y": 110,
+        "w": 40,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_S/attackS0009.png": {
+      "frame": {
+        "x": 2074,
+        "y": 327,
+        "w": 41,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 137,
+        "y": 110,
+        "w": 41,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_S/attackS0010.png": {
+      "frame": {
+        "x": 2117,
+        "y": 327,
+        "w": 40,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 111,
+        "w": 40,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_S/attackS0011.png": {
+      "frame": {
+        "x": 2159,
+        "y": 327,
+        "w": 35,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 111,
+        "w": 35,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_S/attackS0012.png": {
+      "frame": {
+        "x": 2196,
+        "y": 327,
+        "w": 31,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 110,
+        "w": 31,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_S/attackS0013.png": {
+      "frame": {
+        "x": 2229,
+        "y": 327,
+        "w": 30,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 110,
+        "w": 30,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_S/attackS0014.png": {
+      "frame": {
+        "x": 2261,
+        "y": 327,
+        "w": 29,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 110,
+        "w": 29,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_S/attackS0015.png": {
+      "frame": {
+        "x": 2292,
+        "y": 327,
+        "w": 28,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 110,
+        "w": 28,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_SW/attackSW0001.png": {
+      "frame": {
+        "x": 2322,
+        "y": 327,
+        "w": 35,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 137,
+        "y": 111,
+        "w": 35,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_SW/attackSW0002.png": {
+      "frame": {
+        "x": 2359,
+        "y": 327,
+        "w": 33,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 110,
+        "w": 33,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_SW/attackSW0003.png": {
+      "frame": {
+        "x": 2394,
+        "y": 327,
+        "w": 28,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 108,
+        "w": 28,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_SW/attackSW0004.png": {
+      "frame": {
+        "x": 2424,
+        "y": 327,
+        "w": 28,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 108,
+        "w": 28,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_SW/attackSW0005.png": {
+      "frame": {
+        "x": 2454,
+        "y": 327,
+        "w": 27,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 108,
+        "w": 27,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_SW/attackSW0006.png": {
+      "frame": {
+        "x": 2483,
+        "y": 327,
+        "w": 33,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 108,
+        "w": 33,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_SW/attackSW0007.png": {
+      "frame": {
+        "x": 2518,
+        "y": 327,
+        "w": 35,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 137,
+        "y": 108,
+        "w": 35,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_SW/attackSW0008.png": {
+      "frame": {
+        "x": 2555,
+        "y": 327,
+        "w": 37,
+        "h": 47
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 136,
+        "y": 109,
+        "w": 37,
+        "h": 47
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_SW/attackSW0009.png": {
+      "frame": {
+        "x": 2594,
+        "y": 327,
+        "w": 38,
+        "h": 47
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 136,
+        "y": 109,
+        "w": 38,
+        "h": 47
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_SW/attackSW0010.png": {
+      "frame": {
+        "x": 2634,
+        "y": 327,
+        "w": 39,
+        "h": 47
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 136,
+        "y": 109,
+        "w": 39,
+        "h": 47
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_SW/attackSW0011.png": {
+      "frame": {
+        "x": 2675,
+        "y": 327,
+        "w": 37,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 110,
+        "w": 37,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_SW/attackSW0012.png": {
+      "frame": {
+        "x": 2714,
+        "y": 327,
+        "w": 35,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 110,
+        "w": 35,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_SW/attackSW0013.png": {
+      "frame": {
+        "x": 2751,
+        "y": 327,
+        "w": 34,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 110,
+        "w": 34,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_SW/attackSW0014.png": {
+      "frame": {
+        "x": 2787,
+        "y": 327,
+        "w": 35,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 110,
+        "w": 35,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_SW/attackSW0015.png": {
+      "frame": {
+        "x": 2824,
+        "y": 327,
+        "w": 36,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 110,
+        "w": 36,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_W/attackW0001.png": {
+      "frame": {
+        "x": 2862,
+        "y": 327,
+        "w": 37,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 135,
+        "y": 110,
+        "w": 37,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_W/attackW0002.png": {
+      "frame": {
+        "x": 2901,
+        "y": 327,
+        "w": 34,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 110,
+        "w": 34,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_W/attackW0003.png": {
+      "frame": {
+        "x": 2937,
+        "y": 327,
+        "w": 29,
+        "h": 47
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 109,
+        "w": 29,
+        "h": 47
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_W/attackW0004.png": {
+      "frame": {
+        "x": 2968,
+        "y": 327,
+        "w": 28,
+        "h": 49
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 107,
+        "w": 28,
+        "h": 49
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_W/attackW0005.png": {
+      "frame": {
+        "x": 2998,
+        "y": 327,
+        "w": 29,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 108,
+        "w": 29,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_W/attackW0006.png": {
+      "frame": {
+        "x": 3029,
+        "y": 327,
+        "w": 29,
+        "h": 47
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 109,
+        "w": 29,
+        "h": 47
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_W/attackW0007.png": {
+      "frame": {
+        "x": 3060,
+        "y": 327,
+        "w": 29,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 110,
+        "w": 29,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_W/attackW0008.png": {
+      "frame": {
+        "x": 3091,
+        "y": 327,
+        "w": 31,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 110,
+        "w": 31,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_W/attackW0009.png": {
+      "frame": {
+        "x": 3124,
+        "y": 327,
+        "w": 30,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 110,
+        "w": 30,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_W/attackW0010.png": {
+      "frame": {
+        "x": 3156,
+        "y": 327,
+        "w": 33,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 110,
+        "w": 33,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_W/attackW0011.png": {
+      "frame": {
+        "x": 3191,
+        "y": 327,
+        "w": 34,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 110,
+        "w": 34,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_W/attackW0012.png": {
+      "frame": {
+        "x": 3227,
+        "y": 327,
+        "w": 34,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 110,
+        "w": 34,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_W/attackW0013.png": {
+      "frame": {
+        "x": 3263,
+        "y": 327,
+        "w": 35,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 110,
+        "w": 35,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_W/attackW0014.png": {
+      "frame": {
+        "x": 3300,
+        "y": 327,
+        "w": 36,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 137,
+        "y": 110,
+        "w": 36,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/attack_W/attackW0015.png": {
+      "frame": {
+        "x": 3338,
+        "y": 327,
+        "w": 37,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 136,
+        "y": 110,
+        "w": 37,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_N/dieN0001.png": {
+      "frame": {
+        "x": 3377,
+        "y": 327,
+        "w": 33,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 109,
+        "w": 33,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_N/dieN0002.png": {
+      "frame": {
+        "x": 3412,
+        "y": 327,
+        "w": 33,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 109,
+        "w": 33,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_N/dieN0003.png": {
+      "frame": {
+        "x": 3447,
+        "y": 327,
+        "w": 32,
+        "h": 41
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 112,
+        "w": 32,
+        "h": 41
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_N/dieN0004.png": {
+      "frame": {
+        "x": 3481,
+        "y": 327,
+        "w": 27,
+        "h": 35
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 118,
+        "w": 27,
+        "h": 35
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_N/dieN0005.png": {
+      "frame": {
+        "x": 3510,
+        "y": 327,
+        "w": 28,
+        "h": 33
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 124,
+        "w": 28,
+        "h": 33
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_N/dieN0006.png": {
+      "frame": {
+        "x": 3540,
+        "y": 327,
+        "w": 28,
+        "h": 26
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 151,
+        "y": 137,
+        "w": 28,
+        "h": 26
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_N/dieN0007.png": {
+      "frame": {
+        "x": 3570,
+        "y": 327,
+        "w": 26,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 153,
+        "y": 136,
+        "w": 26,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_N/dieN0008.png": {
+      "frame": {
+        "x": 3598,
+        "y": 327,
+        "w": 27,
+        "h": 37
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 152,
+        "y": 135,
+        "w": 27,
+        "h": 37
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_N/dieN0009.png": {
+      "frame": {
+        "x": 3627,
+        "y": 327,
+        "w": 29,
+        "h": 35
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 137,
+        "w": 29,
+        "h": 35
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_N/dieN0010.png": {
+      "frame": {
+        "x": 3658,
+        "y": 327,
+        "w": 32,
+        "h": 33
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 141,
+        "w": 32,
+        "h": 33
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_N/dieN0011.png": {
+      "frame": {
+        "x": 3692,
+        "y": 327,
+        "w": 35,
+        "h": 33
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 141,
+        "w": 35,
+        "h": 33
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_N/dieN0012.png": {
+      "frame": {
+        "x": 3729,
+        "y": 327,
+        "w": 35,
+        "h": 33
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 141,
+        "w": 35,
+        "h": 33
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_N/dieN0013.png": {
+      "frame": {
+        "x": 3766,
+        "y": 327,
+        "w": 35,
+        "h": 34
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 141,
+        "w": 35,
+        "h": 34
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_N/dieN0014.png": {
+      "frame": {
+        "x": 3803,
+        "y": 327,
+        "w": 35,
+        "h": 34
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 141,
+        "w": 35,
+        "h": 34
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_N/dieN0015.png": {
+      "frame": {
+        "x": 3840,
+        "y": 327,
+        "w": 35,
+        "h": 34
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 141,
+        "w": 35,
+        "h": 34
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_NW/dieNW0001.png": {
+      "frame": {
+        "x": 3877,
+        "y": 327,
+        "w": 25,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 109,
+        "w": 25,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_NW/dieNW0002.png": {
+      "frame": {
+        "x": 3904,
+        "y": 327,
+        "w": 25,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 110,
+        "w": 25,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_NW/dieNW0003.png": {
+      "frame": {
+        "x": 3931,
+        "y": 327,
+        "w": 25,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 110,
+        "w": 25,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_NW/dieNW0004.png": {
+      "frame": {
+        "x": 3958,
+        "y": 327,
+        "w": 25,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 110,
+        "w": 25,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_NW/dieNW0005.png": {
+      "frame": {
+        "x": 3985,
+        "y": 327,
+        "w": 27,
+        "h": 41
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 112,
+        "w": 27,
+        "h": 41
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_NW/dieNW0006.png": {
+      "frame": {
+        "x": 4014,
+        "y": 327,
+        "w": 30,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 112,
+        "w": 30,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_NW/dieNW0007.png": {
+      "frame": {
+        "x": 4046,
+        "y": 327,
+        "w": 36,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 136,
+        "y": 111,
+        "w": 36,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_NW/dieNW0008.png": {
+      "frame": {
+        "x": 1,
+        "y": 385,
+        "w": 40,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 132,
+        "y": 106,
+        "w": 40,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_NW/dieNW0009.png": {
+      "frame": {
+        "x": 43,
+        "y": 385,
+        "w": 48,
+        "h": 42
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 124,
+        "y": 107,
+        "w": 48,
+        "h": 42
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_NW/dieNW0010.png": {
+      "frame": {
+        "x": 93,
+        "y": 385,
+        "w": 60,
+        "h": 31
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 113,
+        "y": 115,
+        "w": 60,
+        "h": 31
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_NW/dieNW0011.png": {
+      "frame": {
+        "x": 155,
+        "y": 385,
+        "w": 63,
+        "h": 27
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 109,
+        "y": 122,
+        "w": 63,
+        "h": 27
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_NW/dieNW0012.png": {
+      "frame": {
+        "x": 220,
+        "y": 385,
+        "w": 65,
+        "h": 28
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 109,
+        "y": 121,
+        "w": 65,
+        "h": 28
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_NW/dieNW0013.png": {
+      "frame": {
+        "x": 287,
+        "y": 385,
+        "w": 66,
+        "h": 26
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 108,
+        "y": 123,
+        "w": 66,
+        "h": 26
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_NW/dieNW0014.png": {
+      "frame": {
+        "x": 355,
+        "y": 385,
+        "w": 67,
+        "h": 25
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 107,
+        "y": 125,
+        "w": 67,
+        "h": 25
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_NW/dieNW0015.png": {
+      "frame": {
+        "x": 424,
+        "y": 385,
+        "w": 66,
+        "h": 23
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 108,
+        "y": 126,
+        "w": 66,
+        "h": 23
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_S/dieS0001.png": {
+      "frame": {
+        "x": 492,
+        "y": 385,
+        "w": 34,
+        "h": 43
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 111,
+        "w": 34,
+        "h": 43
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_S/dieS0002.png": {
+      "frame": {
+        "x": 528,
+        "y": 385,
+        "w": 32,
+        "h": 41
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 113,
+        "w": 32,
+        "h": 41
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_S/dieS0003.png": {
+      "frame": {
+        "x": 562,
+        "y": 385,
+        "w": 31,
+        "h": 43
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 111,
+        "w": 31,
+        "h": 43
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_S/dieS0004.png": {
+      "frame": {
+        "x": 595,
+        "y": 385,
+        "w": 25,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 143,
+        "y": 106,
+        "w": 25,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_S/dieS0005.png": {
+      "frame": {
+        "x": 622,
+        "y": 385,
+        "w": 27,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 142,
+        "y": 106,
+        "w": 27,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_S/dieS0006.png": {
+      "frame": {
+        "x": 651,
+        "y": 385,
+        "w": 28,
+        "h": 41
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 109,
+        "w": 28,
+        "h": 41
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_S/dieS0007.png": {
+      "frame": {
+        "x": 681,
+        "y": 385,
+        "w": 26,
+        "h": 38
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 113,
+        "w": 26,
+        "h": 38
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_S/dieS0008.png": {
+      "frame": {
+        "x": 709,
+        "y": 385,
+        "w": 27,
+        "h": 37
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 114,
+        "w": 27,
+        "h": 37
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_S/dieS0009.png": {
+      "frame": {
+        "x": 738,
+        "y": 385,
+        "w": 28,
+        "h": 39
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 117,
+        "w": 28,
+        "h": 39
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_S/dieS0010.png": {
+      "frame": {
+        "x": 768,
+        "y": 385,
+        "w": 32,
+        "h": 37
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 119,
+        "w": 32,
+        "h": 37
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_S/dieS0011.png": {
+      "frame": {
+        "x": 802,
+        "y": 385,
+        "w": 34,
+        "h": 37
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 119,
+        "w": 34,
+        "h": 37
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_S/dieS0012.png": {
+      "frame": {
+        "x": 838,
+        "y": 385,
+        "w": 35,
+        "h": 37
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 119,
+        "w": 35,
+        "h": 37
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_S/dieS0013.png": {
+      "frame": {
+        "x": 875,
+        "y": 385,
+        "w": 35,
+        "h": 37
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 119,
+        "w": 35,
+        "h": 37
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_S/dieS0014.png": {
+      "frame": {
+        "x": 912,
+        "y": 385,
+        "w": 35,
+        "h": 37
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 119,
+        "w": 35,
+        "h": 37
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_S/dieS0015.png": {
+      "frame": {
+        "x": 949,
+        "y": 385,
+        "w": 35,
+        "h": 37
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 119,
+        "w": 35,
+        "h": 37
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_SW/dieSW0001.png": {
+      "frame": {
+        "x": 986,
+        "y": 385,
+        "w": 32,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 109,
+        "w": 32,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_SW/dieSW0002.png": {
+      "frame": {
+        "x": 1020,
+        "y": 385,
+        "w": 33,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 109,
+        "w": 33,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_SW/dieSW0003.png": {
+      "frame": {
+        "x": 1055,
+        "y": 385,
+        "w": 32,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 109,
+        "w": 32,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_SW/dieSW0004.png": {
+      "frame": {
+        "x": 1089,
+        "y": 385,
+        "w": 31,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 110,
+        "w": 31,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_SW/dieSW0005.png": {
+      "frame": {
+        "x": 1122,
+        "y": 385,
+        "w": 30,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 111,
+        "w": 30,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_SW/dieSW0006.png": {
+      "frame": {
+        "x": 1154,
+        "y": 385,
+        "w": 30,
+        "h": 42
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 112,
+        "w": 30,
+        "h": 42
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_SW/dieSW0007.png": {
+      "frame": {
+        "x": 1186,
+        "y": 385,
+        "w": 29,
+        "h": 41
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 113,
+        "w": 29,
+        "h": 41
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_SW/dieSW0008.png": {
+      "frame": {
+        "x": 1217,
+        "y": 385,
+        "w": 29,
+        "h": 39
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 116,
+        "w": 29,
+        "h": 39
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_SW/dieSW0009.png": {
+      "frame": {
+        "x": 1248,
+        "y": 385,
+        "w": 36,
+        "h": 34
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 127,
+        "y": 125,
+        "w": 36,
+        "h": 34
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_SW/dieSW0010.png": {
+      "frame": {
+        "x": 1286,
+        "y": 385,
+        "w": 44,
+        "h": 33
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 116,
+        "y": 138,
+        "w": 44,
+        "h": 33
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_SW/dieSW0011.png": {
+      "frame": {
+        "x": 1332,
+        "y": 385,
+        "w": 44,
+        "h": 36
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 116,
+        "y": 139,
+        "w": 44,
+        "h": 36
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_SW/dieSW0012.png": {
+      "frame": {
+        "x": 1378,
+        "y": 385,
+        "w": 43,
+        "h": 34
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 117,
+        "y": 141,
+        "w": 43,
+        "h": 34
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_SW/dieSW0013.png": {
+      "frame": {
+        "x": 1423,
+        "y": 385,
+        "w": 43,
+        "h": 35
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 117,
+        "y": 141,
+        "w": 43,
+        "h": 35
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_SW/dieSW0014.png": {
+      "frame": {
+        "x": 1468,
+        "y": 385,
+        "w": 43,
+        "h": 35
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 118,
+        "y": 141,
+        "w": 43,
+        "h": 35
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_SW/dieSW0015.png": {
+      "frame": {
+        "x": 1513,
+        "y": 385,
+        "w": 42,
+        "h": 35
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 119,
+        "y": 141,
+        "w": 42,
+        "h": 35
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_W/dieW0001.png": {
+      "frame": {
+        "x": 1557,
+        "y": 385,
+        "w": 24,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 109,
+        "w": 24,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_W/dieW0002.png": {
+      "frame": {
+        "x": 1583,
+        "y": 385,
+        "w": 25,
+        "h": 41
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 112,
+        "w": 25,
+        "h": 41
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_W/dieW0003.png": {
+      "frame": {
+        "x": 1610,
+        "y": 385,
+        "w": 23,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 112,
+        "w": 23,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_W/dieW0004.png": {
+      "frame": {
+        "x": 1635,
+        "y": 385,
+        "w": 27,
+        "h": 42
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 110,
+        "w": 27,
+        "h": 42
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_W/dieW0005.png": {
+      "frame": {
+        "x": 1664,
+        "y": 385,
+        "w": 33,
+        "h": 41
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 153,
+        "y": 112,
+        "w": 33,
+        "h": 41
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_W/dieW0006.png": {
+      "frame": {
+        "x": 1699,
+        "y": 385,
+        "w": 38,
+        "h": 33
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 157,
+        "y": 119,
+        "w": 38,
+        "h": 33
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_W/dieW0007.png": {
+      "frame": {
+        "x": 1739,
+        "y": 385,
+        "w": 51,
+        "h": 26
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 152,
+        "y": 127,
+        "w": 51,
+        "h": 26
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_W/dieW0008.png": {
+      "frame": {
+        "x": 1792,
+        "y": 385,
+        "w": 62,
+        "h": 19
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 131,
+        "w": 62,
+        "h": 19
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_W/dieW0009.png": {
+      "frame": {
+        "x": 1856,
+        "y": 385,
+        "w": 65,
+        "h": 19
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 132,
+        "w": 65,
+        "h": 19
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_W/dieW0010.png": {
+      "frame": {
+        "x": 1923,
+        "y": 385,
+        "w": 65,
+        "h": 19
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 134,
+        "w": 65,
+        "h": 19
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_W/dieW0011.png": {
+      "frame": {
+        "x": 1990,
+        "y": 385,
+        "w": 65,
+        "h": 22
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 134,
+        "w": 65,
+        "h": 22
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_W/dieW0012.png": {
+      "frame": {
+        "x": 2057,
+        "y": 385,
+        "w": 65,
+        "h": 23
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 134,
+        "w": 65,
+        "h": 23
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_W/dieW0013.png": {
+      "frame": {
+        "x": 2124,
+        "y": 385,
+        "w": 65,
+        "h": 23
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 134,
+        "w": 65,
+        "h": 23
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_W/dieW0014.png": {
+      "frame": {
+        "x": 2191,
+        "y": 385,
+        "w": 65,
+        "h": 23
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 134,
+        "w": 65,
+        "h": 23
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/die_W/dieW0015.png": {
+      "frame": {
+        "x": 2258,
+        "y": 385,
+        "w": 65,
+        "h": 23
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 134,
+        "w": 65,
+        "h": 23
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_N/idleN0001.png": {
+      "frame": {
+        "x": 2325,
+        "y": 385,
+        "w": 23,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 109,
+        "w": 23,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_N/idleN0002.png": {
+      "frame": {
+        "x": 2350,
+        "y": 385,
+        "w": 23,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 109,
+        "w": 23,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_N/idleN0003.png": {
+      "frame": {
+        "x": 2375,
+        "y": 385,
+        "w": 23,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 23,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_N/idleN0004.png": {
+      "frame": {
+        "x": 2400,
+        "y": 385,
+        "w": 23,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 23,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_N/idleN0005.png": {
+      "frame": {
+        "x": 2425,
+        "y": 385,
+        "w": 23,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 23,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_N/idleN0006.png": {
+      "frame": {
+        "x": 2450,
+        "y": 385,
+        "w": 22,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 108,
+        "w": 22,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_N/idleN0007.png": {
+      "frame": {
+        "x": 2474,
+        "y": 385,
+        "w": 22,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 108,
+        "w": 22,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_N/idleN0008.png": {
+      "frame": {
+        "x": 2498,
+        "y": 385,
+        "w": 22,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 108,
+        "w": 22,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_N/idleN0009.png": {
+      "frame": {
+        "x": 2522,
+        "y": 385,
+        "w": 22,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 108,
+        "w": 22,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_N/idleN0010.png": {
+      "frame": {
+        "x": 2546,
+        "y": 385,
+        "w": 22,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 108,
+        "w": 22,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_N/idleN0011.png": {
+      "frame": {
+        "x": 2570,
+        "y": 385,
+        "w": 22,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 108,
+        "w": 22,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_N/idleN0012.png": {
+      "frame": {
+        "x": 2594,
+        "y": 385,
+        "w": 23,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 23,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_N/idleN0013.png": {
+      "frame": {
+        "x": 2619,
+        "y": 385,
+        "w": 22,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 108,
+        "w": 22,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_N/idleN0014.png": {
+      "frame": {
+        "x": 2643,
+        "y": 385,
+        "w": 22,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 108,
+        "w": 22,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_N/idleN0015.png": {
+      "frame": {
+        "x": 2667,
+        "y": 385,
+        "w": 23,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 23,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_NW/idleNW0001.png": {
+      "frame": {
+        "x": 2692,
+        "y": 385,
+        "w": 26,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 108,
+        "w": 26,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_NW/idleNW0002.png": {
+      "frame": {
+        "x": 2720,
+        "y": 385,
+        "w": 26,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 108,
+        "w": 26,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_NW/idleNW0003.png": {
+      "frame": {
+        "x": 2748,
+        "y": 385,
+        "w": 26,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 108,
+        "w": 26,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_NW/idleNW0004.png": {
+      "frame": {
+        "x": 2776,
+        "y": 385,
+        "w": 26,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 108,
+        "w": 26,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_NW/idleNW0005.png": {
+      "frame": {
+        "x": 2804,
+        "y": 385,
+        "w": 26,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 108,
+        "w": 26,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_NW/idleNW0006.png": {
+      "frame": {
+        "x": 2832,
+        "y": 385,
+        "w": 26,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 108,
+        "w": 26,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_NW/idleNW0007.png": {
+      "frame": {
+        "x": 2860,
+        "y": 385,
+        "w": 26,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 108,
+        "w": 26,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_NW/idleNW0008.png": {
+      "frame": {
+        "x": 2888,
+        "y": 385,
+        "w": 24,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 108,
+        "w": 24,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_NW/idleNW0009.png": {
+      "frame": {
+        "x": 2914,
+        "y": 385,
+        "w": 24,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 108,
+        "w": 24,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_NW/idleNW0010.png": {
+      "frame": {
+        "x": 2940,
+        "y": 385,
+        "w": 26,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 108,
+        "w": 26,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_NW/idleNW0011.png": {
+      "frame": {
+        "x": 2968,
+        "y": 385,
+        "w": 25,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 108,
+        "w": 25,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_NW/idleNW0012.png": {
+      "frame": {
+        "x": 2995,
+        "y": 385,
+        "w": 25,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 108,
+        "w": 25,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_NW/idleNW0013.png": {
+      "frame": {
+        "x": 3022,
+        "y": 385,
+        "w": 25,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 108,
+        "w": 25,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_NW/idleNW0014.png": {
+      "frame": {
+        "x": 3049,
+        "y": 385,
+        "w": 26,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 108,
+        "w": 26,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_NW/idleNW0015.png": {
+      "frame": {
+        "x": 3077,
+        "y": 385,
+        "w": 26,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 108,
+        "w": 26,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_S/idleS0001.png": {
+      "frame": {
+        "x": 3105,
+        "y": 385,
+        "w": 25,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 109,
+        "w": 25,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_S/idleS0002.png": {
+      "frame": {
+        "x": 3132,
+        "y": 385,
+        "w": 25,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 109,
+        "w": 25,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_S/idleS0003.png": {
+      "frame": {
+        "x": 3159,
+        "y": 385,
+        "w": 25,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 109,
+        "w": 25,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_S/idleS0004.png": {
+      "frame": {
+        "x": 3186,
+        "y": 385,
+        "w": 25,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 109,
+        "w": 25,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_S/idleS0005.png": {
+      "frame": {
+        "x": 3213,
+        "y": 385,
+        "w": 25,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 110,
+        "w": 25,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_S/idleS0006.png": {
+      "frame": {
+        "x": 3240,
+        "y": 385,
+        "w": 25,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 110,
+        "w": 25,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_S/idleS0007.png": {
+      "frame": {
+        "x": 3267,
+        "y": 385,
+        "w": 25,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 110,
+        "w": 25,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_S/idleS0008.png": {
+      "frame": {
+        "x": 3294,
+        "y": 385,
+        "w": 25,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 110,
+        "w": 25,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_S/idleS0009.png": {
+      "frame": {
+        "x": 3321,
+        "y": 385,
+        "w": 25,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 110,
+        "w": 25,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_S/idleS0010.png": {
+      "frame": {
+        "x": 3348,
+        "y": 385,
+        "w": 25,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 110,
+        "w": 25,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_S/idleS0011.png": {
+      "frame": {
+        "x": 3375,
+        "y": 385,
+        "w": 25,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 110,
+        "w": 25,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_S/idleS0012.png": {
+      "frame": {
+        "x": 3402,
+        "y": 385,
+        "w": 25,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 109,
+        "w": 25,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_S/idleS0013.png": {
+      "frame": {
+        "x": 3429,
+        "y": 385,
+        "w": 25,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 109,
+        "w": 25,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_S/idleS0014.png": {
+      "frame": {
+        "x": 3456,
+        "y": 385,
+        "w": 25,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 109,
+        "w": 25,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_S/idleS0015.png": {
+      "frame": {
+        "x": 3483,
+        "y": 385,
+        "w": 25,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 109,
+        "w": 25,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_SW/idleSW0001.png": {
+      "frame": {
+        "x": 3510,
+        "y": 385,
+        "w": 28,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 109,
+        "w": 28,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_SW/idleSW0002.png": {
+      "frame": {
+        "x": 3540,
+        "y": 385,
+        "w": 28,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 109,
+        "w": 28,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_SW/idleSW0003.png": {
+      "frame": {
+        "x": 3570,
+        "y": 385,
+        "w": 28,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 109,
+        "w": 28,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_SW/idleSW0004.png": {
+      "frame": {
+        "x": 3600,
+        "y": 385,
+        "w": 28,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 109,
+        "w": 28,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_SW/idleSW0005.png": {
+      "frame": {
+        "x": 3630,
+        "y": 385,
+        "w": 27,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 109,
+        "w": 27,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_SW/idleSW0006.png": {
+      "frame": {
+        "x": 3659,
+        "y": 385,
+        "w": 27,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 109,
+        "w": 27,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_SW/idleSW0007.png": {
+      "frame": {
+        "x": 3688,
+        "y": 385,
+        "w": 27,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 109,
+        "w": 27,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_SW/idleSW0008.png": {
+      "frame": {
+        "x": 3717,
+        "y": 385,
+        "w": 27,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 110,
+        "w": 27,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_SW/idleSW0009.png": {
+      "frame": {
+        "x": 3746,
+        "y": 385,
+        "w": 27,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 110,
+        "w": 27,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_SW/idleSW0010.png": {
+      "frame": {
+        "x": 3775,
+        "y": 385,
+        "w": 27,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 150,
+        "y": 109,
+        "w": 27,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_SW/idleSW0011.png": {
+      "frame": {
+        "x": 3804,
+        "y": 385,
+        "w": 28,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 109,
+        "w": 28,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_SW/idleSW0012.png": {
+      "frame": {
+        "x": 3834,
+        "y": 385,
+        "w": 28,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 109,
+        "w": 28,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_SW/idleSW0013.png": {
+      "frame": {
+        "x": 3864,
+        "y": 385,
+        "w": 28,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 109,
+        "w": 28,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_SW/idleSW0014.png": {
+      "frame": {
+        "x": 3894,
+        "y": 385,
+        "w": 28,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 109,
+        "w": 28,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_SW/idleSW0015.png": {
+      "frame": {
+        "x": 3924,
+        "y": 385,
+        "w": 28,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 109,
+        "w": 28,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_W/idleW0001.png": {
+      "frame": {
+        "x": 3954,
+        "y": 385,
+        "w": 29,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 109,
+        "w": 29,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_W/idleW0002.png": {
+      "frame": {
+        "x": 3985,
+        "y": 385,
+        "w": 29,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 109,
+        "w": 29,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_W/idleW0003.png": {
+      "frame": {
+        "x": 4016,
+        "y": 385,
+        "w": 29,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 109,
+        "w": 29,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_W/idleW0004.png": {
+      "frame": {
+        "x": 4047,
+        "y": 385,
+        "w": 28,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 108,
+        "w": 28,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_W/idleW0005.png": {
+      "frame": {
+        "x": 1,
+        "y": 435,
+        "w": 28,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 109,
+        "w": 28,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_W/idleW0006.png": {
+      "frame": {
+        "x": 31,
+        "y": 435,
+        "w": 28,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 109,
+        "w": 28,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_W/idleW0007.png": {
+      "frame": {
+        "x": 61,
+        "y": 435,
+        "w": 28,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 109,
+        "w": 28,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_W/idleW0008.png": {
+      "frame": {
+        "x": 91,
+        "y": 435,
+        "w": 28,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 109,
+        "w": 28,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_W/idleW0009.png": {
+      "frame": {
+        "x": 121,
+        "y": 435,
+        "w": 28,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 109,
+        "w": 28,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_W/idleW0010.png": {
+      "frame": {
+        "x": 151,
+        "y": 435,
+        "w": 28,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 109,
+        "w": 28,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_W/idleW0011.png": {
+      "frame": {
+        "x": 181,
+        "y": 435,
+        "w": 29,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 109,
+        "w": 29,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_W/idleW0012.png": {
+      "frame": {
+        "x": 212,
+        "y": 435,
+        "w": 29,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 109,
+        "w": 29,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_W/idleW0013.png": {
+      "frame": {
+        "x": 243,
+        "y": 435,
+        "w": 29,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 109,
+        "w": 29,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_W/idleW0014.png": {
+      "frame": {
+        "x": 274,
+        "y": 435,
+        "w": 28,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 109,
+        "w": 28,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/idle_W/idleW0015.png": {
+      "frame": {
+        "x": 304,
+        "y": 435,
+        "w": 29,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 109,
+        "w": 29,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_N/runN0001.png": {
+      "frame": {
+        "x": 335,
+        "y": 435,
+        "w": 27,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 109,
+        "w": 27,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_N/runN0002.png": {
+      "frame": {
+        "x": 364,
+        "y": 435,
+        "w": 26,
+        "h": 43
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 109,
+        "w": 26,
+        "h": 43
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_N/runN0003.png": {
+      "frame": {
+        "x": 392,
+        "y": 435,
+        "w": 26,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 109,
+        "w": 26,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_N/runN0004.png": {
+      "frame": {
+        "x": 420,
+        "y": 435,
+        "w": 26,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 109,
+        "w": 26,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_N/runN0005.png": {
+      "frame": {
+        "x": 448,
+        "y": 435,
+        "w": 27,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 109,
+        "w": 27,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_N/runN0006.png": {
+      "frame": {
+        "x": 477,
+        "y": 435,
+        "w": 28,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 109,
+        "w": 28,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_N/runN0007.png": {
+      "frame": {
+        "x": 507,
+        "y": 435,
+        "w": 28,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 109,
+        "w": 28,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_N/runN0008.png": {
+      "frame": {
+        "x": 537,
+        "y": 435,
+        "w": 26,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 109,
+        "w": 26,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_N/runN0009.png": {
+      "frame": {
+        "x": 565,
+        "y": 435,
+        "w": 27,
+        "h": 41
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 110,
+        "w": 27,
+        "h": 41
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_N/runN0010.png": {
+      "frame": {
+        "x": 594,
+        "y": 435,
+        "w": 28,
+        "h": 43
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 109,
+        "w": 28,
+        "h": 43
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_N/runN0011.png": {
+      "frame": {
+        "x": 624,
+        "y": 435,
+        "w": 27,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 109,
+        "w": 27,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_N/runN0012.png": {
+      "frame": {
+        "x": 653,
+        "y": 435,
+        "w": 27,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 109,
+        "w": 27,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_N/runN0013.png": {
+      "frame": {
+        "x": 682,
+        "y": 435,
+        "w": 26,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 109,
+        "w": 26,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_N/runN0014.png": {
+      "frame": {
+        "x": 710,
+        "y": 435,
+        "w": 26,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 109,
+        "w": 26,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_N/runN0015.png": {
+      "frame": {
+        "x": 738,
+        "y": 435,
+        "w": 27,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 109,
+        "w": 27,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_NW/runNW0001.png": {
+      "frame": {
+        "x": 767,
+        "y": 435,
+        "w": 32,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 109,
+        "w": 32,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_NW/runNW0002.png": {
+      "frame": {
+        "x": 801,
+        "y": 435,
+        "w": 32,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 109,
+        "w": 32,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_NW/runNW0003.png": {
+      "frame": {
+        "x": 835,
+        "y": 435,
+        "w": 31,
+        "h": 43
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 109,
+        "w": 31,
+        "h": 43
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_NW/runNW0004.png": {
+      "frame": {
+        "x": 868,
+        "y": 435,
+        "w": 32,
+        "h": 43
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 137,
+        "y": 109,
+        "w": 32,
+        "h": 43
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_NW/runNW0005.png": {
+      "frame": {
+        "x": 902,
+        "y": 435,
+        "w": 33,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 137,
+        "y": 109,
+        "w": 33,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_NW/runNW0006.png": {
+      "frame": {
+        "x": 937,
+        "y": 435,
+        "w": 36,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 137,
+        "y": 109,
+        "w": 36,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_NW/runNW0007.png": {
+      "frame": {
+        "x": 975,
+        "y": 435,
+        "w": 36,
+        "h": 43
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 137,
+        "y": 109,
+        "w": 36,
+        "h": 43
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_NW/runNW0008.png": {
+      "frame": {
+        "x": 1013,
+        "y": 435,
+        "w": 34,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 109,
+        "w": 34,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_NW/runNW0009.png": {
+      "frame": {
+        "x": 1049,
+        "y": 435,
+        "w": 33,
+        "h": 43
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 137,
+        "y": 109,
+        "w": 33,
+        "h": 43
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_NW/runNW0010.png": {
+      "frame": {
+        "x": 1084,
+        "y": 435,
+        "w": 31,
+        "h": 43
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 139,
+        "y": 109,
+        "w": 31,
+        "h": 43
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_NW/runNW0011.png": {
+      "frame": {
+        "x": 1117,
+        "y": 435,
+        "w": 32,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 109,
+        "w": 32,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_NW/runNW0012.png": {
+      "frame": {
+        "x": 1151,
+        "y": 435,
+        "w": 32,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 109,
+        "w": 32,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_NW/runNW0013.png": {
+      "frame": {
+        "x": 1185,
+        "y": 435,
+        "w": 32,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 108,
+        "w": 32,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_NW/runNW0014.png": {
+      "frame": {
+        "x": 1219,
+        "y": 435,
+        "w": 32,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 108,
+        "w": 32,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_NW/runNW0015.png": {
+      "frame": {
+        "x": 1253,
+        "y": 435,
+        "w": 32,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 138,
+        "y": 109,
+        "w": 32,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_S/runS0001.png": {
+      "frame": {
+        "x": 1287,
+        "y": 435,
+        "w": 28,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 28,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_S/runS0002.png": {
+      "frame": {
+        "x": 1317,
+        "y": 435,
+        "w": 27,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 27,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_S/runS0003.png": {
+      "frame": {
+        "x": 1346,
+        "y": 435,
+        "w": 26,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 26,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_S/runS0004.png": {
+      "frame": {
+        "x": 1374,
+        "y": 435,
+        "w": 27,
+        "h": 47
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 27,
+        "h": 47
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_S/runS0005.png": {
+      "frame": {
+        "x": 1403,
+        "y": 435,
+        "w": 28,
+        "h": 47
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 28,
+        "h": 47
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_S/runS0006.png": {
+      "frame": {
+        "x": 1433,
+        "y": 435,
+        "w": 27,
+        "h": 47
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 108,
+        "w": 27,
+        "h": 47
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_S/runS0007.png": {
+      "frame": {
+        "x": 1462,
+        "y": 435,
+        "w": 29,
+        "h": 47
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 29,
+        "h": 47
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_S/runS0008.png": {
+      "frame": {
+        "x": 1493,
+        "y": 435,
+        "w": 29,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 29,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_S/runS0009.png": {
+      "frame": {
+        "x": 1524,
+        "y": 435,
+        "w": 29,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 29,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_S/runS0010.png": {
+      "frame": {
+        "x": 1555,
+        "y": 435,
+        "w": 29,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 29,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_S/runS0011.png": {
+      "frame": {
+        "x": 1586,
+        "y": 435,
+        "w": 28,
+        "h": 47
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 28,
+        "h": 47
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_S/runS0012.png": {
+      "frame": {
+        "x": 1616,
+        "y": 435,
+        "w": 27,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 27,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_S/runS0013.png": {
+      "frame": {
+        "x": 1645,
+        "y": 435,
+        "w": 26,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 26,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_S/runS0014.png": {
+      "frame": {
+        "x": 1673,
+        "y": 435,
+        "w": 27,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 27,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_S/runS0015.png": {
+      "frame": {
+        "x": 1702,
+        "y": 435,
+        "w": 27,
+        "h": 47
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 27,
+        "h": 47
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_SW/runSW0001.png": {
+      "frame": {
+        "x": 1731,
+        "y": 435,
+        "w": 29,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 108,
+        "w": 29,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_SW/runSW0002.png": {
+      "frame": {
+        "x": 1762,
+        "y": 435,
+        "w": 29,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 108,
+        "w": 29,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_SW/runSW0003.png": {
+      "frame": {
+        "x": 1793,
+        "y": 435,
+        "w": 29,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 108,
+        "w": 29,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_SW/runSW0004.png": {
+      "frame": {
+        "x": 1824,
+        "y": 435,
+        "w": 31,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 109,
+        "w": 31,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_SW/runSW0005.png": {
+      "frame": {
+        "x": 1857,
+        "y": 435,
+        "w": 30,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 109,
+        "w": 30,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_SW/runSW0006.png": {
+      "frame": {
+        "x": 1889,
+        "y": 435,
+        "w": 29,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 108,
+        "w": 29,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_SW/runSW0007.png": {
+      "frame": {
+        "x": 1920,
+        "y": 435,
+        "w": 28,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 108,
+        "w": 28,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_SW/runSW0008.png": {
+      "frame": {
+        "x": 1950,
+        "y": 435,
+        "w": 28,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 108,
+        "w": 28,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_SW/runSW0009.png": {
+      "frame": {
+        "x": 1980,
+        "y": 435,
+        "w": 27,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 108,
+        "w": 27,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_SW/runSW0010.png": {
+      "frame": {
+        "x": 2009,
+        "y": 435,
+        "w": 26,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 149,
+        "y": 108,
+        "w": 26,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_SW/runSW0011.png": {
+      "frame": {
+        "x": 2037,
+        "y": 435,
+        "w": 29,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 108,
+        "w": 29,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_SW/runSW0012.png": {
+      "frame": {
+        "x": 2068,
+        "y": 435,
+        "w": 30,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 108,
+        "w": 30,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_SW/runSW0013.png": {
+      "frame": {
+        "x": 2100,
+        "y": 435,
+        "w": 30,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 108,
+        "w": 30,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_SW/runSW0014.png": {
+      "frame": {
+        "x": 2132,
+        "y": 435,
+        "w": 29,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 146,
+        "y": 108,
+        "w": 29,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_SW/runSW0015.png": {
+      "frame": {
+        "x": 2163,
+        "y": 435,
+        "w": 28,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 147,
+        "y": 108,
+        "w": 28,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_W/runW0001.png": {
+      "frame": {
+        "x": 2193,
+        "y": 435,
+        "w": 32,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 108,
+        "w": 32,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_W/runW0002.png": {
+      "frame": {
+        "x": 2227,
+        "y": 435,
+        "w": 31,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 109,
+        "w": 31,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_W/runW0003.png": {
+      "frame": {
+        "x": 2260,
+        "y": 435,
+        "w": 31,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 109,
+        "w": 31,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_W/runW0004.png": {
+      "frame": {
+        "x": 2293,
+        "y": 435,
+        "w": 31,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 109,
+        "w": 31,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_W/runW0005.png": {
+      "frame": {
+        "x": 2326,
+        "y": 435,
+        "w": 32,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 109,
+        "w": 32,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_W/runW0006.png": {
+      "frame": {
+        "x": 2360,
+        "y": 435,
+        "w": 34,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 109,
+        "w": 34,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_W/runW0007.png": {
+      "frame": {
+        "x": 2396,
+        "y": 435,
+        "w": 34,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 109,
+        "w": 34,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_W/runW0008.png": {
+      "frame": {
+        "x": 2432,
+        "y": 435,
+        "w": 31,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 109,
+        "w": 31,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_W/runW0009.png": {
+      "frame": {
+        "x": 2465,
+        "y": 435,
+        "w": 31,
+        "h": 43
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 109,
+        "w": 31,
+        "h": 43
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_W/runW0010.png": {
+      "frame": {
+        "x": 2498,
+        "y": 435,
+        "w": 31,
+        "h": 43
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 109,
+        "w": 31,
+        "h": 43
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_W/runW0011.png": {
+      "frame": {
+        "x": 2531,
+        "y": 435,
+        "w": 31,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 108,
+        "w": 31,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_W/runW0012.png": {
+      "frame": {
+        "x": 2564,
+        "y": 435,
+        "w": 32,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 108,
+        "w": 32,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_W/runW0013.png": {
+      "frame": {
+        "x": 2598,
+        "y": 435,
+        "w": 32,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 108,
+        "w": 32,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_W/runW0014.png": {
+      "frame": {
+        "x": 2632,
+        "y": 435,
+        "w": 34,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 140,
+        "y": 108,
+        "w": 34,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    },
+    "crossbow/run_W/runW0015.png": {
+      "frame": {
+        "x": 2668,
+        "y": 435,
+        "w": 33,
+        "h": 45
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 108,
+        "w": 33,
+        "h": 45
+      },
+      "sourceSize": {
+        "w": 320,
+        "h": 240
+      }
+    }
+  }
+}
