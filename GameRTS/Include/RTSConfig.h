@@ -36,6 +36,9 @@ class GameOptions : public Module<GameOptions>
   //Editor
   static int s_Terrain;
 
+  //Units
+  static int s_UnitTypes;
+
   //PathFinders
   static int s_PfPositions;
   static int s_PathFindingTypes;
@@ -49,6 +52,7 @@ class GameOptions : public Module<GameOptions>
   static bool s_Editor;
   static bool s_GameOptions;
   static bool s_PathFinders;
+  static bool s_UnitEditor;
 
 };
 

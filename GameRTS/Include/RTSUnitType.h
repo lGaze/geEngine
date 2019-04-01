@@ -7,7 +7,8 @@ namespace RTSGame {
   using geEngineSDK::Box2D;
 
   namespace ANIMATIONS {
-    enum E {
+    enum E
+    {
       kIDLE = 0,
       kRUN,
       kATTACK,
@@ -16,8 +17,20 @@ namespace RTSGame {
     };
   }
 
+  namespace UNIT_TYPE {
+    enum E
+    {
+      kArcher = 0,
+      kKnight,
+      kCrossbow,
+      kNUM_UNIT_TYPES
+    };
+    static Vector<String> unitType = { "Archer", "knight", "Crossbow" };
+  }
+
   namespace DIRECTIONS {
-    enum E {
+    enum E
+    {
       kN = 0,
       kNW,
       kW,
@@ -29,6 +42,8 @@ namespace RTSGame {
       kNUM_DIRECTIONS
     };
   }
+
+
 
   struct AnimationFrame
   {
@@ -49,27 +64,40 @@ namespace RTSGame {
 
   class RTSUnitType
   {
-   public:
-     RTSUnitType();
-     ~RTSUnitType();
+  public:
+    RTSUnitType();
+    ~RTSUnitType();
 
-     static RTSUnitType*
-     loadFromFile(uint32 idUnitType);
-
-     
-
-     void
-     loadAnimationData(sf::RenderTarget* pTarget, uint32 idUnitType);
-
-   private:
-     uint32 m_id;
-     String m_name;
+    static RTSUnitType*
+      loadFromFile( uint32 idUnitType );
 
 
-     Vector<Animation> m_animationFrames;
-     RTSTexture m_texture;
-     sf::RenderTarget* m_pTarget;
-     bool m_texLoaded;
+
+    void
+      loadAnimationData( sf::RenderTarget* pTarget, uint32 idUnitType );
+
+
+    RTSTexture&
+      getTexture()
+    {
+      return *m_texture;
+    };
+
+    Vector<Animation>
+      getAnimation() const
+    {
+      return m_animationFrames;
+    };
+
+  private:
+    uint32 m_id;
+    String m_name;
+
+
+    Vector<Animation> m_animationFrames;
+    RTSTexture * m_texture;
+    sf::RenderTarget* m_pTarget;
+    bool m_texLoaded;
 
   };
 }

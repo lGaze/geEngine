@@ -1,5 +1,6 @@
 #include "RTSConfig.h"
 
+
 Vector2I GameOptions::s_Resolution = Vector2I(1920, 1080);
 Vector2 GameOptions::s_MapMovementSpeed = Vector2(1024.0f, 1024.0f);
 
@@ -23,8 +24,10 @@ int::GameOptions::s_Terrain = -1;
 bool::GameOptions::s_Editor = false;
 bool::GameOptions::s_GameOptions = false;
 bool::GameOptions::s_PathFinders = false;
+bool::GameOptions::s_UnitEditor = false;
 int::GameOptions::s_PfPositions = -1;
 int::GameOptions::s_PathFindingTypes = -1;
+int::GameOptions::s_UnitTypes = -1;
 
 GameOptions&
 g_gameOptions() {

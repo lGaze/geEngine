@@ -6,47 +6,53 @@
 using namespace geEngineSDK;
 using namespace WALKSTATE;
 
-class RTSTexture;
-class RTSMapTileNode;
-class RTSDijkstraMapGridWalker : public RTSMapGridWalker
-{
-public:
+namespace RTSGame {
 
-  RTSDijkstraMapGridWalker(void);
-  RTSDijkstraMapGridWalker(RTSTiledMap *pMap);
-  ~RTSDijkstraMapGridWalker(void);
+  class RTSTexture;
+  class RTSMapTileNode;
+  class RTSDijkstraMapGridWalker : public RTSMapGridWalker
+  {
+  public:
 
-  /************************************************************************/
-  /* Funciones de ayuda de la clase                                       */
-  /************************************************************************/
+    RTSDijkstraMapGridWalker( void );
+    RTSDijkstraMapGridWalker( RTSTiledMap *pMap );
+    ~RTSDijkstraMapGridWalker( void );
 
-public:
+    /************************************************************************/
+    /* Funciones de ayuda de la clase                                       */
+    /************************************************************************/
 
-  virtual bool Init(sf::RenderTarget * target);
-  virtual void Destroy();
-  virtual WALKSTATE::E Update();
-  virtual void Render();
-  virtual void PathRender();
-  virtual void Reset();
-  virtual void traceBack();
-  virtual bool weightedGraphSupported() { return false; };
+  public:
 
-protected:
+    virtual bool Init( sf::RenderTarget * target );
+    virtual void Destroy();
+    virtual WALKSTATE::E Update();
+    virtual void Render();
+    virtual void PathRender();
+    virtual void Reset();
+    virtual void traceBack();
+    virtual bool weightedGraphSupported()
+    {
+      return false;
+    };
 
-  virtual void visitGridNode(int32 x, int32 y);
+  protected:
+
+    virtual void visitGridNode( int32 x, int32 y );
 
 
-private:
+  private:
 
-  RTSTexture * m_bestPathTex;
-  RTSTexture * m_patTex;
-  List<RTSMapTileNode*> m_open;			//Nuestra lista abierta utilizando un queue ordinario
-  Vector<RTSMapTileNode *> m_close;
-  RTSMapTileNode *m_start, *m_n, *m_end;		//Punteros a los nodos de inicio, uso y final
-  RTSMapTileNode **m_nodegrid;					//Matriz para almacenamiento de los nodos del mapa
-  Vector<RTSMapTileNode *> m_bestPath;
+    RTSTexture * m_bestPathTex;
+    RTSTexture * m_patTex;
+    List<RTSMapTileNode*> m_open;			//Nuestra lista abierta utilizando un queue ordinario
+    Vector<RTSMapTileNode *> m_close;
+    RTSMapTileNode *m_start, *m_n, *m_end;		//Punteros a los nodos de inicio, uso y final
+    RTSMapTileNode **m_nodegrid;					//Matriz para almacenamiento de los nodos del mapa
+    Vector<RTSMapTileNode *> m_bestPath;
 
-  void
-  PriorityQueue(int32 x, int32 y);
+    void
+      PriorityQueue( int32 x, int32 y );
 
-};
+  };
+}

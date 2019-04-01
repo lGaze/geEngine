@@ -5,61 +5,72 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "RTSUnitType.h"
+
 using namespace geEngineSDK;
 
-class RTSTiledMap;
-class RTSMapGridWalker;
-class RTSUnitType;
+namespace RTSGame {
 
-class RTSWorld
-{
- public:
-  RTSWorld();
-  ~RTSWorld();
+  class RTSMapGridWalker;
+  class RTSUnitType;
+  class RTSUnit;
+  class RTSTiledMap;
 
- public:
-  bool
-  init(sf::RenderTarget* pTarget);
 
-  void
-  destroy();
+  class RTSWorld
+  {
+  public:
+    RTSWorld();
+    ~RTSWorld();
 
-  void
-  update(float deltaTime);
+  public:
+    bool
+      init( sf::RenderTarget* pTarget );
 
-  void
-  render();
+    void
+      destroy();
 
-  RTSTiledMap*
-  getTiledMap() {
-    return m_pTiledMap;
-  }
+    void
+      update( float deltaTime );
 
-  void
-  resetPath();
+    void
+      render();
 
-  void
-  setStartPos(int32 x, int32 y);
+    RTSTiledMap*
+      getTiledMap()
+    {
+      return m_pTiledMap;
+    }
 
-  void
-  setEndPos(int32 x, int32 y);
+    void
+      resetPath();
 
-  void
-  updateResolutionData();
+    void
+      setStartPos( int32 x, int32 y );
 
-  void
-  setCurrentWalker(const int8 index);
+    void
+      setEndPos( int32 x, int32 y );
 
- private:
-  RTSTiledMap* m_pTiledMap;
-  //List<RTSUnitType*> m_lstUnitTypes;
-  //List<RTSUnit*> m_lstUnits;
-  
-  Vector<RTSMapGridWalker*> m_walkersList;
- // Vector<void*> m_walkersList;
-  RTSMapGridWalker* m_activeWalker;
- //void* m_activeWalker;
-  int8 m_activeWalkerIndex;
+    void
+      updateResolutionData();
 
-  sf::RenderTarget* m_pTarget;
-};
+    void
+      setCurrentWalker( const int8 index );
+
+    void
+      createUnit( UNIT_TYPE::E type, uint32 posX, uint32 posY );
+
+  private:
+    RTSTiledMap* m_pTiledMap;
+    Vector<RTSGame::RTSUnitType*> m_lstUnitTypes;
+    Vector<RTSUnit*> m_lstUnits;
+
+    Vector<RTSMapGridWalker*> m_walkersList;
+   // Vector<void*> m_walkersList;
+    RTSMapGridWalker* m_activeWalker;
+   //void* m_activeWalker;
+    int8 m_activeWalkerIndex;
+
+    sf::RenderTarget* m_pTarget;
+  };
+}

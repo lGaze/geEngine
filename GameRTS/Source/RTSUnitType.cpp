@@ -8,12 +8,17 @@ using namespace geEngineSDK;
 using nlohmann::json;
 
 namespace RTSGame {
-  RTSUnitType::RTSUnitType() : m_texLoaded(false) {}
+  RTSUnitType::RTSUnitType() : m_texLoaded( false ), m_texture(nullptr)
+  {
+  }
 
-  RTSUnitType::~RTSUnitType() {}
+  RTSUnitType::~RTSUnitType()
+  {
+  }
 
   void
-  RTSUnitType::loadAnimationData(sf::RenderTarget* pTarget, uint32 idUnitType) {
+    RTSUnitType::loadAnimationData( sf::RenderTarget* pTarget, uint32 idUnitType )
+  {
     struct tmpStruct
     {
       uint32 id;
@@ -22,27 +27,30 @@ namespace RTSGame {
 
     Path filePath = "RTS/assets/game_objects/units/";
     Path jsonPath = filePath;
-    jsonPath += toString(idUnitType) + ".json";
-    DataStreamPtr fData = FileSystem::openFile(jsonPath);
-    auto myJSON = json::parse(fData->getAsString());
+    jsonPath += toString( idUnitType ) + ".json";
+    DataStreamPtr fData = FileSystem::openFile( jsonPath );
+    auto myJSON = json::parse( fData->getAsString() );
 
     auto& frames = myJSON["frames"];
     Map<String, tmpStruct> unitsMap;
     Map<String, uint32> animsMap;
 
-    for (auto iter = frames.begin(); iter != frames.end(); ++iter) {
-      Vector<String> parsedKey = StringUtil::split(iter.key().c_str(), "/");
-      Vector<String> parsedAnim = StringUtil::split(parsedKey[1], "_");
+    for ( auto iter = frames.begin(); iter != frames.end(); ++iter )
+    {
+      Vector<String> parsedKey = StringUtil::split( iter.key().c_str(), "/" );
+      Vector<String> parsedAnim = StringUtil::split( parsedKey[1], "_" );
 
       //Categorize all the animations in the file
       tmpStruct& tmpObj = unitsMap[parsedKey[0]];
-      tmpObj.id = static_cast<uint32>(unitsMap.size());
-      if (tmpObj.animation.end() == tmpObj.animation.find(parsedAnim[0])) {
+      tmpObj.id = static_cast< uint32 >( unitsMap.size() );
+      if ( tmpObj.animation.end() == tmpObj.animation.find( parsedAnim[0] ) )
+      {
         tmpObj.animation[parsedAnim[0]] = 0;
       }
 
       //Add a frame only on one direction to avoid repetition
-      if (0 == StringUtil::compare(parsedAnim[1], String("N"))) {
+      if ( 0 == StringUtil::compare( parsedAnim[1], String( "N" ) ) )
+      {
         tmpObj.animation[parsedAnim[0]]++;
       }
     }
@@ -56,30 +64,35 @@ namespace RTSGame {
     };
 
     //Read the information pertinent from the main json and copy to the class
-    m_id = idUnitType;
+    m_id = unitsMap.size();
 
-    for (auto& unit : unitsMap) {
-      if (idUnitType == unit.second.id) {
+    for ( auto& unit : unitsMap )
+    {
+      if ( m_id == unit.second.id )
+      {
         m_name = unit.first;
-        m_animationFrames.resize(unit.second.animation.size());
+        m_animationFrames.resize( unit.second.animation.size() );
 
         uint32 count = 0;
-        for (auto& animation : unit.second.animation) {
+        for ( auto& animation : unit.second.animation )
+        {
           Animation& locAnim = m_animationFrames[count];
           locAnim.name = animation.first;
           locAnim.numFrames = animation.second;
           locAnim.duration = 1.0f; //Seconds
 
-          for (uint32 i = 0; i < DIRECTIONS::kNUM_DIRECTIONS; ++i) {
-            locAnim.frames[i].resize(locAnim.numFrames);
-            
-            for (uint32 j = 0; j < locAnim.numFrames; ++j) {
+          for ( uint32 i = 0; i < DIRECTIONS::kNUM_DIRECTIONS; ++i )
+          {
+            locAnim.frames[i].resize( locAnim.numFrames );
+
+            for ( uint32 j = 0; j < locAnim.numFrames; ++j )
+            {
               StringStream frameName;
               String fullKey;
               frameName << m_name << "/" << locAnim.name << "_";
               frameName << dirSubIndex[i] << "/";
               frameName << locAnim.name << dirSubIndex[i];
-              frameName << std::setfill('0') << std::setw(4) << (j+1);
+              frameName << std::setfill( '0' ) << std::setw( 4 ) << ( j + 1 );
               frameName << ".png";
               frameName >> fullKey;
 
@@ -99,9 +112,10 @@ namespace RTSGame {
 
     //Load the texture for this unit type
     m_pTarget = pTarget;
-    if (!m_texLoaded)
+    if ( !m_texLoaded )
     {
-      m_texture.loadFromFile(pTarget, filePath.toString() + "units.png");
+      m_texture = ge_new<RTSTexture>();
+      m_texture->loadFromFile( pTarget, filePath.toString() + "units.png" );
       m_texLoaded = true;
     }
   }

@@ -7,6 +7,7 @@
 #include "RTSApplication.h"
 
 using namespace geEngineSDK;
+using namespace RTSGame;
 
 int main() {
   RTSApplication rtsApp;
