@@ -25,6 +25,7 @@ bool::GameOptions::s_Editor = false;
 bool::GameOptions::s_GameOptions = false;
 bool::GameOptions::s_PathFinders = false;
 bool::GameOptions::s_UnitEditor = false;
+bool::GameOptions::s_SelectUnits = false;
 int::GameOptions::s_PfPositions = -1;
 int::GameOptions::s_PathFindingTypes = -1;
 int::GameOptions::s_UnitTypes = -1;

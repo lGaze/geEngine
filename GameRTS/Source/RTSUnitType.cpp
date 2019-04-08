@@ -14,6 +14,7 @@ namespace RTSGame {
 
   RTSUnitType::~RTSUnitType()
   {
+    ge_delete( m_texture );
   }
 
   void

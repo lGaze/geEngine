@@ -191,4 +191,24 @@ namespace RTSGame {
     m_lstUnits.push_back( unit );
 
   }
+  void 
+    RTSWorld::selectUnits( Vector2 a, Vector2 b )
+  {
+    int32 x, y;
+    for (auto &it : m_lstUnits)
+    {
+      m_pTiledMap->getMapToScreenCoords( static_cast< int32 >( it->getPosition().x ),
+                                         static_cast< int32 >( it->getPosition().y ),
+                                         x, y );
+
+      if ( ( x >= a.x &&
+             x <= b.x ) &&
+             ( y <= b.y &&
+               y >= a.y ) )
+      {
+        m_selectedUnits.push_back( it );
+        it->setSelected( true );
+      }
+    }
+  }
 }

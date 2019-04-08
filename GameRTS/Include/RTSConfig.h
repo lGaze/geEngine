@@ -38,6 +38,7 @@ class GameOptions : public Module<GameOptions>
 
   //Units
   static int s_UnitTypes;
+  static bool s_SelectUnits;
 
   //PathFinders
   static int s_PfPositions;

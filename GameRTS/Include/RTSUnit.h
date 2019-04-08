@@ -35,6 +35,15 @@ namespace RTSGame {
     void
       setPosition( float x, float y );
 
+    sf::Vector2f
+      getPosition()  {
+      return m_position;
+    }
+
+    void
+      setSelected( bool slc) {
+      selected = slc;
+    }
 
   private:
 
@@ -52,6 +61,8 @@ namespace RTSGame {
     STATE::E m_state;
 
     DIRECTIONS::E m_direction;
+
+    bool selected;
 
   };
 }

@@ -60,12 +60,16 @@ namespace RTSGame {
     void
       createUnit( UNIT_TYPE::E type, uint32 posX, uint32 posY );
 
+    void
+      selectUnits(Vector2 a, Vector2 b);
+
   private:
     RTSTiledMap* m_pTiledMap;
     Vector<RTSGame::RTSUnitType*> m_lstUnitTypes;
     Vector<RTSUnit*> m_lstUnits;
 
     Vector<RTSMapGridWalker*> m_walkersList;
+    Vector<RTSUnit*> m_selectedUnits;
    // Vector<void*> m_walkersList;
     RTSMapGridWalker* m_activeWalker;
    //void* m_activeWalker;

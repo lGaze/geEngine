@@ -36,9 +36,9 @@ namespace RTSGame {
     : m_window( nullptr ),
     m_fpsTimer( 0.0f ),
     m_fpsCounter( 0.0f ),
-    m_framesPerSecond( 0.0f )
-  {
-  }
+    m_framesPerSecond( 0.0f ),
+    m_startArea(false)
+  { }
 
   RTSApplication::~RTSApplication()
   {
@@ -152,7 +152,7 @@ namespace RTSGame {
         {
           continue;
         }
-        else
+        else if ( !GameOptions::s_UnitEditor )
         {
           //Water
           if ( sf::Mouse::isButtonPressed( sf::Mouse::Left ) && GameOptions::s_Terrain == 0 )
@@ -219,7 +219,9 @@ namespace RTSGame {
             m_gameWorld.setEndPos( Xcoord, Ycoord );
             map->setMark( Xcoord, Ycoord, MARK_TYPE::kEndFlag );
           }
-
+        }
+        else
+        {
           if ( GameOptions::s_UnitEditor )
           {
 
@@ -248,8 +250,18 @@ namespace RTSGame {
               }
             }
 
+            if (GameOptions::s_SelectUnits )
+            {
+              if ( sf::Mouse::isButtonPressed( sf::Mouse::Left ) )
+              {
+                GameOptions::s_UnitTypes = -1;
+                m_startArea = !m_startArea;
+                sf::Vector2i mousePos = sf::Mouse::getPosition(*m_window);
+                firstMousePos.x = static_cast< float >( mousePos.x );
+                firstMousePos.y = static_cast< float >( mousePos.y );
+              }
+            }
           }
-
         }
 
         if ( event.type == sf::Event::Closed )
@@ -361,6 +373,33 @@ namespace RTSGame {
     text.setString( toString(1.0f/g_time().getFrameDelta()).c_str() );
     m_window->draw(text);
     */
+
+    if (GameOptions::s_SelectUnits && m_startArea)
+    {
+      Vector2 mPos;
+      sf::Vector2i mousePos = sf::Mouse::getPosition(*m_window);
+    
+      mPos.x = static_cast<float>(mousePos.x);
+      mPos.y = static_cast<float>(mousePos.y);
+
+      float sizeX = mPos.x - ( firstMousePos.x + TILESIZE_X / 2 );
+      float sizeY = mPos.y - ( firstMousePos.y + TILESIZE_Y / 2 );
+
+      if ( ( sizeX > 50 && sizeY > 50 ) ||
+        ( sizeX < -50 && sizeY < -50 ) )
+      {
+        sf::RectangleShape rectangle( sf::Vector2f( sizeX, sizeY ) );
+        rectangle.setFillColor( sf::Color::Transparent );
+        rectangle.setOutlineThickness( 1 );
+
+        rectangle.setPosition( firstMousePos.x + TILESIZE_X / 2.f, 
+                               firstMousePos.y + TILESIZE_Y / 2.f );
+
+       m_gameWorld.selectUnits( firstMousePos, mPos );
+
+        m_window->draw( rectangle );
+      }
+    }
 
     m_window->display();
   }
@@ -557,6 +596,11 @@ namespace RTSGame {
                               &GameOptions::s_UnitTypes,
                               static_cast< UNIT_TYPE::E >( i ) );
         }
+        if ( ImGui::Button( "Select " ))
+        {
+          GameOptions::s_SelectUnits = !GameOptions::s_SelectUnits;
+        }
+       
       }
       ImGui::End();
     }

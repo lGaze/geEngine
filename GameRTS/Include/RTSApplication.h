@@ -72,6 +72,7 @@ namespace RTSGame {
 
   private:
     sf::RenderWindow* m_window;
+    Vector2 firstMousePos;
     sf::Font* m_arialFont;
     RTSWorld m_gameWorld;
 
@@ -80,5 +81,6 @@ namespace RTSGame {
     float m_framesPerSecond;
 
     bool m_restart;
+    bool m_startArea;
   };
 }
