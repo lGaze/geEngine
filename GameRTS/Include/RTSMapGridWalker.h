@@ -56,7 +56,7 @@ namespace RTSGame {
     /************************************************************************************************************************/
   public:
 
-    virtual bool Init( sf::RenderTarget * target )
+    virtual bool Init( )
     {
       return false;
     }									//Función de inicialización de la clase (por default en este aspecto regresamos false porque no estamos haciendo nada)

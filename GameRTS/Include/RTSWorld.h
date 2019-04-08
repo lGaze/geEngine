@@ -58,7 +58,7 @@ namespace RTSGame {
       setCurrentWalker( const int8 index );
 
     void
-      createUnit( UNIT_TYPE::E type, uint32 posX, uint32 posY );
+      createUnit( UNIT_TYPE::E type, int32 posX, int32 posY );
 
     void
       selectUnits(Vector2 a, Vector2 b);

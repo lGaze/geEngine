@@ -45,7 +45,7 @@ namespace RTSGame {
 
     for ( SIZE_T it = 0; it < m_walkersList.size(); ++it )
     {
-      m_walkersList[it]->Init( m_pTarget );
+      m_walkersList[it]->Init( );
     }
 
     //Set the first walker as the active walker
@@ -132,7 +132,7 @@ namespace RTSGame {
 
   void RTSWorld::resetPath()
   {
-    for ( int8 it = 0; it < m_walkersList.size(); ++it )
+    for ( uint8 it = 0; it < m_walkersList.size(); ++it )
     {
       m_walkersList[it]->Reset();
     }
@@ -181,12 +181,12 @@ namespace RTSGame {
     m_activeWalkerIndex = index;
   }
   void 
-    RTSWorld::createUnit( UNIT_TYPE::E type, uint32 posX, uint32 posY )
+    RTSWorld::createUnit( UNIT_TYPE::E type, int32 posX, int32 posY )
   {
     RTSUnit* unit = ge_new<RTSUnit>( m_lstUnitTypes[type]->getTexture(),
                                  m_lstUnitTypes[type]->getAnimation() );
     
-    unit->setPosition( posX, posY );
+    unit->setPosition( static_cast< float >( posX ), static_cast< float >( posY ) );
 
     m_lstUnits.push_back( unit );
 

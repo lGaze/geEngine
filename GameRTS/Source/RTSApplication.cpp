@@ -575,7 +575,7 @@ namespace RTSGame {
         if ( ImGui::Button( "Start" ) )
         {
           pApp->getWorld()->resetPath();
-          pApp->getWorld()->setCurrentWalker( GameOptions::s_PathFindingTypes );
+          pApp->getWorld()->setCurrentWalker( static_cast< int8 >(GameOptions::s_PathFindingTypes ));
         }
       }
       ImGui::End();

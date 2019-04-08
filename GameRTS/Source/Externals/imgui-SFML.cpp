@@ -326,7 +326,7 @@ void Update(sf::Window& window, sf::RenderTarget& target, sf::Time dt)
     }
 }
 
-void Update(const sf::Vector2i& mousePos, const sf::Vector2f& displaySize, sf::Time dt)
+void Update(const sf::Vector2i& vmousePos, const sf::Vector2f& displaySize, sf::Time dt)
 {
     ImGuiIO& io = ImGui::GetIO();
     io.DisplaySize = displaySize;
@@ -336,8 +336,9 @@ void Update(const sf::Vector2i& mousePos, const sf::Vector2f& displaySize, sf::T
         if (io.WantSetMousePos) {
             sf::Vector2i mousePos(static_cast<int>(io.MousePos.x), static_cast<int>(io.MousePos.y));
             sf::Mouse::setPosition(mousePos);
-        } else {
-            io.MousePos = mousePos;
+        } 
+        else {
+            io.MousePos = vmousePos;
         }
         for (unsigned int i = 0; i < 3; i++) {
             io.MouseDown[i] =  s_touchDown[i] || sf::Touch::isDown(i) || s_mousePressed[i] || sf::Mouse::isButtonPressed((sf::Mouse::Button)i);

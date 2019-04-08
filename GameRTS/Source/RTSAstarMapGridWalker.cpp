@@ -117,7 +117,7 @@ namespace RTSGame {
 
     int32 tmpx;
     int32 tmpy;
-    for ( int32 i = 1; i < m_close.size() - 1; ++i )
+    for ( uint32 i = 1; i < m_close.size() - 1; ++i )
     {
       m_pTiledMap->getMapToScreenCoords( m_close[i]->m_x, m_close[i]->m_y, tmpx, tmpy );
       m_patTex->setPosition( tmpx + ( TILESIZE_X >> 1 ), tmpy + ( TILESIZE_Y >> 1 ) );
@@ -129,7 +129,7 @@ namespace RTSGame {
   {
     int32 tmpx;
     int32 tmpy;
-    for ( int32 i = 0; i < m_bestPath.size(); ++i )
+    for ( uint32 i = 0; i < m_bestPath.size(); ++i )
     {
       m_pTiledMap->getMapToScreenCoords( m_bestPath[i]->m_x, m_bestPath[i]->m_y, tmpx, tmpy );
       m_bestPathTex->setPosition( tmpx + ( TILESIZE_X >> 1 ), tmpy + ( TILESIZE_Y >> 1 ) );

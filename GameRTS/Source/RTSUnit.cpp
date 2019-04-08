@@ -4,7 +4,7 @@
 namespace RTSGame {
 
 RTSUnit::RTSUnit( RTSTexture & texture,
-                  Vector<Animation>& animation ) : m_texture(&texture),
+                  const Vector<Animation>& animation ) : m_texture(&texture),
                                                    m_animation(animation),
                                                    m_state(STATE::kIdle),
                                                    m_direction(DIRECTIONS::kE),
@@ -23,7 +23,9 @@ void RTSUnit::Update( float deltaTime )
 void RTSUnit::Render( RTSTiledMap * tileMap )
 {
   int32 coordX, coordY;
-  tileMap->getMapToScreenCoords( m_position.x, m_position.y, coordX, coordY );
+  tileMap->getMapToScreenCoords( static_cast<int32>(m_position.x), 
+                                 static_cast< int32 >(m_position.y), 
+                                 coordX, coordY );
 
   float frameTime = 
     m_animation[m_state].duration / m_animation[m_state].numFrames;

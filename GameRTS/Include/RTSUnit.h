@@ -22,7 +22,7 @@ namespace RTSGame {
   {
   public:
 
-    RTSUnit( RTSTexture &texture, Vector<Animation> &animation );
+    RTSUnit( RTSTexture &texture, const Vector<Animation> &animation );
 
     ~RTSUnit();
 
