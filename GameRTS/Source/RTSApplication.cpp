@@ -250,11 +250,11 @@ namespace RTSGame {
               }
             }
 
-            if (GameOptions::s_SelectUnits )
+            if (GameOptions::s_SelectUnits)
             {
               if ( sf::Mouse::isButtonPressed( sf::Mouse::Left ) )
               {
-                GameOptions::s_UnitTypes = -1;
+                
                 m_startArea = !m_startArea;
                 sf::Vector2i mousePos = sf::Mouse::getPosition(*m_window);
                 firstMousePos.x = static_cast< float >( mousePos.x );
@@ -599,6 +599,7 @@ namespace RTSGame {
         if ( ImGui::Button( "Select " ))
         {
           GameOptions::s_SelectUnits = !GameOptions::s_SelectUnits;
+          GameOptions::s_UnitTypes = -1;
         }
        
       }
