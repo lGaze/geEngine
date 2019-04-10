@@ -208,6 +208,8 @@ namespace RTSGame {
       {
         m_selectedUnits.push_back( it );
         it->setSelected( true );
+        it->initCircle( m_pTarget );
+        
       }
     }
   }

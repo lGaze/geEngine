@@ -20,6 +20,7 @@ namespace RTSGame {
 
   class RTSUnit
   {
+
   public:
 
     RTSUnit( RTSTexture &texture, const Vector<Animation> &animation );
@@ -45,6 +46,15 @@ namespace RTSGame {
       selected = slc;
     }
 
+    void
+      initCircle( sf::RenderTarget * target );
+
+    void
+      setCirclePosition( float x, float y );
+
+    void
+      drawCircle();
+
   private:
 
 
@@ -61,6 +71,10 @@ namespace RTSGame {
     STATE::E m_state;
 
     DIRECTIONS::E m_direction;
+
+    sf::RenderTarget * m_target;
+
+    sf::CircleShape m_Circle;
 
     bool selected;
 

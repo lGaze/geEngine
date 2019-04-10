@@ -600,8 +600,7 @@ namespace RTSGame {
         {
           GameOptions::s_SelectUnits = !GameOptions::s_SelectUnits;
           GameOptions::s_UnitTypes = -1;
-        }
-       
+        } 
       }
       ImGui::End();
     }

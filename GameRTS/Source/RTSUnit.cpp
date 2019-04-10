@@ -9,7 +9,9 @@ RTSUnit::RTSUnit( RTSTexture & texture,
                                                    m_state(STATE::kIdle),
                                                    m_direction(DIRECTIONS::kE),
                                                    m_elapsedTime(0),
-                                                   m_frameCount(0) { }
+                                                   m_frameCount(0),
+                                                   m_Circle(TILESIZE_X / 2)
+                                                    { }
 
 RTSUnit::~RTSUnit()
 {
@@ -53,6 +55,30 @@ RTSUnit::setPosition( float x, float y )
 {
   m_position.x = x;
   m_position.y = y;
+}
+
+void RTSUnit::initCircle( sf::RenderTarget * target )
+{
+  m_target = target;
+  m_Circle.setScale( sf::Vector2( 1.0f, 0.5f ) );
+  m_Circle.scale( 0.5f, 1.0f );
+
+
+  m_Circle.setOutlineThickness( 1.5 );
+  m_Circle.setFillColor( sf::Color::Transparent );
+  float x = m_Circle.getLocalBounds().width / 2;
+  float y = m_Circle.getLocalBounds().height / 2;
+  m_Circle.setOrigin( x, y );
+}
+
+void RTSUnit::setCirclePosition( float x, float y )
+{
+  m_Circle.setPosition( x, y );
+}
+
+void RTSUnit::drawCircle()
+{
+  m_target->draw( m_Circle );
 }
 
 }
